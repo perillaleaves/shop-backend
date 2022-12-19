@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Service
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
@@ -20,7 +21,6 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    @Transactional
     public User save(UserDTO userDTO) {
         validate(userDTO);
 
@@ -31,7 +31,6 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    @Transactional
     public User findByLoginIdOrNull(String login_id) {
         if (login_id.length() == 0) {
             throw new APIError("EmptyLoginId", "아이디를 입력해주세요.");

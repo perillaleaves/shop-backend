@@ -4,31 +4,31 @@ public class Response<T> {
 
     private T data;
 
-    private ValidateResponse validateResponse;
+    private ValidateResponse validate;
 
-    private ErrorResponse errorResponse;
+    private ErrorResponse error;
 
     public T getData() {
         return data;
     }
 
-    public ValidateResponse getValidateResponse() {
-        return validateResponse;
+    public ValidateResponse getValidate() {
+        return validate;
     }
 
-    public ErrorResponse getErrorResponse() {
-        return errorResponse;
+    public ErrorResponse getError() {
+        return error;
     }
 
     public Response(T data) {
         this.data = data;
     }
 
-    public Response(ValidateResponse validateResponse) {
-        this.validateResponse = validateResponse;
+    public Response(ValidateResponse validate) {
+        this.validate = validate;
     }
 
-    public Response(ErrorResponse errorResponse) {
-        this.errorResponse = errorResponse;
+    public Response(ErrorResponse error) {
+        this.error = error;
     }
 }
