@@ -37,7 +37,7 @@ public class UserService {
             throw new APIError("EmptyLoginId", "아이디를 입력해주세요.");
         }
         if (login_id.length() < 8) {
-            throw new APIError("EmptyLoginId", "아이디를 입력해주세요.");
+            throw new APIError("LengthId", "아이디를 8글자 이상 입력해주세요.");
         }
 
         return userRepository.findByLoginId(login_id).orElse(null);
