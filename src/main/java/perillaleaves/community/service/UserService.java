@@ -32,14 +32,28 @@ public class UserService {
     }
 
     public User findByLoginIdOrNull(String login_id) {
-        if (login_id.length() == 0) {
+        if (login_id.isBlank()) {
             throw new APIError("EmptyLoginId", "아이디를 입력해주세요.");
         }
         if (login_id.length() < 8) {
             throw new APIError("LengthId", "아이디를 8글자 이상 입력해주세요.");
         }
+        if (userRepository.findByLoginId(login_id).isPresent()) {
+            throw new APIError("Exist", "이미 존재하는 아이디 입니다.");
+        }
 
         return userRepository.findByLoginId(login_id).orElse(null);
+    }
+
+    public User findByPhoneNumberOrNull(String phone_number) {
+        if (phone_number.isBlank()) {
+            throw new APIError("EmptyPhoneNumber", "연락처를 입력해주세요.");
+        }
+        if (userRepository.findByPhoneNumber(phone_number).isPresent()) {
+            throw new APIError("Exist", "이미 존재하는 연락처 입니다.");
+        }
+
+        return userRepository.findByPhoneNumber(phone_number).orElse(null);
     }
 
 
