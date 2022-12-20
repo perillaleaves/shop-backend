@@ -2,6 +2,7 @@ package perillaleaves.community.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import perillaleaves.community.config.EncryptUtils;
 import perillaleaves.community.domain.User;
 import perillaleaves.community.exception.APIError;
 import perillaleaves.community.repository.UserRepository;
@@ -24,8 +25,9 @@ public class UserService {
     public User save(UserDTO userDTO) {
         validate(userDTO);
 
-        LocalDateTime date = LocalDateTime.now();
         User user = mapper(userDTO);
+        user.setPassword(EncryptUtils.sha256(userDTO.getPassword()));
+        LocalDateTime date = LocalDateTime.now();
         user.setCreatedAt(date);
 
         return userRepository.save(user);
