@@ -1,13 +1,12 @@
 package perillaleaves.community.controller;
 
 import org.springframework.web.bind.annotation.*;
+import perillaleaves.community.domain.User;
 import perillaleaves.community.exception.APIError;
-import perillaleaves.community.request.UserDTO;
-import perillaleaves.community.request.UserOverlapEmailRequest;
-import perillaleaves.community.request.UserOverlapLoginIdRequest;
-import perillaleaves.community.request.UserOverlapPhoneNumberRequest;
+import perillaleaves.community.request.*;
 import perillaleaves.community.response.ErrorResponse;
 import perillaleaves.community.response.Response;
+import perillaleaves.community.response.UserFindLoginIdResponse;
 import perillaleaves.community.response.ValidateResponse;
 import perillaleaves.community.service.UserService;
 
@@ -32,7 +31,7 @@ public class UserController {
     }
 
     // 2.아이디 중복 확인
-    @GetMapping("/loginid")
+    @GetMapping("/overlap/loginid")
     public Response<ValidateResponse> overlapByLoginId(@ModelAttribute UserOverlapLoginIdRequest request) {
         try {
             userService.findByLoginIdOrNull(request.getLogin_id());
@@ -43,7 +42,7 @@ public class UserController {
     }
 
     // 3. 연락처 중복 확인
-    @GetMapping("/phonenumber")
+    @GetMapping("/overlap/phonenumber")
     public Response<ValidateResponse> overlapByPhoneNumber(@ModelAttribute UserOverlapPhoneNumberRequest request) {
         try {
             userService.findByPhoneNumberOrNull(request.getPhone_number());
@@ -54,11 +53,22 @@ public class UserController {
     }
 
     // 4. 이메일 중복 확인
-    @GetMapping("/email")
+    @GetMapping("/overlap/email")
     public Response<ValidateResponse> overlapByEmail(@ModelAttribute UserOverlapEmailRequest request) {
         try {
             userService.findByEmailOrNull(request.getEmail());
             return new Response<>(new ValidateResponse("available", "사용 가능한 이메일 입니다."));
+        } catch (APIError e) {
+            return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
+        }
+    }
+
+    // 5. 아이디 찾기
+    @GetMapping("/loginid")
+    public Response<UserFindLoginIdResponse> findLoginId(@ModelAttribute UserFindLoginIdRequest request) {
+        try {
+            User user = userService.findByNameAndPhoneNumber(request.getName(), request.getPhone_number());
+            return new Response<>(new UserFindLoginIdResponse(user.getLoginId()));
         } catch (APIError e) {
             return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
         }

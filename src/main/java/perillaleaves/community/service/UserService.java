@@ -74,6 +74,17 @@ public class UserService {
         return userRepository.findByEmail(email).orElse(null);
     }
 
+    public User findByNameAndPhoneNumber(String name, String phone_number) {
+        if (name.isBlank()) {
+            throw new APIError("EmptyName", "이름을 입력해주세요.");
+        }
+        if (phone_number.isBlank()) {
+            throw new APIError("EmptyPhoneNumber", "연락처를 입력해주세요.");
+        }
+
+        return userRepository.findByNameAndPhoneNumber(name, phone_number).orElse(null);
+    }
+
 
     private void validate(UserDTO userDTO) {
         boolean password_validate = Pattern.matches("^(?=.*?[A-Z]+).{8,}", userDTO.getPassword());
