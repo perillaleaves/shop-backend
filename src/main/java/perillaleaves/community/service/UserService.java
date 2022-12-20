@@ -8,6 +8,7 @@ import perillaleaves.community.exception.APIError;
 import perillaleaves.community.repository.UserRepository;
 import perillaleaves.community.request.UserDTO;
 
+import javax.xml.bind.ValidationException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -83,6 +84,40 @@ public class UserService {
         }
 
         return userRepository.findByNameAndPhoneNumber(name, phone_number).orElse(null);
+    }
+
+    public User findByLoginIdAndNameAndPhoneNumber(String login_id, String name, String phone_number) {
+        if (login_id.isBlank()) {
+            throw new APIError("EmptyLoginId", "아이디를 입력해주세요.");
+        }
+        if (login_id.length() < 8) {
+            throw new APIError("Length", "아이디를 8글자 이상 입력해주세요.");
+        }
+        if (name.isBlank()) {
+            throw new APIError("EmptyName", "이름을 입력해주세요.");
+        }
+        if (phone_number.isBlank()) {
+            throw new APIError("EmptyPhoneNumber", "연락처를 입력해주세요.");
+        }
+
+        return userRepository.findByLoginIdAndNameAndPhoneNumber(login_id, name, phone_number).orElse(null);
+    }
+
+    public User updateByPassword(String login_id, String name, String phone_number, String password, String rePassword) {
+        if (password.isBlank()) {
+            throw new APIError("EmptyPassword", "비밀번호를 입력해주세요.");
+        }
+        if (rePassword.isBlank()) {
+            throw new APIError("EmptyRePassword", "비밀번호를 입력해주세요.");
+        }
+        if (!password.equals(rePassword)) {
+            throw new APIError("Inconsistency", "비밀번호가 일치하지 않습니다.");
+        }
+
+        User user = userRepository.findByLoginIdAndNameAndPhoneNumber(login_id, name, phone_number).orElse(null);
+        user.setPassword(EncryptUtils.sha256(password));
+
+        return user;
     }
 
 

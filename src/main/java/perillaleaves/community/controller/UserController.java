@@ -74,5 +74,28 @@ public class UserController {
         }
     }
 
+    // 6. 비밀번호 찾기(검증 및 조회)
+    @GetMapping("/password")
+    public Response<ValidateResponse> findByLoginIdAndNameAndPhoneNumber(@ModelAttribute UserFindAndUpdatePasswordRequest request) {
+        try {
+            User user = userService.findByLoginIdAndNameAndPhoneNumber(request.getLogin_id(), request.getName(), request.getPhone_number());
+            if (user != null) {
+                return new Response<>(new ValidateResponse("success", "검증 및 조회 성공"));
+            }
+            return new Response<>(new ValidateResponse("fail", "검증 및 조회 실패"));
+        } catch (APIError e) {
+            return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
+        }
+    }
 
+    // 7. 비밀번호 변경(검증 및 조회 성공 시)
+    @PutMapping("/password")
+    public Response<ValidateResponse> updateByPassword(@RequestBody UserFindAndUpdatePasswordRequest request) {
+        try {
+            userService.updateByPassword(request.getLogin_id(), request.getName(), request.getPhone_number(), request.getPassword(), request.getRe_password());
+            return new Response<>(new ValidateResponse("success", "비밀번호 변경 "));
+        } catch (APIError e) {
+            return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
+        }
+    }
 }
