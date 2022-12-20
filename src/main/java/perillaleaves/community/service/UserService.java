@@ -8,7 +8,6 @@ import perillaleaves.community.exception.APIError;
 import perillaleaves.community.repository.UserRepository;
 import perillaleaves.community.request.UserDTO;
 
-import javax.xml.bind.ValidationException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -117,9 +116,11 @@ public class UserService {
         User user = userRepository.findByLoginIdAndNameAndPhoneNumber(login_id, name, phone_number).orElse(null);
         user.setPassword(EncryptUtils.sha256(password));
 
+        LocalDateTime date = LocalDateTime.now();
+        user.setUpdatedAt(date);
+
         return user;
     }
-
 
     private void validate(UserDTO userDTO) {
         boolean password_validate = Pattern.matches("^(?=.*?[A-Z]+).{8,}", userDTO.getPassword());

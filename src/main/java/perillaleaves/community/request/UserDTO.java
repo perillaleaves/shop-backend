@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class UserDTO {
 
-    private String login_id;
+    private String loginId;
 
     private String password;
 
@@ -19,7 +19,7 @@ public class UserDTO {
     private LocalDateTime updatedAt;
 
     public String getLogin_id() {
-        return login_id;
+        return loginId;
     }
 
     public String getPassword() {
