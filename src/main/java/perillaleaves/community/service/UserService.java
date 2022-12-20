@@ -33,10 +33,10 @@ public class UserService {
 
     public User findByLoginIdOrNull(String login_id) {
         if (login_id.isBlank()) {
-            throw new APIError("EmptyLoginId", "아이디를 입력해주세요.");
+            throw new APIError("Empty", "아이디를 입력해주세요.");
         }
         if (login_id.length() < 8) {
-            throw new APIError("LengthId", "아이디를 8글자 이상 입력해주세요.");
+            throw new APIError("Length", "아이디를 8글자 이상 입력해주세요.");
         }
         if (userRepository.findByLoginId(login_id).isPresent()) {
             throw new APIError("Exist", "이미 존재하는 아이디 입니다.");
@@ -47,13 +47,29 @@ public class UserService {
 
     public User findByPhoneNumberOrNull(String phone_number) {
         if (phone_number.isBlank()) {
-            throw new APIError("EmptyPhoneNumber", "연락처를 입력해주세요.");
+            throw new APIError("Empty", "연락처를 입력해주세요.");
         }
         if (userRepository.findByPhoneNumber(phone_number).isPresent()) {
             throw new APIError("Exist", "이미 존재하는 연락처 입니다.");
         }
 
         return userRepository.findByPhoneNumber(phone_number).orElse(null);
+    }
+
+    public User findByEmailOrNull(String email) {
+        boolean email_validate = Pattern.matches("\\w+@\\w+\\.\\w+(\\.\\w+)?", email);
+
+        if (email.isBlank()) {
+            throw new APIError("Empty", "이메일을 입력해주세요.");
+        }
+        if (!email_validate) {
+            throw new APIError("Form", "이메일을 양식에 맞게 입력해주세요.");
+        }
+        if (userRepository.findByEmail(email).isPresent()) {
+            throw new APIError("Exist", "이미 존재하는 이메일 입니다.");
+        }
+
+        return userRepository.findByEmail(email).orElse(null);
     }
 
 

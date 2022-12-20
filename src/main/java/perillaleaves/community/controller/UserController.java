@@ -1,9 +1,9 @@
 package perillaleaves.community.controller;
 
 import org.springframework.web.bind.annotation.*;
-import perillaleaves.community.domain.User;
 import perillaleaves.community.exception.APIError;
 import perillaleaves.community.request.UserDTO;
+import perillaleaves.community.request.UserOverlapEmailRequest;
 import perillaleaves.community.request.UserOverlapLoginIdRequest;
 import perillaleaves.community.request.UserOverlapPhoneNumberRequest;
 import perillaleaves.community.response.ErrorResponse;
@@ -32,7 +32,7 @@ public class UserController {
     }
 
     // 2.아이디 중복 확인
-    @GetMapping("/overlap/loginid")
+    @GetMapping("/loginid")
     public Response<ValidateResponse> overlapByLoginId(@ModelAttribute UserOverlapLoginIdRequest request) {
         try {
             userService.findByLoginIdOrNull(request.getLogin_id());
@@ -43,7 +43,7 @@ public class UserController {
     }
 
     // 3. 연락처 중복 확인
-    @GetMapping("/overlap/phonenumber")
+    @GetMapping("/phonenumber")
     public Response<ValidateResponse> overlapByPhoneNumber(@ModelAttribute UserOverlapPhoneNumberRequest request) {
         try {
             userService.findByPhoneNumberOrNull(request.getPhone_number());
@@ -52,5 +52,17 @@ public class UserController {
             return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
         }
     }
+
+    // 4. 이메일 중복 확인
+    @GetMapping("/email")
+    public Response<ValidateResponse> overlapByEmail(@ModelAttribute UserOverlapEmailRequest request) {
+        try {
+            userService.findByEmailOrNull(request.getEmail());
+            return new Response<>(new ValidateResponse("available", "사용 가능한 이메일 입니다."));
+        } catch (APIError e) {
+            return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
+        }
+    }
+
 
 }
