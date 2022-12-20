@@ -2,7 +2,7 @@ package perillaleaves.community.request;
 
 public class UserOverlapPhoneNumberRequest {
 
-    private String phone_number;
+    private final String phone_number;
 
     public String getPhone_number() {
         return phone_number;

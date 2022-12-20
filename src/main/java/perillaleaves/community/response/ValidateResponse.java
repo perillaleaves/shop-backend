@@ -2,9 +2,9 @@ package perillaleaves.community.response;
 
 public class ValidateResponse {
 
-    private String code;
+    private final String code;
 
-    private String message;
+    private final String message;
 
     public String getCode() {
         return code;

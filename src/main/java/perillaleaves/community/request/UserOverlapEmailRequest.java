@@ -2,7 +2,7 @@ package perillaleaves.community.request;
 
 public class UserOverlapEmailRequest {
 
-    private String email;
+    private final String email;
 
     public String getEmail() {
         return email;

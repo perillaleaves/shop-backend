@@ -2,7 +2,7 @@ package perillaleaves.community.request;
 
 public class UserOverlapLoginIdRequest {
 
-    private String login_id;
+    private final String login_id;
 
     public String getLogin_id() {
         return login_id;

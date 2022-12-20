@@ -1,7 +1,5 @@
 package perillaleaves.community.domain;
 
-import perillaleaves.community.request.UserDTO;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
