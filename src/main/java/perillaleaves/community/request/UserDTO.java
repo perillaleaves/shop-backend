@@ -1,10 +1,12 @@
 package perillaleaves.community.request;
 
+import perillaleaves.community.domain.Role;
+
 import java.time.LocalDateTime;
 
 public class UserDTO {
 
-    private String loginId;
+    private String login_id;
 
     private String password;
 
@@ -14,12 +16,14 @@ public class UserDTO {
 
     private String email;
 
+    private Role role;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
     public String getLogin_id() {
-        return loginId;
+        return login_id;
     }
 
     public String getPassword() {
@@ -36,6 +40,10 @@ public class UserDTO {
 
     public String getEmail() {
         return email;
+    }
+
+    public Role getRole() {
+        return role;
     }
 
     public LocalDateTime getCreatedAt() {

@@ -3,6 +3,7 @@ package perillaleaves.community.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import perillaleaves.community.config.EncryptUtils;
+import perillaleaves.community.domain.Role;
 import perillaleaves.community.domain.User;
 import perillaleaves.community.exception.APIError;
 import perillaleaves.community.repository.UserRepository;
@@ -27,6 +28,9 @@ public class UserService {
 
         User user = mapper(userDTO);
         user.setPassword(EncryptUtils.sha256(userDTO.getPassword()));
+
+        user.setRole(Role.User);
+
         LocalDateTime date = LocalDateTime.now();
         user.setCreatedAt(date);
 
@@ -176,6 +180,7 @@ public class UserService {
                 userDTO.getName(),
                 userDTO.getPhone_number(),
                 userDTO.getEmail(),
+                userDTO.getRole(),
                 userDTO.getCreatedAt(),
                 userDTO.getUpdatedAt());
     }
