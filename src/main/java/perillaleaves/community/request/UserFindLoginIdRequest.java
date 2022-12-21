@@ -2,8 +2,8 @@ package perillaleaves.community.request;
 
 public class UserFindLoginIdRequest {
 
-    private String name;
-    private String phone_number;
+    private final String name;
+    private final String phone_number;
 
     public String getName() {
         return name;

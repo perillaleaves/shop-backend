@@ -127,6 +127,18 @@ public class UserService {
         return user;
     }
 
+    public User login(String login_id, String password) {
+        User user = userRepository.findByLoginId(login_id).orElse(null);
+        if (user == null) {
+            throw new APIError("InconsistencyLoginId", "아이디가 일치하지 않습니다.");
+        }
+        if (!user.getPassword().equals(password)) {
+            throw new APIError("InconsistencyPassword", "비밀번호가 일치하지 않습니다.");
+        }
+
+        return user;
+    }
+
     private void validate(UserDTO userDTO) {
         boolean password_validate = Pattern.matches("^(?=.*?[A-Z]+).{8,}", userDTO.getPassword());
         boolean email_validate = Pattern.matches("\\w+@\\w+\\.\\w+(\\.\\w+)?", userDTO.getEmail());

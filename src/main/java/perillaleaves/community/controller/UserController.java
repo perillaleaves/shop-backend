@@ -10,6 +10,9 @@ import perillaleaves.community.response.UserFindLoginIdResponse;
 import perillaleaves.community.response.ValidateResponse;
 import perillaleaves.community.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @RestController
 public class UserController {
 
@@ -98,4 +101,31 @@ public class UserController {
             return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
         }
     }
+
+    // 8. 로그인
+    @PostMapping("/login")
+    public Response<ValidateResponse> login(@RequestBody UserLoginRequest loginRequest, HttpServletRequest request) {
+        try {
+            User user = userService.login(loginRequest.getLogin_id(), loginRequest.getPassword());
+            HttpSession session = request.getSession();
+            session.setAttribute("loggedUser", user);
+
+            return new Response<>(new ValidateResponse("login", "로그인"));
+        } catch (APIError e) {
+            return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
+        }
+    }
+
+    // 9. 로그아웃
+    @PostMapping("logout")
+    public Response<ValidateResponse> logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+            return new Response<>(new ValidateResponse("logout", "로그아웃"));
+        }
+        return new Response<>(new ErrorResponse("", ""));
+    }
+
+
 }

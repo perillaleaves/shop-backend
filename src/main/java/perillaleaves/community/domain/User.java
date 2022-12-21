@@ -1,7 +1,5 @@
 package perillaleaves.community.domain;
 
-import lombok.Builder;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
