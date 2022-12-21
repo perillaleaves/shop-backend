@@ -29,10 +29,11 @@ public class UserService {
         User user = mapper(userDTO);
         user.setPassword(EncryptUtils.sha256(userDTO.getPassword()));
 
-        user.setRole(Role.User);
+        user.setRole(Role.BASIC);
 
         LocalDateTime date = LocalDateTime.now();
         user.setCreatedAt(date);
+        user.setUpdatedAt(date);
 
         return userRepository.save(user);
     }
