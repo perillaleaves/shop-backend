@@ -3,7 +3,7 @@ package perillaleaves.community.controller;
 import org.springframework.web.bind.annotation.*;
 import perillaleaves.community.domain.User;
 import perillaleaves.community.exception.APIError;
-import perillaleaves.community.request.*;
+import perillaleaves.community.request.user.*;
 import perillaleaves.community.response.ErrorResponse;
 import perillaleaves.community.response.Response;
 import perillaleaves.community.response.UserFindLoginIdResponse;
@@ -124,7 +124,8 @@ public class UserController {
             session.invalidate();
             return new Response<>(new ValidateResponse("logout", "로그아웃"));
         }
-        return new Response<>(new ErrorResponse("", ""));
+
+        return new Response<>(new ErrorResponse("fail", "fail"));
     }
 
 

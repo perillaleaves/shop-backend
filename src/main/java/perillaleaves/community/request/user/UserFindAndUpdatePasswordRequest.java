@@ -1,4 +1,4 @@
-package perillaleaves.community.request;
+package perillaleaves.community.request.user;
 
 public class UserFindAndUpdatePasswordRequest {
 

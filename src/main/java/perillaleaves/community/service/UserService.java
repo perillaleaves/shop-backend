@@ -7,7 +7,7 @@ import perillaleaves.community.domain.Role;
 import perillaleaves.community.domain.User;
 import perillaleaves.community.exception.APIError;
 import perillaleaves.community.repository.UserRepository;
-import perillaleaves.community.request.UserDTO;
+import perillaleaves.community.request.user.UserDTO;
 
 import java.time.LocalDateTime;
 import java.util.Optional;

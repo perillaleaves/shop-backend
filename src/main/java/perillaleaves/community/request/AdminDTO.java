@@ -1,10 +1,10 @@
 package perillaleaves.community.request;
 
-import perillaleaves.community.domain.Role;
+import perillaleaves.community.domain.Rank;
 
 import java.time.LocalDateTime;
 
-public class UserDTO {
+public class AdminDTO {
 
     private String login_id;
 
@@ -12,11 +12,7 @@ public class UserDTO {
 
     private String name;
 
-    private String phone_number;
-
-    private String email;
-
-    private Role role;
+    private Rank position;
 
     private LocalDateTime createdAt;
 
@@ -34,16 +30,8 @@ public class UserDTO {
         return name;
     }
 
-    public String getPhone_number() {
-        return phone_number;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public Role getRole() {
-        return role;
+    public Rank getPosition() {
+        return position;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -53,6 +41,4 @@ public class UserDTO {
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
-
-
 }
