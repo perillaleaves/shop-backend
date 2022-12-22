@@ -1,10 +1,11 @@
 package perillaleaves.community.domain;
 
+import perillaleaves.community.common.BaseEntity;
+
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
-public class User {
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +25,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
 
     public Long getId() {
         return id;
@@ -84,33 +82,15 @@ public class User {
         this.role = role;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     public User() {
     }
 
-    public User(String loginId, String password, String name, String phoneNumber, String email, Role role, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public User(String loginId, String password, String name, String phoneNumber, String email, Role role) {
         this.loginId = loginId;
         this.password = password;
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.role = role;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 }

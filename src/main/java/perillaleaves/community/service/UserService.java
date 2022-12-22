@@ -37,10 +37,6 @@ public class UserService {
 
         user.setRole(Role.BASIC);
 
-        LocalDateTime date = LocalDateTime.now();
-        user.setCreatedAt(date);
-        user.setUpdatedAt(date);
-
         return userRepository.save(user);
     }
 
@@ -127,9 +123,6 @@ public class UserService {
         User user = userRepository.findByLoginIdAndNameAndPhoneNumber(login_id, name, phone_number).orElse(null);
         user.setPassword(EncryptUtils.sha256(password));
 
-        LocalDateTime date = LocalDateTime.now();
-        user.setUpdatedAt(date);
-
         return user;
     }
 
@@ -208,9 +201,7 @@ public class UserService {
                 userDTO.getName(),
                 userDTO.getPhone_number(),
                 userDTO.getEmail(),
-                userDTO.getRole(),
-                userDTO.getCreatedAt(),
-                userDTO.getUpdatedAt());
+                userDTO.getRole());
     }
 
 }
