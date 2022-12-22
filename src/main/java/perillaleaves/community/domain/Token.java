@@ -13,7 +13,7 @@ public class Token {
 
     private Long user_id;
 
-    private String accessToken;
+    private String token;
 
     public Long getId() {
         return id;
@@ -31,20 +31,20 @@ public class Token {
         this.user_id = user_id;
     }
 
-    public String getAccessToken() {
-        return accessToken;
+    public String getToken() {
+        return token;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public Token() {
     }
 
-    public Token(Long user_id, String accessToken) {
+    public Token(Long user_id, String token) {
         this.user_id = user_id;
-        this.accessToken = accessToken;
+        this.token = token;
     }
 
 }

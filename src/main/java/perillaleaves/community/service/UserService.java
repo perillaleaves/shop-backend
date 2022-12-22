@@ -154,11 +154,6 @@ public class UserService {
         return stringToHex;
     }
 
-    public User findById(Long id) {
-
-        return userRepository.findById(id).orElse(null);
-    }
-
     private void validate(UserDTO userDTO) {
         boolean password_validate = Pattern.matches("^(?=.*?[A-Z]+).{8,}", userDTO.getPassword());
         boolean email_validate = Pattern.matches("\\w+@\\w+\\.\\w+(\\.\\w+)?", userDTO.getEmail());

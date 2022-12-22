@@ -7,6 +7,8 @@ import perillaleaves.community.domain.Token;
 @Repository
 public interface TokenRepository extends JpaRepository<Token, Long> {
 
-    Token findByAccessToken(String accessToken);
+    Token findByToken(String token);
+
+    void deleteByToken(String token);
 
 }

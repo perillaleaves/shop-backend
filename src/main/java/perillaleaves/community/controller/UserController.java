@@ -9,10 +9,11 @@ import perillaleaves.community.response.*;
 import perillaleaves.community.service.TokenService;
 import perillaleaves.community.service.UserService;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
+import java.util.Enumeration;
 
 @RestController
 public class UserController {
@@ -122,17 +123,11 @@ public class UserController {
     // 9. 로그아웃
     @PostMapping("logout")
     public Response<ValidateResponse> logout(HttpServletRequest request) {
-        String accessToken = request.getHeader("token");
-        Token token = tokenService.findByAccessToken(accessToken);
-        userService.findById(token.getUser_id());
-        HttpSession session = request.getSession(false);
-        if (session != null) {
-            session.invalidate();
-            return new Response<>(new ValidateResponse("logout", "로그아웃"));
-        }
+        String token = request.getHeader("token");
+        tokenService.deleteToken(token);
+        request.removeAttribute("token");
 
-        return new Response<>(new ErrorResponse("fail", "fail"));
+        return new Response<>(new ValidateResponse("logout", "로그아웃"));
     }
-
-
 }
+

@@ -15,9 +15,14 @@ public class TokenService {
         this.tokenRepository = tokenRepository;
     }
 
-    public Token findByAccessToken(String accessToken) {
+    public Token findByAccessToken(String token) {
 
-        return tokenRepository.findByAccessToken(accessToken);
+        return tokenRepository.findByToken(token);
+    }
+
+    public void deleteToken(String token) {
+
+        tokenRepository.deleteByToken(token);
     }
 
 }
