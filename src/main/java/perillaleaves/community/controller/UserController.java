@@ -1,13 +1,16 @@
 package perillaleaves.community.controller;
 
 import org.springframework.web.bind.annotation.*;
+import perillaleaves.community.domain.Token;
 import perillaleaves.community.domain.User;
 import perillaleaves.community.exception.APIError;
 import perillaleaves.community.request.user.*;
 import perillaleaves.community.response.*;
+import perillaleaves.community.service.TokenService;
 import perillaleaves.community.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 
@@ -15,9 +18,11 @@ import java.io.UnsupportedEncodingException;
 public class UserController {
 
     private final UserService userService;
+    private final TokenService tokenService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, TokenService tokenService) {
         this.userService = userService;
+        this.tokenService = tokenService;
     }
 
     // 1.회원가입
@@ -102,21 +107,24 @@ public class UserController {
 
     // 8. 로그인
     @PostMapping("/login")
-    public Response<ValidateResponse> login(@RequestBody UserLoginRequest loginRequest) {
+    public Response<ValidateResponse> login(@RequestBody UserLoginRequest loginRequest, HttpServletResponse response) {
         try {
-            userService.login(loginRequest.getLogin_id(), loginRequest.getPassword());
+            String token = userService.login(loginRequest.getLogin_id(), loginRequest.getPassword());
+            response.setHeader("token", token);
             return new Response<>(new ValidateResponse("login", "로그인"));
         } catch (APIError e) {
             return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
+        } catch (UnsupportedEncodingException ue) {
+            throw new RuntimeException(ue);
         }
     }
 
     // 9. 로그아웃
     @PostMapping("logout")
     public Response<ValidateResponse> logout(HttpServletRequest request) {
-
+        String accessToken = request.getHeader("token");
+        Token token = tokenService.findByAccessToken(accessToken);
+        userService.findById(token.getUser_id());
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.invalidate();

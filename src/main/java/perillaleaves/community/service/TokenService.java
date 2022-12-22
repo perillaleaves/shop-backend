@@ -2,6 +2,7 @@ package perillaleaves.community.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import perillaleaves.community.domain.Token;
 import perillaleaves.community.repository.TokenRepository;
 
 @Transactional
@@ -14,6 +15,10 @@ public class TokenService {
         this.tokenRepository = tokenRepository;
     }
 
+    public Token findByAccessToken(String accessToken) {
+
+        return tokenRepository.findByAccessToken(accessToken);
+    }
 
 }
 

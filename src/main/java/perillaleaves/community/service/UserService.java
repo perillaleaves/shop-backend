@@ -133,23 +133,30 @@ public class UserService {
         return user;
     }
 
-    public User login(String login_id, String password) throws UnsupportedEncodingException {
+    public String login(String login_id, String password) throws UnsupportedEncodingException {
         User user = userRepository.findByLoginId(login_id).orElse(null);
         if (user == null) {
             throw new APIError("InconsistencyLoginId", "아이디가 일치하지 않습니다.");
         }
+
         String encryptPassword = EncryptUtils.sha256(password);
         if (!user.getPassword().equals(encryptPassword)) {
             throw new APIError("InconsistencyPassword", "비밀번호가 일치하지 않습니다.");
         }
 
-        String str = login_id + password;
+        String random = String.valueOf((int) (Math.random() * 100000));
+        String str = login_id + random;
         HexConverter hexConverter = new HexConverter();
         String stringToHex = hexConverter.getStringToHex(str);
-        Token token = new Token(stringToHex);
+        Token token = new Token(user.getId(), stringToHex);
 
         tokenRepository.save(token);
-        return user;
+        return stringToHex;
+    }
+
+    public User findById(Long id) {
+
+        return userRepository.findById(id).orElse(null);
     }
 
     private void validate(UserDTO userDTO) {
