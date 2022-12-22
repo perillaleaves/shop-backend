@@ -2,13 +2,17 @@ package perillaleaves.community.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import perillaleaves.community.common.HexConverter;
 import perillaleaves.community.config.EncryptUtils;
 import perillaleaves.community.domain.Role;
+import perillaleaves.community.domain.Token;
 import perillaleaves.community.domain.User;
 import perillaleaves.community.exception.APIError;
+import perillaleaves.community.repository.TokenRepository;
 import perillaleaves.community.repository.UserRepository;
 import perillaleaves.community.request.user.UserDTO;
 
+import java.io.UnsupportedEncodingException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -18,9 +22,11 @@ import java.util.regex.Pattern;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final TokenRepository tokenRepository;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, TokenRepository tokenRepository) {
         this.userRepository = userRepository;
+        this.tokenRepository = tokenRepository;
     }
 
     public User save(UserDTO userDTO) {
@@ -127,15 +133,22 @@ public class UserService {
         return user;
     }
 
-    public User login(String login_id, String password) {
+    public User login(String login_id, String password) throws UnsupportedEncodingException {
         User user = userRepository.findByLoginId(login_id).orElse(null);
         if (user == null) {
             throw new APIError("InconsistencyLoginId", "아이디가 일치하지 않습니다.");
         }
-        if (!user.getPassword().equals(password)) {
+        String encryptPassword = EncryptUtils.sha256(password);
+        if (!user.getPassword().equals(encryptPassword)) {
             throw new APIError("InconsistencyPassword", "비밀번호가 일치하지 않습니다.");
         }
 
+        String str = login_id + password;
+        HexConverter hexConverter = new HexConverter();
+        String stringToHex = hexConverter.getStringToHex(str);
+        Token token = new Token(stringToHex);
+
+        tokenRepository.save(token);
         return user;
     }
 

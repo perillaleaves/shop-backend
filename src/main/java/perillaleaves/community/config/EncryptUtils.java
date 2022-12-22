@@ -8,8 +8,8 @@ public class EncryptUtils {
     public static String sha256(String password) {
 
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte[] hash = md.digest(password.getBytes(StandardCharsets.UTF_8));
+            MessageDigest sha = MessageDigest.getInstance("SHA-256");
+            byte[] hash = sha.digest(password.getBytes(StandardCharsets.UTF_8));
             StringBuffer result = new StringBuffer();
 
             for (int i = 0; i < hash.length; i++) {

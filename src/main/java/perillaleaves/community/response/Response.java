@@ -24,6 +24,11 @@ public class Response<T> {
         this.data = data;
     }
 
+    public Response(T data, ValidateResponse validate) {
+        this.data = data;
+        this.validate = validate;
+    }
+
     public Response(ValidateResponse validate) {
         this.validate = validate;
     }

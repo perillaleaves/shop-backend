@@ -2,8 +2,8 @@ package perillaleaves.community.request.user;
 
 public class UserLoginRequest {
 
-    private final String login_id;
-    private final String password;
+    private String login_id;
+    private String password;
 
     public String getLogin_id() {
         return login_id;
@@ -11,6 +11,9 @@ public class UserLoginRequest {
 
     public String getPassword() {
         return password;
+    }
+
+    public UserLoginRequest() {
     }
 
     public UserLoginRequest(String login_id, String password) {
