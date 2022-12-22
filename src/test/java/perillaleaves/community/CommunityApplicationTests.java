@@ -9,5 +9,15 @@ class CommunityApplicationTests {
 	@Test
 	void contextLoads() {
 	}
+	
+	@Test
+	public void signupTest() throws Exception {
+	    // given
+	    
+	    // when
+	    
+	    // then
+	
+	}
 
 }
