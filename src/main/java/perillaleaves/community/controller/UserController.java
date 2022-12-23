@@ -1,19 +1,19 @@
 package perillaleaves.community.controller;
 
 import org.springframework.web.bind.annotation.*;
-import perillaleaves.community.domain.Token;
 import perillaleaves.community.domain.User;
 import perillaleaves.community.exception.APIError;
 import perillaleaves.community.request.user.*;
-import perillaleaves.community.response.*;
+import perillaleaves.community.response.ErrorResponse;
+import perillaleaves.community.response.Response;
+import perillaleaves.community.response.UserFindLoginIdResponse;
+import perillaleaves.community.response.ValidateResponse;
 import perillaleaves.community.service.TokenService;
 import perillaleaves.community.service.UserService;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
-import java.util.Enumeration;
 
 @RestController
 public class UserController {

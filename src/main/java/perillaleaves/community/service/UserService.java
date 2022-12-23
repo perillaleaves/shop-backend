@@ -13,7 +13,6 @@ import perillaleaves.community.repository.UserRepository;
 import perillaleaves.community.request.user.UserDTO;
 
 import java.io.UnsupportedEncodingException;
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -31,11 +30,7 @@ public class UserService {
 
     public User save(UserDTO userDTO) {
         validate(userDTO);
-
         User user = mapper(userDTO);
-        user.setPassword(EncryptUtils.sha256(userDTO.getPassword()));
-
-        user.setRole(Role.BASIC);
 
         return userRepository.save(user);
     }
@@ -197,11 +192,11 @@ public class UserService {
 
     private static User mapper(UserDTO userDTO) {
         return new User(userDTO.getLogin_id(),
-                userDTO.getPassword(),
+                EncryptUtils.sha256(userDTO.getPassword()),
                 userDTO.getName(),
                 userDTO.getPhone_number(),
                 userDTO.getEmail(),
-                userDTO.getRole());
+                Role.BASIC);
     }
 
 }

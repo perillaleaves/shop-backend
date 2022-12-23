@@ -3,11 +3,13 @@ package perillaleaves.community.domain;
 import perillaleaves.community.common.BaseEntity;
 
 import javax.persistence.*;
+import java.util.Locale;
 
 @Entity
 public class Item extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_id")
     private Long id;
 
@@ -43,11 +45,11 @@ public class Item extends BaseEntity {
     public Item() {
     }
 
-    public Item(Long id, String name, int price, int stock, Kinds kind) {
-        this.id = id;
+    public Item(String name, int price, int stock, Kinds kind) {
         this.name = name;
         this.price = price;
         this.stock = stock;
         this.kind = kind;
     }
+
 }
