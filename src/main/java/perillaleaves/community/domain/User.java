@@ -1,6 +1,7 @@
 package perillaleaves.community.domain;
 
 import perillaleaves.community.common.BaseEntity;
+import perillaleaves.community.config.EncryptUtils;
 
 import javax.persistence.*;
 
@@ -92,5 +93,9 @@ public class User extends BaseEntity {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.role = role;
+    }
+
+    public void updatePassword(String password) {
+        this.password = EncryptUtils.sha256(password);
     }
 }

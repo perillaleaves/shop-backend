@@ -3,7 +3,6 @@ package perillaleaves.community.domain;
 import perillaleaves.community.common.BaseEntity;
 
 import javax.persistence.*;
-import java.util.Locale;
 
 @Entity
 public class Item extends BaseEntity {
@@ -40,6 +39,10 @@ public class Item extends BaseEntity {
 
     public Kinds getKind() {
         return kind;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 
     public Item() {

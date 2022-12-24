@@ -6,6 +6,8 @@ import perillaleaves.community.exception.APIError;
 import perillaleaves.community.repository.ItemRepository;
 import perillaleaves.community.request.item.ItemDTO;
 
+import java.util.Optional;
+
 @Service
 public class ItemService {
 
@@ -18,6 +20,13 @@ public class ItemService {
     public Item create(ItemDTO itemDTO) {
         validate(itemDTO);
         Item item = new Item(itemDTO.getName(), itemDTO.getPrice(), itemDTO.getStock(), itemDTO.getKind());
+
+        return itemRepository.save(item);
+    }
+
+    public Item stockUpdate(Long item_id, int stock) {
+        Item item = itemRepository.findById(item_id).orElse(null);
+        item.setStock(stock);
 
         return itemRepository.save(item);
     }

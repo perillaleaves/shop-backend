@@ -116,8 +116,7 @@ public class UserService {
         }
 
         User user = userRepository.findByLoginIdAndNameAndPhoneNumber(login_id, name, phone_number).orElse(null);
-        user.setPassword(EncryptUtils.sha256(password));
-
+        user.updatePassword(password);
         return user;
     }
 
@@ -126,9 +125,7 @@ public class UserService {
         if (user == null) {
             throw new APIError("InconsistencyLoginId", "아이디가 일치하지 않습니다.");
         }
-
-        String encryptPassword = EncryptUtils.sha256(password);
-        if (!user.getPassword().equals(encryptPassword)) {
+        if (!user.getPassword().equals(EncryptUtils.sha256(password))) {
             throw new APIError("InconsistencyPassword", "비밀번호가 일치하지 않습니다.");
         }
 
