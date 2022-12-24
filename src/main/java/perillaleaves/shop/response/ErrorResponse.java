@@ -1,4 +1,4 @@
-package perillaleaves.community.response;
+package perillaleaves.shop.response;
 
 public class ErrorResponse {
 

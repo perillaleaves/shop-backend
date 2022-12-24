@@ -1,4 +1,4 @@
-package perillaleaves.community.domain;
+package perillaleaves.shop.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

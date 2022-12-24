@@ -1,6 +1,6 @@
-package perillaleaves.community.domain;
+package perillaleaves.shop.domain;
 
-import perillaleaves.community.common.BaseEntity;
+import perillaleaves.shop.common.BaseEntity;
 
 import javax.persistence.*;
 

@@ -1,4 +1,4 @@
-package perillaleaves.community.common;
+package perillaleaves.shop.common;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

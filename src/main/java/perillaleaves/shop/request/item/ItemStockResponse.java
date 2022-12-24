@@ -1,4 +1,4 @@
-package perillaleaves.community.request.item;
+package perillaleaves.shop.request.item;
 
 public class ItemStockResponse {
 

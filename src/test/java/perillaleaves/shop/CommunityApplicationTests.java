@@ -1,4 +1,4 @@
-package perillaleaves.community;
+package perillaleaves.shop;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

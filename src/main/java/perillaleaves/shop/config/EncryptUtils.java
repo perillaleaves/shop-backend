@@ -1,4 +1,4 @@
-package perillaleaves.community.config;
+package perillaleaves.shop.config;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

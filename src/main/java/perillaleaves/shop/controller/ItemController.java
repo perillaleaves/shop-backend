@@ -1,17 +1,17 @@
-package perillaleaves.community.controller;
+package perillaleaves.shop.controller;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
-import perillaleaves.community.domain.Item;
-import perillaleaves.community.exception.APIError;
-import perillaleaves.community.request.item.ItemDTO;
-import perillaleaves.community.request.item.ItemStockResponse;
-import perillaleaves.community.response.ErrorResponse;
-import perillaleaves.community.response.Response;
-import perillaleaves.community.response.ValidateResponse;
-import perillaleaves.community.service.ItemService;
+import perillaleaves.shop.domain.Item;
+import perillaleaves.shop.exception.APIError;
+import perillaleaves.shop.request.item.ItemDTO;
+import perillaleaves.shop.request.item.ItemStockResponse;
+import perillaleaves.shop.response.ErrorResponse;
+import perillaleaves.shop.response.Response;
+import perillaleaves.shop.response.ValidateResponse;
+import perillaleaves.shop.service.ItemService;
 
 @RestController
 public class ItemController {

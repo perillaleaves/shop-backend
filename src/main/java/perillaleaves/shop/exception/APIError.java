@@ -1,4 +1,4 @@
-package perillaleaves.community.exception;
+package perillaleaves.shop.exception;
 
 public class APIError extends Error {
 

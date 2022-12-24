@@ -1,9 +1,9 @@
-package perillaleaves.community.service;
+package perillaleaves.shop.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import perillaleaves.community.domain.Token;
-import perillaleaves.community.repository.TokenRepository;
+import perillaleaves.shop.domain.Token;
+import perillaleaves.shop.repository.TokenRepository;
 
 @Transactional
 @Service

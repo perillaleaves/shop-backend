@@ -1,4 +1,4 @@
-package perillaleaves.community.request.user;
+package perillaleaves.shop.request.user;
 
 public class UserOverlapLoginIdRequest {
 

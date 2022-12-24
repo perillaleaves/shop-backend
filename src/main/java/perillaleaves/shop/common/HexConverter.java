@@ -1,4 +1,4 @@
-package perillaleaves.community.common;
+package perillaleaves.shop.common;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.UnsupportedEncodingException;

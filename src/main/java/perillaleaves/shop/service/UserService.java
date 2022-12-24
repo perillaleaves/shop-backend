@@ -1,16 +1,16 @@
-package perillaleaves.community.service;
+package perillaleaves.shop.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import perillaleaves.community.common.HexConverter;
-import perillaleaves.community.config.EncryptUtils;
-import perillaleaves.community.domain.Role;
-import perillaleaves.community.domain.Token;
-import perillaleaves.community.domain.User;
-import perillaleaves.community.exception.APIError;
-import perillaleaves.community.repository.TokenRepository;
-import perillaleaves.community.repository.UserRepository;
-import perillaleaves.community.request.user.UserDTO;
+import perillaleaves.shop.common.HexConverter;
+import perillaleaves.shop.config.EncryptUtils;
+import perillaleaves.shop.domain.Role;
+import perillaleaves.shop.domain.Token;
+import perillaleaves.shop.domain.User;
+import perillaleaves.shop.exception.APIError;
+import perillaleaves.shop.repository.TokenRepository;
+import perillaleaves.shop.repository.UserRepository;
+import perillaleaves.shop.request.user.UserDTO;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Optional;
@@ -144,7 +144,7 @@ public class UserService {
         boolean email_validate = Pattern.matches("\\w+@\\w+\\.\\w+(\\.\\w+)?", userDTO.getEmail());
 
         if (userDTO.getLogin_id().isBlank()) {
-            throw new APIError("EmptyName", "아이디를 입력해주세요.");
+            throw new APIError("EmptyId", "아이디를 입력해주세요.");
         }
         if (userDTO.getLogin_id().length() < 8) {
             throw new APIError("LengthId", "아이디를 8글자 이상 입력해주세요.");

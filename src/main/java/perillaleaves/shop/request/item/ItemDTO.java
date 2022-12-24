@@ -1,6 +1,6 @@
-package perillaleaves.community.request.item;
+package perillaleaves.shop.request.item;
 
-import perillaleaves.community.domain.Kinds;
+import perillaleaves.shop.domain.Kinds;
 
 public class ItemDTO {
 

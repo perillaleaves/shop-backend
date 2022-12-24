@@ -1,12 +1,10 @@
-package perillaleaves.community.service;
+package perillaleaves.shop.service;
 
 import org.springframework.stereotype.Service;
-import perillaleaves.community.domain.Item;
-import perillaleaves.community.exception.APIError;
-import perillaleaves.community.repository.ItemRepository;
-import perillaleaves.community.request.item.ItemDTO;
-
-import java.util.Optional;
+import perillaleaves.shop.domain.Item;
+import perillaleaves.shop.exception.APIError;
+import perillaleaves.shop.repository.ItemRepository;
+import perillaleaves.shop.request.item.ItemDTO;
 
 @Service
 public class ItemService {
