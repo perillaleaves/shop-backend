@@ -16,7 +16,6 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedHeaders("Access-Control-Allow-Origin",
                         "*",
                         "Access-Control-Allow-Methods",
-                        "Access-Control-Expose-Headers",
                         "POST, GET, OPTIONS, PUT, DELETE",
                         "Access-Control-Allow-Headers",
                         "Origin, X-Requested-With, Content-Type, Accept")

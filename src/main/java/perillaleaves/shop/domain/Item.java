@@ -48,10 +48,9 @@ public class Item extends BaseEntity {
     public Item() {
     }
 
-    public Item(String name, int price, int stock, Kinds kind) {
+    public Item(String name, int price, Kinds kind) {
         this.name = name;
         this.price = price;
-        this.stock = stock;
         this.kind = kind;
     }
 

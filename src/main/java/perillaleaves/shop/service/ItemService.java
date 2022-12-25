@@ -2,6 +2,7 @@ package perillaleaves.shop.service;
 
 import org.springframework.stereotype.Service;
 import perillaleaves.shop.domain.Item;
+import perillaleaves.shop.domain.Kinds;
 import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.repository.ItemRepository;
 import perillaleaves.shop.request.item.ItemDTO;
@@ -10,6 +11,7 @@ import perillaleaves.shop.request.item.ItemDTO;
 public class ItemService {
 
     private final ItemRepository itemRepository;
+    private int price;
 
     public ItemService(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
@@ -17,26 +19,34 @@ public class ItemService {
 
     public Item create(ItemDTO itemDTO) {
         validate(itemDTO);
-        Item item = new Item(itemDTO.getName(), itemDTO.getPrice(), itemDTO.getStock(), itemDTO.getKind());
+        Item item = new Item(itemDTO.getName(), itemDTO.getPrice(), Kinds.TOP);
 
         return itemRepository.save(item);
     }
 
-    public Item stockUpdate(Long item_id, int stock) {
-        Item item = itemRepository.findById(item_id).orElse(null);
-        item.setStock(stock);
+    public Item update(Long item_id, int stock) {
+        Item item = stockUpdate(item_id, stock);
 
         return itemRepository.save(item);
     }
 
     private void validate(ItemDTO itemDTO) {
+        price = itemDTO.getPrice();
         if (itemDTO.getName().isBlank()) {
             throw new APIError("EmptyName", "상품 이름을 입력해주세요.");
         }
-        if (itemDTO.getPrice() > 0) {
+        if (itemDTO.getPrice() < 0) {
             throw new APIError("Cost", "상품 가격을 확인해주세요.");
         }
+    }
 
+    private Item stockUpdate(Long item_id, int stock) {
+        Item item = itemRepository.findById(item_id).orElse(null);
 
+        if ((item.getStock() - stock) < 0) {
+            item.setStock(0);
+        }
+        item.setStock(stock);
+        return item;
     }
 }
