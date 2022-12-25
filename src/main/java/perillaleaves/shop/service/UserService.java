@@ -129,8 +129,8 @@ public class UserService {
             throw new APIError("InconsistencyPassword", "비밀번호가 일치하지 않습니다.");
         }
 
-        String random = String.valueOf((int) (Math.random() * 100000));
-        String str = login_id + random;
+        String val = String.valueOf((int) (Math.random() * 100000));
+        String str = login_id + val;
         HexConverter hexConverter = new HexConverter();
         String stringToHex = hexConverter.getStringToHex(str);
         Token token = new Token(user.getId(), stringToHex);
