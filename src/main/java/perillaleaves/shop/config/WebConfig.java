@@ -1,6 +1,7 @@
 package perillaleaves.shop.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -16,6 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedHeaders("Access-Control-Allow-Origin",
                         "*",
                         "Access-Control-Allow-Methods",
+                        "Access-Control-Expose-Headers: *",
                         "POST, GET, OPTIONS, PUT, DELETE",
                         "Access-Control-Allow-Headers",
                         "Origin, X-Requested-With, Content-Type, Accept")
