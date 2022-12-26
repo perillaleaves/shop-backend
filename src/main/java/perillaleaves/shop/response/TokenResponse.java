@@ -2,7 +2,7 @@ package perillaleaves.shop.response;
 
 public class TokenResponse {
 
-    private String token;
+    private final String token;
 
     public String getToken() {
         return token;

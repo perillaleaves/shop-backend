@@ -2,8 +2,8 @@ package perillaleaves.shop.response;
 
 public class ItemStockResponse {
 
-    private String name;
-    private int stock;
+    private final String name;
+    private final int stock;
 
     public String getName() {
         return name;

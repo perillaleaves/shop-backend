@@ -1,15 +1,20 @@
 package perillaleaves.shop.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import perillaleaves.shop.domain.Item;
 import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.request.item.ItemDTO;
 import perillaleaves.shop.request.item.ItemStockRequest;
-import perillaleaves.shop.response.ItemStockResponse;
-import perillaleaves.shop.response.ErrorResponse;
-import perillaleaves.shop.response.Response;
-import perillaleaves.shop.response.ValidateResponse;
+import perillaleaves.shop.response.*;
 import perillaleaves.shop.service.ItemService;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @RestController
 public class ItemController {
@@ -40,6 +45,20 @@ public class ItemController {
         } catch (APIError e) {
             return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
         }
+    }
+
+    // 12. 상품 전체 리스트(paging)
+    @GetMapping("/items")
+    public Response<PagingResponse> items() {
+        Page<Item> items = itemService.findAll();
+        List<ItemPagingResponse> itemResponse = new ArrayList<>();
+
+        for (Item item : items) {
+            ItemPagingResponse itemPagingResponse = new ItemPagingResponse(item.getId(), item.getName(), item.getPrice());
+            itemResponse.add(itemPagingResponse);
+        }
+
+        return new Response<>(new PagingResponse(items.getNumber(),items.getTotalPages(), items.getNumberOfElements(), itemResponse));
     }
 
 

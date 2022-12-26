@@ -1,8 +1,11 @@
 package perillaleaves.shop.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import perillaleaves.shop.domain.Item;
-import perillaleaves.shop.domain.Kinds;
 import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.repository.ItemRepository;
 import perillaleaves.shop.request.item.ItemDTO;
@@ -28,6 +31,12 @@ public class ItemService {
         Item item = stockUpdate(item_id, stock);
 
         return itemRepository.save(item);
+    }
+
+    public Page<Item> findAll() {
+        PageRequest paging = PageRequest.of(0, 10, Sort.Direction.DESC);
+
+        return itemRepository.findAll(paging);
     }
 
     private void validate(ItemDTO itemDTO) {
