@@ -4,7 +4,8 @@ import org.springframework.web.bind.annotation.*;
 import perillaleaves.shop.domain.Item;
 import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.request.item.ItemDTO;
-import perillaleaves.shop.request.item.ItemStockResponse;
+import perillaleaves.shop.request.item.ItemStockRequest;
+import perillaleaves.shop.response.ItemStockResponse;
 import perillaleaves.shop.response.ErrorResponse;
 import perillaleaves.shop.response.Response;
 import perillaleaves.shop.response.ValidateResponse;
@@ -31,10 +32,10 @@ public class ItemController {
     }
 
     // 11. 재고 파악
-    @PutMapping("/{item_id}/stock")
-    public Response<ItemStockResponse> updatedStock(@PathVariable("item_id") Long item_id, int stock) {
+    @PutMapping("/{item_id}")
+    public Response<ItemStockResponse> updatedStock(@PathVariable("item_id") Long item_id, @RequestBody ItemStockRequest request) {
         try {
-            Item item = itemService.update(item_id, stock);
+            Item item = itemService.update(item_id, request.getStock());
             return new Response<>(new ItemStockResponse(item.getName(), item.getStock()));
         } catch (APIError e) {
             return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));

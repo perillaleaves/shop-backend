@@ -19,7 +19,7 @@ public class ItemService {
 
     public Item create(ItemDTO itemDTO) {
         validate(itemDTO);
-        Item item = new Item(itemDTO.getName(), itemDTO.getPrice(), Kinds.TOP);
+        Item item = mapper(itemDTO);
 
         return itemRepository.save(item);
     }
@@ -40,13 +40,18 @@ public class ItemService {
         }
     }
 
-    private Item stockUpdate(Long item_id, int stock) {
-        Item item = itemRepository.findById(item_id).orElse(null);
+    private static Item mapper(ItemDTO itemDTO) {
+        return new Item(itemDTO.getName(), itemDTO.getPrice(), itemDTO.getKind());
+    }
 
-        if ((item.getStock() - stock) < 0) {
-            item.setStock(0);
+    private Item stockUpdate(Long item_id, int stock) {
+        if (stock < 0) {
+            throw new APIError("CheckAgainStock", "수량을 다시 확인해주세요.");
         }
+
+        Item item = itemRepository.findById(item_id).orElse(null);
         item.setStock(stock);
+
         return item;
     }
 }

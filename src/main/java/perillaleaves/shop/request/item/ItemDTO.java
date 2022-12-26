@@ -6,7 +6,7 @@ public class ItemDTO {
 
     private String name;
     private int price;
-    private int stock;
+    private Integer stock;
     private Kinds kind;
 
     public String getName() {
@@ -17,7 +17,7 @@ public class ItemDTO {
         return price;
     }
 
-    public int getStock() {
+    public Integer getStock() {
         return stock;
     }
 
@@ -28,10 +28,9 @@ public class ItemDTO {
     public ItemDTO() {
     }
 
-    public ItemDTO(String name, int price, int stock, Kinds kind) {
+    public ItemDTO(String name, int price, Kinds kind) {
         this.name = name;
         this.price = price;
-        this.stock = stock;
         this.kind = kind;
     }
 }
