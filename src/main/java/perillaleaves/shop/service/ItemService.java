@@ -3,7 +3,7 @@ package perillaleaves.shop.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import perillaleaves.shop.domain.Item;
+import perillaleaves.shop.domain.item.Item;
 import perillaleaves.shop.domain.enumList.Kinds;
 import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.repository.ItemRepository;
