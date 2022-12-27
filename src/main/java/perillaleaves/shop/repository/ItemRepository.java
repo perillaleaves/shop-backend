@@ -9,5 +9,5 @@ import perillaleaves.shop.domain.Item;
 @Repository
 public interface ItemRepository extends JpaRepository<Item, Long> {
 
-    public Page<Item> findAll(Pageable paging);
+    Page<Item> findAll(Pageable pageable);
 }

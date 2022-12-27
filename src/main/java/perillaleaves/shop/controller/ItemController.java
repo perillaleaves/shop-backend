@@ -49,8 +49,8 @@ public class ItemController {
 
     // 12. 상품 전체 리스트(paging)
     @GetMapping("/items")
-    public Response<PagingResponse> items() {
-        Page<Item> items = itemService.findAll();
+    public Response<PagingResponse> items(@PageableDefault(page = 0, size = 10, direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Item> items = itemService.findAll(pageable);
         List<ItemPagingResponse> itemResponse = new ArrayList<>();
 
         for (Item item : items) {

@@ -33,10 +33,9 @@ public class ItemService {
         return itemRepository.save(item);
     }
 
-    public Page<Item> findAll() {
-        PageRequest paging = PageRequest.of(0, 10, Sort.Direction.DESC);
+    public Page<Item> findAll(Pageable pageable) {
 
-        return itemRepository.findAll(paging);
+        return itemRepository.findAll(pageable);
     }
 
     private void validate(ItemDTO itemDTO) {
