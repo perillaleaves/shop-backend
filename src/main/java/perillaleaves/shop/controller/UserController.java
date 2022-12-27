@@ -1,7 +1,7 @@
 package perillaleaves.shop.controller;
 
 import org.springframework.web.bind.annotation.*;
-import perillaleaves.shop.domain.User;
+import perillaleaves.shop.domain.user.User;
 import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.request.user.*;
 import perillaleaves.shop.response.ErrorResponse;

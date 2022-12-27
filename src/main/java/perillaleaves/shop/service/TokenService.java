@@ -2,7 +2,7 @@ package perillaleaves.shop.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import perillaleaves.shop.domain.Token;
+import perillaleaves.shop.domain.user.Token;
 import perillaleaves.shop.repository.TokenRepository;
 
 @Transactional
