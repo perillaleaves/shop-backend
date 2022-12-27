@@ -1,6 +1,6 @@
 package perillaleaves.shop.request.user;
 
-import perillaleaves.shop.domain.Role;
+import perillaleaves.shop.domain.enumList.Role;
 
 import java.time.LocalDateTime;
 

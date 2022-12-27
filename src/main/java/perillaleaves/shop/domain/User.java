@@ -2,6 +2,7 @@ package perillaleaves.shop.domain;
 
 import perillaleaves.shop.common.BaseEntity;
 import perillaleaves.shop.config.EncryptUtils;
+import perillaleaves.shop.domain.enumList.Role;
 
 import javax.persistence.*;
 

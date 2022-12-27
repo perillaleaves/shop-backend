@@ -1,6 +1,7 @@
 package perillaleaves.shop.domain;
 
 import perillaleaves.shop.common.BaseEntity;
+import perillaleaves.shop.domain.enumList.Kinds;
 
 import javax.persistence.*;
 

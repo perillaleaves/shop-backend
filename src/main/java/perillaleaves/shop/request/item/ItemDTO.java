@@ -1,6 +1,6 @@
 package perillaleaves.shop.request.item;
 
-import perillaleaves.shop.domain.Kinds;
+import perillaleaves.shop.domain.enumList.Kinds;
 
 public class ItemDTO {
 

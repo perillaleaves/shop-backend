@@ -6,7 +6,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import perillaleaves.shop.domain.Item;
-import perillaleaves.shop.domain.Kinds;
+import perillaleaves.shop.domain.enumList.Kinds;
 import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.request.item.ItemDTO;
 import perillaleaves.shop.request.item.ItemStockRequest;
