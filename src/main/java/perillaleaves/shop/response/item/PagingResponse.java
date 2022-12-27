@@ -24,7 +24,7 @@ public class PagingResponse {
         return numberOfElements;
     }
 
-    public List<ItemListResponse> getItemPagingResponses() {
+    public List<ItemListResponse> getItemListResponses() {
         return content;
     }
 
