@@ -1,4 +1,4 @@
-package perillaleaves.shop.response;
+package perillaleaves.shop.response.user;
 
 public class TokenResponse {
 

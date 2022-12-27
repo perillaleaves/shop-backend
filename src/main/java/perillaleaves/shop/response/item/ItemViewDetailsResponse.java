@@ -1,16 +1,14 @@
-package perillaleaves.shop.response;
+package perillaleaves.shop.response.item;
 
 import perillaleaves.shop.domain.Kinds;
 
-public class ItemListResponse {
+public class ItemViewDetailsResponse {
 
     private final Long item_id;
-
     private final String name;
-
     private final int price;
 
-    private final Kinds kind;
+    private final Kinds kinds;
 
     public Long getItem_id() {
         return item_id;
@@ -24,14 +22,14 @@ public class ItemListResponse {
         return price;
     }
 
-    public Kinds getKind() {
-        return kind;
+    public Kinds getKinds() {
+        return kinds;
     }
 
-    public ItemListResponse(Long item_id, String name, int price, Kinds kind) {
+    public ItemViewDetailsResponse(Long item_id, String name, int price, Kinds kinds) {
         this.item_id = item_id;
         this.name = name;
         this.price = price;
-        this.kind = kind;
+        this.kinds = kinds;
     }
 }

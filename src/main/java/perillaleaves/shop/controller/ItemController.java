@@ -11,6 +11,10 @@ import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.request.item.ItemDTO;
 import perillaleaves.shop.request.item.ItemStockRequest;
 import perillaleaves.shop.response.*;
+import perillaleaves.shop.response.item.ItemListResponse;
+import perillaleaves.shop.response.item.ItemStockResponse;
+import perillaleaves.shop.response.item.ItemViewDetailsResponse;
+import perillaleaves.shop.response.item.PagingResponse;
 import perillaleaves.shop.service.ItemService;
 
 import java.util.ArrayList;
@@ -51,11 +55,11 @@ public class ItemController {
     @GetMapping("/items")
     public Response<PagingResponse> findItems(@PageableDefault(page = 0, size = 4, direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Item> items = itemService.findAll(pageable);
-        List<ItemPagingResponse> itemResponse = new ArrayList<>();
+        List<ItemListResponse> itemResponse = new ArrayList<>();
 
         for (Item item : items) {
-            ItemPagingResponse itemPagingResponse = new ItemPagingResponse(item.getId(), item.getName(), item.getPrice(), item.getKind());
-            itemResponse.add(itemPagingResponse);
+            ItemListResponse itemListResponse = new ItemListResponse(item.getId(), item.getName(), item.getPrice(), item.getKind());
+            itemResponse.add(itemListResponse);
         }
 
         return new Response<>(new PagingResponse(items.getNumber(), items.getTotalPages(), items.getNumberOfElements(), itemResponse));
@@ -72,13 +76,13 @@ public class ItemController {
     // 14. 특정 카테고리 상품 전체 조회
     @GetMapping("/{kind}")
     public Response<PagingResponse> findItemsByKind(@PathVariable("kind") Kinds kind
-            ,@PageableDefault(page = 0, size = 4, direction = Sort.Direction.DESC) Pageable pageable) {
+            , @PageableDefault(page = 0, size = 4, direction = Sort.Direction.DESC) Pageable pageable) {
 
         Page<Item> items = itemService.findAllByKind(kind, pageable);
-        List<ItemPagingResponse> itemResponse = new ArrayList<>();
+        List<ItemListResponse> itemResponse = new ArrayList<>();
         for (Item item : items) {
-            ItemPagingResponse itemPagingResponse = new ItemPagingResponse(item.getId(), item.getName(), item.getPrice(), item.getKind());
-            itemResponse.add(itemPagingResponse);
+            ItemListResponse itemListResponse = new ItemListResponse(item.getId(), item.getName(), item.getPrice(), item.getKind());
+            itemResponse.add(itemListResponse);
         }
 
         return new Response<>(new PagingResponse(items.getNumber(), items.getTotalPages(), items.getNumberOfElements(), itemResponse));

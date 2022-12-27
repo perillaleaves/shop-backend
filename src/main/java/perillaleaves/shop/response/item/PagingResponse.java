@@ -1,4 +1,4 @@
-package perillaleaves.shop.response;
+package perillaleaves.shop.response.item;
 
 import java.util.ArrayList;
 import java.util.List;
