@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import perillaleaves.shop.domain.Item;
+import perillaleaves.shop.domain.Kinds;
 import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.repository.ItemRepository;
 import perillaleaves.shop.request.item.ItemDTO;
@@ -32,8 +33,15 @@ public class ItemService {
     }
 
     public Page<Item> findAll(Pageable pageable) {
-
         return itemRepository.findAll(pageable);
+    }
+
+    public Item findById(Long item_id) {
+        return itemRepository.findById(item_id).orElse(null);
+    }
+
+    public Page<Item> findAllByKind(Kinds kind, Pageable pageable) {
+        return itemRepository.findAllByKind(kind, pageable);
     }
 
     private void validate(ItemDTO itemDTO) {

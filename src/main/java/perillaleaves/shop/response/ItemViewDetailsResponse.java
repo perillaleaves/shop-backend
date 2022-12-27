@@ -2,15 +2,13 @@ package perillaleaves.shop.response;
 
 import perillaleaves.shop.domain.Kinds;
 
-public class ItemPagingResponse {
+public class ItemViewDetailsResponse {
 
     private Long item_id;
-
     private String name;
-
     private int price;
 
-    private Kinds kind;
+    private Kinds kinds;
 
     public Long getItem_id() {
         return item_id;
@@ -24,14 +22,14 @@ public class ItemPagingResponse {
         return price;
     }
 
-    public Kinds getKind() {
-        return kind;
+    public Kinds getKinds() {
+        return kinds;
     }
 
-    public ItemPagingResponse(Long item_id, String name, int price, Kinds kind) {
+    public ItemViewDetailsResponse(Long item_id, String name, int price, Kinds kinds) {
         this.item_id = item_id;
         this.name = name;
         this.price = price;
-        this.kind = kind;
+        this.kinds = kinds;
     }
 }

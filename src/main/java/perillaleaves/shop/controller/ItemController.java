@@ -6,6 +6,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import perillaleaves.shop.domain.Item;
+import perillaleaves.shop.domain.Kinds;
 import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.request.item.ItemDTO;
 import perillaleaves.shop.request.item.ItemStockRequest;
@@ -48,17 +49,39 @@ public class ItemController {
 
     // 12. 상품 전체 리스트(paging)
     @GetMapping("/items")
-    public Response<PagingResponse> items(@PageableDefault(page = 0, size = 10, direction = Sort.Direction.DESC) Pageable pageable) {
+    public Response<PagingResponse> findItems(@PageableDefault(page = 0, size = 4, direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Item> items = itemService.findAll(pageable);
         List<ItemPagingResponse> itemResponse = new ArrayList<>();
 
         for (Item item : items) {
-            ItemPagingResponse itemPagingResponse = new ItemPagingResponse(item.getId(), item.getName(), item.getPrice());
+            ItemPagingResponse itemPagingResponse = new ItemPagingResponse(item.getId(), item.getName(), item.getPrice(), item.getKind());
             itemResponse.add(itemPagingResponse);
         }
 
         return new Response<>(new PagingResponse(items.getNumber(), items.getTotalPages(), items.getNumberOfElements(), itemResponse));
     }
 
+    // 13. 상품 상세보기
+    @GetMapping("/item/{item_id}")
+    public Response<ItemViewDetailsResponse> findItem(@PathVariable("item_id") Long item_id) {
+        Item item = itemService.findById(item_id);
+
+        return new Response<>(new ItemViewDetailsResponse(item.getId(), item.getName(), item.getPrice(), item.getKind()));
+    }
+
+    // 14. 특정 카테고리 상품 전체 조회
+    @GetMapping("/{kind}")
+    public Response<PagingResponse> findItemsByKind(@PathVariable("kind") Kinds kind
+            ,@PageableDefault(page = 0, size = 4, direction = Sort.Direction.DESC) Pageable pageable) {
+
+        Page<Item> items = itemService.findAllByKind(kind, pageable);
+        List<ItemPagingResponse> itemResponse = new ArrayList<>();
+        for (Item item : items) {
+            ItemPagingResponse itemPagingResponse = new ItemPagingResponse(item.getId(), item.getName(), item.getPrice(), item.getKind());
+            itemResponse.add(itemPagingResponse);
+        }
+
+        return new Response<>(new PagingResponse(items.getNumber(), items.getTotalPages(), items.getNumberOfElements(), itemResponse));
+    }
 
 }
