@@ -13,7 +13,6 @@ import perillaleaves.shop.response.*;
 import perillaleaves.shop.service.ItemService;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -58,7 +57,7 @@ public class ItemController {
             itemResponse.add(itemPagingResponse);
         }
 
-        return new Response<>(new PagingResponse(items.getNumber(),items.getTotalPages(), items.getNumberOfElements(), itemResponse));
+        return new Response<>(new PagingResponse(items.getNumber(), items.getTotalPages(), items.getNumberOfElements(), itemResponse));
     }
 
 

@@ -2,11 +2,11 @@ package perillaleaves.shop.response;
 
 public class ItemPagingResponse {
 
-    private Long item_id;
+    private final Long item_id;
 
-    private String name;
+    private final String name;
 
-    private int price;
+    private final int price;
 
     public Long getItem_id() {
         return item_id;

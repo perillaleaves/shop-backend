@@ -1,17 +1,15 @@
 package perillaleaves.shop.response;
 
-import perillaleaves.shop.domain.Item;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class PagingResponse {
 
-    private int number;
-    private int totalPages;
-    private int numberOfElements;
+    private final int number;
+    private final int totalPages;
+    private final int numberOfElements;
 
-    private List<ItemPagingResponse> content =new ArrayList<>();
+    private List<ItemPagingResponse> content = new ArrayList<>();
 
 
     public int getNumber() {
