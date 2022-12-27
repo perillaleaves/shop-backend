@@ -9,7 +9,7 @@ public class PagingResponse {
     private final int totalPages;
     private final int numberOfElements;
 
-    private List<ItemPagingResponse> content = new ArrayList<>();
+    private List<ItemListResponse> content = new ArrayList<>();
 
 
     public int getNumber() {
@@ -24,11 +24,11 @@ public class PagingResponse {
         return numberOfElements;
     }
 
-    public List<ItemPagingResponse> getItemPagingResponses() {
+    public List<ItemListResponse> getItemPagingResponses() {
         return content;
     }
 
-    public PagingResponse(int number, int totalPages, int numberOfElements, List<ItemPagingResponse> content) {
+    public PagingResponse(int number, int totalPages, int numberOfElements, List<ItemListResponse> content) {
         this.number = number;
         this.totalPages = totalPages;
         this.numberOfElements = numberOfElements;

@@ -4,11 +4,11 @@ import perillaleaves.shop.domain.Kinds;
 
 public class ItemViewDetailsResponse {
 
-    private Long item_id;
-    private String name;
-    private int price;
+    private final Long item_id;
+    private final String name;
+    private final int price;
 
-    private Kinds kinds;
+    private final Kinds kinds;
 
     public Long getItem_id() {
         return item_id;
