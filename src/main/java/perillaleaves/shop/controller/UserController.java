@@ -135,9 +135,9 @@ public class UserController {
 
     // 10. 내 정보 보기
     @GetMapping("/user")
-    public Response<UserLoginResponse> myPage(@RequestBody LoginValidateRequest request) {
+    public Response<UserLoginResponse> myPage(@ModelAttribute LoginValidateRequest request) {
         try {
-            User user = userService.myUserInformation(request.getAccessToken());
+            User user = userService.userInformation(request.getAccessToken());
             return new Response<>(new UserLoginResponse(user.getLoginId(),
                     user.getName(),
                     user.getPhoneNumber(),
@@ -150,7 +150,15 @@ public class UserController {
     }
 
     // 11. 내 정보 수정
-//    @PutMapping("/user/{user_id}")
+    @PutMapping("/user")
+    public Response<ValidateResponse> userUpdate(@RequestBody UserUpdateRequest request) {
+        try {
+            userService.userUpdate(request.getAccessToken(), request.getPassword(), request.getPhone_number(), request.getEmail());
+            return new Response<>(new ValidateResponse("update", "유저 정보 수정"));
+        } catch (APIError e) {
+            return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
+        }
+    }
 
 }
 
