@@ -1,13 +1,21 @@
 package perillaleaves.shop.request.item;
 
+import perillaleaves.shop.domain.enumList.Color;
 import perillaleaves.shop.domain.enumList.Kinds;
 
 public class ItemDTO {
 
+    private Long item_id;
+
     private String name;
     private int price;
-    private Integer stock;
     private Kinds kind;
+
+    private Color color;
+
+    public Long getItem_id() {
+        return item_id;
+    }
 
     public String getName() {
         return name;
@@ -17,12 +25,12 @@ public class ItemDTO {
         return price;
     }
 
-    public Integer getStock() {
-        return stock;
-    }
-
     public Kinds getKind() {
         return kind;
+    }
+
+    public Color getColor() {
+        return color;
     }
 
     public ItemDTO() {
