@@ -141,12 +141,14 @@ public class UserService {
     }
 
     public User myUserInformation(Long user_id, HttpServletRequest request) {
-        if (request.getHeader("token").isEmpty()) {
+        String accessToken = request.getHeader("token");
+        if (accessToken.isBlank()) {
             throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
         }
-        Token token = tokenRepository.findById(user_id).get();
-        if (token.getToken().equals(request.getHeader("token"))) {
-            throw new APIError("InvalidUser", "해당 유저가 아닙니다.");
+
+        Optional<Token> token = Optional.ofNullable(tokenRepository.findByToken(accessToken));
+        if (token.isEmpty()) {
+            throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
         }
 
         return userRepository.findById(user_id).get();

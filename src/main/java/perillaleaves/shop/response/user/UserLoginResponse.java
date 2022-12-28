@@ -1,14 +1,16 @@
 package perillaleaves.shop.response.user;
 
-import perillaleaves.shop.common.BaseEntity;
+import java.time.LocalDateTime;
 
-public class UserLoginResponse extends BaseEntity {
+public class UserLoginResponse {
 
     private String login_id;
     private String name;
     private String phone_number;
     private String email;
 
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
     public String getLogin_id() {
         return login_id;
     }
@@ -25,13 +27,23 @@ public class UserLoginResponse extends BaseEntity {
         return email;
     }
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
     public UserLoginResponse() {
     }
 
-    public UserLoginResponse(String login_id, String name, String phone_number, String email) {
+    public UserLoginResponse(String login_id, String name, String phone_number, String email, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.login_id = login_id;
         this.name = name;
         this.phone_number = phone_number;
         this.email = email;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 }

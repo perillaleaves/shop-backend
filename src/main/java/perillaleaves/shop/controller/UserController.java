@@ -138,9 +138,18 @@ public class UserController {
     // 10. 내 정보 보기
     @GetMapping("/user/{user_id}")
     public Response<UserLoginResponse> myPage(@PathVariable("user_id") Long user_id, HttpServletRequest request) {
-        User user = userService.myUserInformation(user_id, request);
+        try {
+            User user = userService.myUserInformation(user_id, request);
+            return new Response<>(new UserLoginResponse(user.getLoginId(),
+                    user.getName(),
+                    user.getPhoneNumber(),
+                    user.getEmail(),
+                    user.getCreatedAt(),
+                    user.getUpdatedAt()));
+        } catch (APIError e) {
+            return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
+        }
 
-        return new Response<>(new UserLoginResponse(user.getLoginId(), user.getName(), user.getPhoneNumber(), user.getEmail()));
     }
 }
 
