@@ -123,9 +123,9 @@ public class UserController {
 
     // 9. 로그아웃
     @PostMapping("/logout")
-    public Response<ValidateResponse> logout(HttpServletRequest request) {
+    public Response<ValidateResponse> logout(HttpServletRequest request, @RequestBody UserLogoutRequest logoutRequest) {
         try {
-            tokenService.deleteToken(request);
+            tokenService.deleteToken(logoutRequest.getAccessToken());
             request.removeAttribute("token");
 
             return new Response<>(new ValidateResponse("logout", "로그아웃"));
@@ -149,7 +149,10 @@ public class UserController {
         } catch (APIError e) {
             return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
         }
-
     }
+
+    // 11. 내 정보 수정
+//    @PutMapping("/user/{user_id}")
+
 }
 

@@ -15,7 +15,6 @@ import perillaleaves.shop.response.ErrorResponse;
 import perillaleaves.shop.response.Response;
 import perillaleaves.shop.response.ValidateResponse;
 import perillaleaves.shop.response.item.ItemListResponse;
-import perillaleaves.shop.response.item.ItemStockResponse;
 import perillaleaves.shop.response.item.ItemViewDetailsResponse;
 import perillaleaves.shop.response.item.PagingResponse;
 import perillaleaves.shop.service.ItemService;
@@ -46,10 +45,10 @@ public class ItemController {
 
     // 12. 재고 파악
     @PutMapping("/{item_id}/{color_id}")
-    public Response<ItemStockResponse> updatedStock(@PathVariable("color_id") Long color_id, @PathVariable("item_id") Long item_id, @RequestBody ItemStockRequest request) {
+    public Response<ValidateResponse> updatedStock(@PathVariable("color_id") Long color_id, @PathVariable("item_id") Long item_id, @RequestBody ItemStockRequest request) {
         try {
             ItemColor itemColor = itemService.update(color_id, item_id, request.getStock());
-            return new Response<>(new ItemStockResponse(itemColor.getStock()));
+            return new Response<>(new ValidateResponse("updateStock", "재고 수정 완료"));
         } catch (APIError e) {
             return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
         }

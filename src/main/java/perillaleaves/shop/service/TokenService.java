@@ -20,8 +20,7 @@ public class TokenService {
     }
 
 
-    public void deleteToken(HttpServletRequest request) {
-        String accessToken = request.getHeader("token");
+    public void deleteToken(String accessToken) {
         if (accessToken.isBlank()) {
             throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
         }
