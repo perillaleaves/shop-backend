@@ -3,7 +3,11 @@ package perillaleaves.shop.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import perillaleaves.shop.domain.user.Token;
+import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.repository.TokenRepository;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 @Transactional
 @Service
@@ -15,14 +19,19 @@ public class TokenService {
         this.tokenRepository = tokenRepository;
     }
 
-    public Token findByAccessToken(String token) {
 
-        return tokenRepository.findByToken(token);
-    }
+    public void deleteToken(HttpServletRequest request) {
+        String accessToken = request.getHeader("token");
+        if (accessToken.isBlank()) {
+            throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
+        }
 
-    public void deleteToken(String token) {
+        Optional<Token> token = Optional.ofNullable(tokenRepository.findByToken(accessToken));
+        if (token.isEmpty()) {
+            throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
+        }
 
-        tokenRepository.deleteByToken(token);
+        tokenRepository.deleteByToken(accessToken);
     }
 
 }

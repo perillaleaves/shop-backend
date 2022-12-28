@@ -8,6 +8,7 @@ import perillaleaves.shop.response.ErrorResponse;
 import perillaleaves.shop.response.Response;
 import perillaleaves.shop.response.ValidateResponse;
 import perillaleaves.shop.response.user.UserFindLoginIdResponse;
+import perillaleaves.shop.response.user.UserLoginResponse;
 import perillaleaves.shop.service.TokenService;
 import perillaleaves.shop.service.UserService;
 
@@ -123,14 +124,23 @@ public class UserController {
     // 9. 로그아웃
     @PostMapping("/logout")
     public Response<ValidateResponse> logout(HttpServletRequest request) {
-        String token = request.getHeader("token");
-        tokenService.deleteToken(token);
-        request.removeAttribute("token");
+        try {
+            tokenService.deleteToken(request);
+            request.removeAttribute("token");
 
-        return new Response<>(new ValidateResponse("logout", "로그아웃"));
+            return new Response<>(new ValidateResponse("logout", "로그아웃"));
+        } catch (APIError e) {
+            return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
+        }
+
     }
 
     // 10. 내 정보 보기
-//    @GetMapping("")
+    @GetMapping("/user/{user_id}")
+    public Response<UserLoginResponse> myPage(@PathVariable("user_id") Long user_id, HttpServletRequest request) {
+        User user = userService.myUserInformation(user_id, request);
+
+        return new Response<>(new UserLoginResponse(user.getLoginId(), user.getName(), user.getPhoneNumber(), user.getEmail()));
+    }
 }
 

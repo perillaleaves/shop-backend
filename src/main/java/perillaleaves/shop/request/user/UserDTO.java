@@ -2,8 +2,6 @@ package perillaleaves.shop.request.user;
 
 import perillaleaves.shop.domain.enumList.Role;
 
-import java.time.LocalDateTime;
-
 public class UserDTO {
 
     private String login_id;
@@ -18,9 +16,6 @@ public class UserDTO {
 
     private Role role;
 
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
 
     public String getLogin_id() {
         return login_id;
@@ -46,13 +41,7 @@ public class UserDTO {
         return role;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
 
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
 
 
 }

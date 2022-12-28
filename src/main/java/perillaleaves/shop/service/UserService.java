@@ -12,6 +12,7 @@ import perillaleaves.shop.repository.TokenRepository;
 import perillaleaves.shop.repository.UserRepository;
 import perillaleaves.shop.request.user.UserDTO;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -137,6 +138,18 @@ public class UserService {
 
         tokenRepository.save(token);
         return stringToHex;
+    }
+
+    public User myUserInformation(Long user_id, HttpServletRequest request) {
+        if (request.getHeader("token").isEmpty()) {
+            throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
+        }
+        Token token = tokenRepository.findById(user_id).get();
+        if (token.getToken().equals(request.getHeader("token"))) {
+            throw new APIError("InvalidUser", "해당 유저가 아닙니다.");
+        }
+
+        return userRepository.findById(user_id).get();
     }
 
     private void validate(UserDTO userDTO) {
