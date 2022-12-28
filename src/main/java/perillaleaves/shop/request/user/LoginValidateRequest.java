@@ -1,6 +1,6 @@
 package perillaleaves.shop.request.user;
 
-public class UserLogoutRequest {
+public class LoginValidateRequest {
 
     private String accessToken;
 

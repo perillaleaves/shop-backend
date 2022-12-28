@@ -12,7 +12,6 @@ import perillaleaves.shop.repository.TokenRepository;
 import perillaleaves.shop.repository.UserRepository;
 import perillaleaves.shop.request.user.UserDTO;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -140,8 +139,7 @@ public class UserService {
         return stringToHex;
     }
 
-    public User myUserInformation(Long user_id, HttpServletRequest request) {
-        String accessToken = request.getHeader("token");
+    public User myUserInformation(Long user_id, String accessToken) {
         if (accessToken.isBlank()) {
             throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
         }

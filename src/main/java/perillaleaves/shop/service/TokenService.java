@@ -6,7 +6,6 @@ import perillaleaves.shop.domain.user.Token;
 import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.repository.TokenRepository;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @Transactional

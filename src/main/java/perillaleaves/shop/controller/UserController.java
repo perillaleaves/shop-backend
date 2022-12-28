@@ -12,7 +12,6 @@ import perillaleaves.shop.response.user.UserLoginResponse;
 import perillaleaves.shop.service.TokenService;
 import perillaleaves.shop.service.UserService;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 
@@ -123,10 +122,9 @@ public class UserController {
 
     // 9. 로그아웃
     @PostMapping("/logout")
-    public Response<ValidateResponse> logout(HttpServletRequest request, @RequestBody UserLogoutRequest logoutRequest) {
+    public Response<ValidateResponse> logout(@RequestBody LoginValidateRequest logoutRequest) {
         try {
             tokenService.deleteToken(logoutRequest.getAccessToken());
-            request.removeAttribute("token");
 
             return new Response<>(new ValidateResponse("logout", "로그아웃"));
         } catch (APIError e) {
@@ -137,9 +135,9 @@ public class UserController {
 
     // 10. 내 정보 보기
     @GetMapping("/user/{user_id}")
-    public Response<UserLoginResponse> myPage(@PathVariable("user_id") Long user_id, HttpServletRequest request) {
+    public Response<UserLoginResponse> myPage(@PathVariable("user_id") Long user_id, LoginValidateRequest request) {
         try {
-            User user = userService.myUserInformation(user_id, request);
+            User user = userService.myUserInformation(user_id, request.getAccessToken());
             return new Response<>(new UserLoginResponse(user.getLoginId(),
                     user.getName(),
                     user.getPhoneNumber(),
