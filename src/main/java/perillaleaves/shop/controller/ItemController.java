@@ -45,10 +45,10 @@ public class ItemController {
     }
 
     // 12. 재고 파악
-    @PutMapping("/{item_id}")
-    public Response<ItemStockResponse> updatedStock(@PathVariable("item_id") Long item_id, @RequestBody ItemStockRequest request) {
+    @PutMapping("/{item_id}/{color_id}")
+    public Response<ItemStockResponse> updatedStock(@PathVariable("color_id") Long color_id, @PathVariable("item_id") Long item_id, @RequestBody ItemStockRequest request) {
         try {
-            ItemColor itemColor = itemService.update(item_id, request.getStock());
+            ItemColor itemColor = itemService.update(color_id, item_id, request.getStock());
             return new Response<>(new ItemStockResponse(itemColor.getStock()));
         } catch (APIError e) {
             return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
