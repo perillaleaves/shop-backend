@@ -188,6 +188,9 @@ public class UserService {
         if (!email_validate) {
             throw new APIError("FormEmail", "이메일을 양식에 맞게 입력해주세요.");
         }
+        if (userRepository.findByEmail(email).isPresent()) {
+            throw new APIError("ExistsEmail", "이미 존재하는 이메일 입니다.");
+        }
         user.setEmail(email);
 
         return userRepository.save(user);
