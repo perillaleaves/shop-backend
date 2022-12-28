@@ -121,7 +121,7 @@ public class UserController {
     }
 
     // 9. 로그아웃
-    @PostMapping("logout")
+    @PostMapping("/logout")
     public Response<ValidateResponse> logout(HttpServletRequest request) {
         String token = request.getHeader("token");
         tokenService.deleteToken(token);
@@ -129,5 +129,8 @@ public class UserController {
 
         return new Response<>(new ValidateResponse("logout", "로그아웃"));
     }
+
+    // 10. 내 정보 보기
+//    @GetMapping("")
 }
 

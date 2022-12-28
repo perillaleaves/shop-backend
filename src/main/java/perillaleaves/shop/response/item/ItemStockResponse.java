@@ -2,19 +2,13 @@ package perillaleaves.shop.response.item;
 
 public class ItemStockResponse {
 
-    private final String name;
-    private final int stock;
-
-    public String getName() {
-        return name;
-    }
+    private int stock;
 
     public int getStock() {
         return stock;
     }
 
-    public ItemStockResponse(String name, int stock) {
-        this.name = name;
+    public ItemStockResponse(int stock) {
         this.stock = stock;
     }
 }

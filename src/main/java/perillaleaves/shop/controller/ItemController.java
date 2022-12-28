@@ -7,12 +7,15 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import perillaleaves.shop.domain.enumList.Kinds;
 import perillaleaves.shop.domain.item.Item;
+import perillaleaves.shop.domain.item.ItemColor;
 import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.request.item.ItemDTO;
+import perillaleaves.shop.request.item.ItemStockRequest;
 import perillaleaves.shop.response.ErrorResponse;
 import perillaleaves.shop.response.Response;
 import perillaleaves.shop.response.ValidateResponse;
 import perillaleaves.shop.response.item.ItemListResponse;
+import perillaleaves.shop.response.item.ItemStockResponse;
 import perillaleaves.shop.response.item.ItemViewDetailsResponse;
 import perillaleaves.shop.response.item.PagingResponse;
 import perillaleaves.shop.service.ItemService;
@@ -30,7 +33,7 @@ public class ItemController {
     }
 
 
-    // 10. 상품 등록
+    // 11. 상품 등록
     @PostMapping("/item")
     public Response<ValidateResponse> save(@RequestBody ItemDTO itemDTO) {
         try {
@@ -41,18 +44,18 @@ public class ItemController {
         }
     }
 
-    // 11. 재고 파악
-//    @PutMapping("/{item_id}")
-//    public Response<ItemStockResponse> updatedStock(@PathVariable("item_id") Long item_id, @RequestBody ItemStockRequest request) {
-//        try {
-//            Item item = itemService.update(item_id, request.getStock());
-//            return new Response<>(new ItemStockResponse(item.getName(), item.getStock()));
-//        } catch (APIError e) {
-//            return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
-//        }
-//    }
+    // 12. 재고 파악
+    @PutMapping("/{item_id}")
+    public Response<ItemStockResponse> updatedStock(@PathVariable("item_id") Long item_id, @RequestBody ItemStockRequest request) {
+        try {
+            ItemColor itemColor = itemService.update(item_id, request.getStock());
+            return new Response<>(new ItemStockResponse(itemColor.getStock()));
+        } catch (APIError e) {
+            return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
+        }
+    }
 
-    // 12. 상품 전체 리스트(paging)
+    // 13. 상품 전체 리스트(paging)
     @GetMapping("/items")
     public Response<PagingResponse> findItems(@PageableDefault(page = 0, size = 4, direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Item> items = itemService.findAll(pageable);
@@ -66,7 +69,7 @@ public class ItemController {
         return new Response<>(new PagingResponse(items.getNumber(), items.getTotalPages(), items.getNumberOfElements(), itemResponse));
     }
 
-    // 13. 상품 상세보기
+    // 14. 상품 상세보기
     @GetMapping("/item/{item_id}")
     public Response<ItemViewDetailsResponse> findItem(@PathVariable("item_id") Long item_id) {
         Item item = itemService.findById(item_id);
@@ -74,7 +77,7 @@ public class ItemController {
         return new Response<>(new ItemViewDetailsResponse(item.getId(), item.getName(), item.getPrice(), item.getKind()));
     }
 
-    // 14. 특정 카테고리 상품 전체 조회
+    // 15. 특정 카테고리 상품 전체 조회
     @GetMapping("/{kind}")
     public Response<PagingResponse> findItemsByKind(@PathVariable("kind") Kinds kind
             , @PageableDefault(page = 0, size = 4, direction = Sort.Direction.DESC) Pageable pageable) {

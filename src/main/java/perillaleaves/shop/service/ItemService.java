@@ -49,11 +49,11 @@ public class ItemService {
         return itemColorRepository.save(itemColor);
     }
 
-//    public Item update(Long item_id, int stock) {
-//        Item item = stockUpdate(item_id, stock);
-//
-//        return itemRepository.save(item);
-//    }
+    public ItemColor update(Long item_id, int stock) {
+        ItemColor itemColor = stockUpdate(item_id, stock);
+
+        return itemColorRepository.save(itemColor);
+    }
 
     public Page<Item> findAll(Pageable pageable) {
         return itemRepository.findAll(pageable);
@@ -81,14 +81,15 @@ public class ItemService {
         return new Item(itemDTO.getName(), itemDTO.getPrice(), itemDTO.getKind());
     }
 
-//    private Item stockUpdate(Long item_id, int stock) {
-//        if (stock < 0) {
-//            throw new APIError("CheckAgainStock", "수량을 다시 확인해주세요.");
-//        }
-//
-//        Item item = itemRepository.findById(item_id).orElse(null);
-//        item.setStock(stock);
-//
-//        return item;
-//    }
+    private ItemColor stockUpdate(Long item_id, int stock) {
+        if (stock < 0) {
+            throw new APIError("CheckAgainStock", "수량을 다시 확인해주세요.");
+        }
+
+        Item item = itemRepository.findById(item_id).orElse(null);
+        ItemColor itemColor = itemColorRepository.findByItem(item);
+        itemColor.setStock(stock);
+
+        return itemColor;
+    }
 }

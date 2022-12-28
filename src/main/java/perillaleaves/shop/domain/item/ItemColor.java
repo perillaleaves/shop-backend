@@ -42,6 +42,10 @@ public class ItemColor extends BaseEntity {
         this.item = item;
     }
 
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
     public ItemColor() {
     }
 
