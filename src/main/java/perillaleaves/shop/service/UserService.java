@@ -139,7 +139,7 @@ public class UserService {
         return stringToHex;
     }
 
-    public User myUserInformation(Long user_id, String accessToken) {
+    public User myUserInformation(String accessToken) {
         if (accessToken.isBlank()) {
             throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
         }
@@ -149,7 +149,7 @@ public class UserService {
             throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
         }
 
-        return userRepository.findById(user_id).get();
+        return userRepository.findById(token.get().getUser_id()).get();
     }
 
     private void validate(UserDTO userDTO) {

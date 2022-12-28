@@ -122,9 +122,9 @@ public class UserController {
 
     // 9. 로그아웃
     @PostMapping("/logout")
-    public Response<ValidateResponse> logout(@RequestBody LoginValidateRequest logoutRequest) {
+    public Response<ValidateResponse> logout(@RequestBody LoginValidateRequest request) {
         try {
-            tokenService.deleteToken(logoutRequest.getAccessToken());
+            tokenService.deleteToken(request.getAccessToken());
 
             return new Response<>(new ValidateResponse("logout", "로그아웃"));
         } catch (APIError e) {
@@ -134,10 +134,10 @@ public class UserController {
     }
 
     // 10. 내 정보 보기
-    @GetMapping("/user/{user_id}")
-    public Response<UserLoginResponse> myPage(@PathVariable("user_id") Long user_id, LoginValidateRequest request) {
+    @GetMapping("/user")
+    public Response<UserLoginResponse> myPage(@RequestBody LoginValidateRequest request) {
         try {
-            User user = userService.myUserInformation(user_id, request.getAccessToken());
+            User user = userService.myUserInformation(request.getAccessToken());
             return new Response<>(new UserLoginResponse(user.getLoginId(),
                     user.getName(),
                     user.getPhoneNumber(),
