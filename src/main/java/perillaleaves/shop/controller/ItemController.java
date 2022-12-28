@@ -32,7 +32,7 @@ public class ItemController {
     }
 
 
-    // 11. 상품 등록
+    // 12. 상품 등록
     @PostMapping("/item")
     public Response<ValidateResponse> save(@RequestBody ItemDTO itemDTO) {
         try {
@@ -43,7 +43,7 @@ public class ItemController {
         }
     }
 
-    // 12. 재고 파악
+    // 13. 재고 파악
     @PutMapping("/{item_id}/{color_id}")
     public Response<ValidateResponse> updatedStock(@PathVariable("color_id") Long color_id, @PathVariable("item_id") Long item_id, @RequestBody ItemStockRequest request) {
         try {
@@ -54,7 +54,7 @@ public class ItemController {
         }
     }
 
-    // 13. 상품 전체 리스트(paging)
+    // 14. 상품 전체 리스트(paging)
     @GetMapping("/items")
     public Response<PagingResponse> findItems(@PageableDefault(page = 0, size = 4, direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Item> items = itemService.findAll(pageable);
@@ -68,7 +68,7 @@ public class ItemController {
         return new Response<>(new PagingResponse(items.getNumber(), items.getTotalPages(), items.getNumberOfElements(), itemResponse));
     }
 
-    // 14. 상품 상세보기
+    // 15. 상품 상세보기
     @GetMapping("/item/{item_id}")
     public Response<ItemViewDetailsResponse> findItem(@PathVariable("item_id") Long item_id) {
         Item item = itemService.findById(item_id);
@@ -76,7 +76,7 @@ public class ItemController {
         return new Response<>(new ItemViewDetailsResponse(item.getId(), item.getName(), item.getPrice(), item.getKind()));
     }
 
-    // 15. 특정 카테고리 상품 전체 조회
+    // 16. 특정 카테고리 상품 전체 조회
     @GetMapping("/{kind}")
     public Response<PagingResponse> findItemsByKind(@PathVariable("kind") Kinds kind
             , @PageableDefault(page = 0, size = 4, direction = Sort.Direction.DESC) Pageable pageable) {
