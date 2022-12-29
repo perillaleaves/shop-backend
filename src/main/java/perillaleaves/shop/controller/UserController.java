@@ -134,8 +134,8 @@ public class UserController {
     }
 
     // 10. 내 정보 보기
-    @GetMapping("/user")
-    public Response<UserLoginResponse> myPage(@ModelAttribute LoginValidateRequest request) {
+    @PostMapping("/user")
+    public Response<UserLoginResponse> myPage(@RequestBody LoginValidateRequest request) {
         try {
             User user = userService.userInformation(request.getAccessToken());
             return new Response<>(new UserLoginResponse(user.getLoginId(),
