@@ -1,5 +1,5 @@
 package perillaleaves.shop.domain.enumList;
 
 public enum Color {
-    RED, WHITE
+    BLACK, WHITE, RED, BLUE,
 }

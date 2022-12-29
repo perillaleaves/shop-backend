@@ -22,8 +22,8 @@ public class Item extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Kinds kind;
 
-    @OneToMany(mappedBy = "item")
-    private final List<ItemColor> itemColor = new ArrayList<>();
+//    @OneToMany(mappedBy = "item")
+//    private final List<ItemColor> itemColor = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -41,9 +41,9 @@ public class Item extends BaseEntity {
         return kind;
     }
 
-    public List<ItemColor> getItemColor() {
-        return itemColor;
-    }
+//    public List<ItemColor> getItemColor() {
+//        return itemColor;
+//    }
 
     public Item() {
     }

@@ -12,6 +12,7 @@ import perillaleaves.shop.repository.ItemColorRepository;
 import perillaleaves.shop.repository.ItemRepository;
 import perillaleaves.shop.request.item.ItemDTO;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,8 +38,8 @@ public class ItemService {
             return itemColorRepository.save(itemColor);
         }
 
-        ItemColor findItemColor = itemColorRepository.findByItem(itemByName.get());
-        if (findItemColor.getColor().equals(itemDTO.getColor())) {
+        List<ItemColor> findItemColor = itemColorRepository.findByItem(itemByName.get());
+        if (findItemColor.stream().filter(f -> f.getColor().equals(itemDTO.getColor())).findAny().isPresent()) {
             throw new APIError("ExistItem", "이미 존재하는 아이템입니다.");
         }
 
