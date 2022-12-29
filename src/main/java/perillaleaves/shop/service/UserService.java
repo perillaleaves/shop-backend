@@ -152,6 +152,9 @@ public class UserService {
     }
 
     public User userUpdate(String accessToken, String password, String phone_number, String email) {
+        boolean password_validate = Pattern.matches("^(?=.*?[A-Z]+).{8,}", password);
+        boolean email_validate = Pattern.matches("\\w+@\\w+\\.\\w+(\\.\\w+)?", email);
+
         if (accessToken.isBlank()) {
             throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
         }
@@ -161,7 +164,6 @@ public class UserService {
         }
         User user = userRepository.findById(token.get().getUser_id()).get();
 
-        boolean password_validate = Pattern.matches("^(?=.*?[A-Z]+).{8,}", password);
         if (password.isBlank()) {
             throw new APIError("EmptyPassword", "비밀번호를 입력해주세요.");
         }
@@ -171,26 +173,25 @@ public class UserService {
         if (!password_validate) {
             throw new APIError("FormPassword", "비밀번호를 양식에 맞게 입력해주세요.");
         }
-        user.setPassword(EncryptUtils.sha256(password));
-
         if (phone_number.isBlank()) {
             throw new APIError("EmptyPhoneNumber", "연락처를 입력해주세요.");
         }
-        if (userRepository.findByPhoneNumber(phone_number).isPresent()) {
-            throw new APIError("ExistPhoneNumber", "이미 존재하는 연락처입니다.");
-        }
-        user.setPhoneNumber(phone_number);
-
-        boolean email_validate = Pattern.matches("\\w+@\\w+\\.\\w+(\\.\\w+)?", email);
         if (email.isBlank()) {
             throw new APIError("EmptyEmail", "이메일을 입력해주세요.");
         }
         if (!email_validate) {
             throw new APIError("FormEmail", "이메일을 양식에 맞게 입력해주세요.");
         }
+
+        if (userRepository.findByPhoneNumber(phone_number).isPresent()) {
+            throw new APIError("ExistPhoneNumber", "이미 존재하는 연락처입니다.");
+        }
         if (userRepository.findByEmail(email).isPresent()) {
             throw new APIError("ExistsEmail", "이미 존재하는 이메일 입니다.");
         }
+
+        user.setPassword(EncryptUtils.sha256(password));
+        user.setPhoneNumber(phone_number);
         user.setEmail(email);
 
         return userRepository.save(user);

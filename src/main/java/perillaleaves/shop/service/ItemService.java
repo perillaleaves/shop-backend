@@ -20,7 +20,6 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
     private final ItemColorRepository itemColorRepository;
-    private int price;
 
     public ItemService(ItemRepository itemRepository, ItemColorRepository itemColorRepository) {
         this.itemRepository = itemRepository;
@@ -68,7 +67,6 @@ public class ItemService {
     }
 
     private void validate(ItemDTO itemDTO) {
-        price = itemDTO.getPrice();
         if (itemDTO.getName().isBlank()) {
             throw new APIError("EmptyName", "상품 이름을 입력해주세요.");
         }
