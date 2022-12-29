@@ -1,7 +1,6 @@
 package perillaleaves.shop.domain.item;
 
 import perillaleaves.shop.common.BaseEntity;
-import perillaleaves.shop.domain.enumList.Kinds;
 
 import javax.persistence.*;
 
@@ -13,18 +12,18 @@ public class Item extends BaseEntity {
     @Column(name = "item_id")
     private Long id;
 
+    private String item_code;
+
     private String name;
 
     private int price;
 
-    @Enumerated(EnumType.STRING)
-    private Kinds kind;
-
-//    @OneToMany(mappedBy = "item")
-//    private final List<ItemColor> itemColor = new ArrayList<>();
-
     public Long getId() {
         return id;
+    }
+
+    public String getItem_code() {
+        return item_code;
     }
 
     public String getName() {
@@ -35,21 +34,13 @@ public class Item extends BaseEntity {
         return price;
     }
 
-    public Kinds getKind() {
-        return kind;
-    }
-
-//    public List<ItemColor> getItemColor() {
-//        return itemColor;
-//    }
 
     public Item() {
     }
 
-    public Item(String name, int price, Kinds kind) {
+    public Item(String name, int price) {
         this.name = name;
         this.price = price;
-        this.kind = kind;
     }
 
 }

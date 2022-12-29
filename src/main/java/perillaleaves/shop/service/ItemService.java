@@ -4,7 +4,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import perillaleaves.shop.domain.enumList.Kinds;
 import perillaleaves.shop.domain.item.Item;
 import perillaleaves.shop.domain.item.ItemColor;
 import perillaleaves.shop.exception.APIError;
@@ -39,7 +38,7 @@ public class ItemService {
         }
 
         List<ItemColor> findItemColor = itemColorRepository.findByItem(itemByName.get());
-        if (findItemColor.stream().filter(f -> f.getColor().equals(itemDTO.getColor())).findAny().isPresent()) {
+        if (findItemColor.stream().filter(f -> f.getColor().equals(itemDTO.getColor())).findFirst().isPresent()) {
             throw new APIError("ExistItem", "이미 존재하는 아이템입니다.");
         }
 
@@ -63,9 +62,6 @@ public class ItemService {
         return itemRepository.findById(item_id).orElse(null);
     }
 
-    public Page<Item> findAllByKind(Kinds kind, Pageable pageable) {
-        return itemRepository.findAllByKind(kind, pageable);
-    }
 
     private void validate(ItemDTO itemDTO) {
         if (itemDTO.getName().isBlank()) {
@@ -77,7 +73,7 @@ public class ItemService {
     }
 
     private static Item mapper(ItemDTO itemDTO) {
-        return new Item(itemDTO.getName(), itemDTO.getPrice(), itemDTO.getKind());
+        return new Item(itemDTO.getName(), itemDTO.getPrice());
     }
 
     private ItemColor stockUpdate(Long color_id, Long item_id, int stock) {

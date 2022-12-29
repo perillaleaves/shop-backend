@@ -5,7 +5,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-import perillaleaves.shop.domain.enumList.Kinds;
 import perillaleaves.shop.domain.item.Item;
 import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.request.item.ItemDTO;
@@ -64,8 +63,7 @@ public class ItemController {
         for (Item item : items) {
             ItemListResponse itemListResponse = new ItemListResponse(item.getId(),
                     item.getName(),
-                    item.getPrice(),
-                    item.getKind());
+                    item.getPrice());
             itemResponse.add(itemListResponse);
         }
 
@@ -82,29 +80,8 @@ public class ItemController {
 
         return new Response<>(new ItemViewDetailsResponse(item.getId(),
                 item.getName(),
-                item.getPrice(),
-                item.getKind()));
+                item.getPrice()));
     }
 
-    // 16. 특정 카테고리 상품 전체 조회
-    @GetMapping("/{kind}")
-    public Response<PagingResponse> findItemsByKind(@PathVariable("kind") Kinds kind
-            , @PageableDefault(page = 0, size = 4, direction = Sort.Direction.DESC) Pageable pageable) {
-
-        Page<Item> items = itemService.findAllByKind(kind, pageable);
-        List<ItemListResponse> itemResponse = new ArrayList<>();
-        for (Item item : items) {
-            ItemListResponse itemListResponse = new ItemListResponse(item.getId(),
-                    item.getName(),
-                    item.getPrice(),
-                    item.getKind());
-            itemResponse.add(itemListResponse);
-        }
-
-        return new Response<>(new PagingResponse(items.getNumber(),
-                items.getTotalPages(),
-                items.getNumberOfElements(),
-                itemResponse));
-    }
 
 }
