@@ -3,6 +3,7 @@ package perillaleaves.shop.domain.user;
 import perillaleaves.shop.common.BaseEntity;
 import perillaleaves.shop.config.EncryptUtils;
 import perillaleaves.shop.domain.enumList.Role;
+import perillaleaves.shop.domain.item.Cart;
 
 import javax.persistence.*;
 
@@ -27,6 +28,8 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @OneToOne(mappedBy = "user")
+    private Cart cart;
 
     public Long getId() {
         return id;
@@ -82,6 +85,14 @@ public class User extends BaseEntity {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
     public User() {

@@ -4,6 +4,8 @@ import perillaleaves.shop.common.BaseEntity;
 import perillaleaves.shop.domain.user.User;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Cart extends BaseEntity {
@@ -13,13 +15,12 @@ public class Cart extends BaseEntity {
     @Column(name = "cart_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Item item;
+    @OneToMany(mappedBy= "cart", cascade = CascadeType.ALL, orphanRemoval= true)
+    private List<CartItem> cartItems = new ArrayList<CartItem>();
 
-    private int count;
 
     public Long getId() {
         return id;
@@ -29,11 +30,8 @@ public class Cart extends BaseEntity {
         return user;
     }
 
-    public Item getItem() {
-        return item;
+    public List<CartItem> getCartItems() {
+        return cartItems;
     }
 
-    public int getCount() {
-        return count;
-    }
 }

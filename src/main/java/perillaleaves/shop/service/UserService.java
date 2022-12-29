@@ -151,7 +151,7 @@ public class UserService {
         return userRepository.findById(token.get().getUser_id()).get();
     }
 
-    public User userUpdate(String accessToken, String password, String phone_number, String email) {
+    public void userUpdate(String accessToken, String password, String phone_number, String email) {
         boolean password_validate = Pattern.matches("^(?=.*?[A-Z]+).{8,}", password);
         boolean email_validate = Pattern.matches("\\w+@\\w+\\.\\w+(\\.\\w+)?", email);
 
@@ -162,7 +162,6 @@ public class UserService {
         if (token.isEmpty()) {
             throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
         }
-        User user = userRepository.findById(token.get().getUser_id()).get();
 
         if (password.isBlank()) {
             throw new APIError("EmptyPassword", "비밀번호를 입력해주세요.");
@@ -190,11 +189,12 @@ public class UserService {
             throw new APIError("ExistsEmail", "이미 존재하는 이메일 입니다.");
         }
 
+        User user = userRepository.findById(token.get().getUser_id()).orElse(null);
         user.setPassword(EncryptUtils.sha256(password));
         user.setPhoneNumber(phone_number);
         user.setEmail(email);
 
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     private void validate(UserDTO userDTO) {

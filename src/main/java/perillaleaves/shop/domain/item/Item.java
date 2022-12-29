@@ -23,7 +23,7 @@ public class Item extends BaseEntity {
     private Kinds kind;
 
     @OneToMany(mappedBy = "item")
-    private final List<ItemColor> itemColor = new ArrayList<>();
+    private List<ItemColor> itemColor = new ArrayList<>();
 
     public Long getId() {
         return id;
