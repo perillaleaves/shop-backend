@@ -4,8 +4,6 @@ import perillaleaves.shop.common.BaseEntity;
 import perillaleaves.shop.domain.enumList.Kinds;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 public class Item extends BaseEntity {
