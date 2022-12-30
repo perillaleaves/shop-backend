@@ -6,4 +6,6 @@ import perillaleaves.shop.domain.item.Cart;
 
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long> {
+
+    Cart findByUserId(Long id);
 }

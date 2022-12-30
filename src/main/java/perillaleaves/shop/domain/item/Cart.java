@@ -18,12 +18,18 @@ public class Cart extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     private User user;
 
+    private int count;
+
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<CartItem> cartItems = new ArrayList<CartItem>();
+    private List<CartItem> cartItems = new ArrayList<CartItem>();
 
 
     public Long getId() {
         return id;
+    }
+
+    public int getCount() {
+        return count;
     }
 
     public User getUser() {
@@ -34,4 +40,9 @@ public class Cart extends BaseEntity {
         return cartItems;
     }
 
+
+    public Cart(int count, User user) {
+        this.count = count;
+        this.user = user;
+    }
 }
