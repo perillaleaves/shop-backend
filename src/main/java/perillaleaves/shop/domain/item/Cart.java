@@ -16,7 +16,7 @@ public class Cart extends BaseEntity {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    private final User user;
+    private User user;
 
     private int count;
 
@@ -42,6 +42,9 @@ public class Cart extends BaseEntity {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public Cart() {
     }
 
     public Cart(int count, User user) {

@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import perillaleaves.shop.domain.item.Cart;
 import perillaleaves.shop.domain.item.CartItem;
 import perillaleaves.shop.domain.item.Item;
+import perillaleaves.shop.domain.item.ItemColor;
 import perillaleaves.shop.domain.user.Token;
 import perillaleaves.shop.domain.user.User;
 import perillaleaves.shop.exception.APIError;
@@ -18,19 +19,19 @@ public class CartService {
 
     private final CartRepository cartRepository;
     private final TokenRepository tokenRepository;
-    private final ItemRepository itemRepository;
     private final UserRepository userRepository;
     private final CartItemRepository cartItemRepository;
+    private final ItemColorRepository itemColorRepository;
 
-    public CartService(CartRepository cartRepository, TokenRepository tokenRepository, ItemRepository itemRepository, UserRepository userRepository, CartItemRepository cartItemRepository) {
+    public CartService(CartRepository cartRepository, TokenRepository tokenRepository, UserRepository userRepository, CartItemRepository cartItemRepository, ItemColorRepository itemColorRepository) {
         this.cartRepository = cartRepository;
         this.tokenRepository = tokenRepository;
-        this.itemRepository = itemRepository;
         this.userRepository = userRepository;
         this.cartItemRepository = cartItemRepository;
+        this.itemColorRepository = itemColorRepository;
     }
 
-    public void addCart(String accessToken, Item itemRequest, int count) {
+    public void addCart(String accessToken, Long color_id, int count) {
         if (accessToken.isBlank()) {
             throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
         }
@@ -39,28 +40,22 @@ public class CartService {
             throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
         }
 
-        Cart cart = cartRepository.findByUserId(token.get().getUser_id());
-        User user = userRepository.findById(token.get().getUser_id()).orElse(null);
-        if (cart == null) {
+        User user = userRepository.findById(token.get().getUser_id()).get();
+        Optional<Cart> cart = cartRepository.findByUser(user);
+        ItemColor itemColor = itemColorRepository.findById(color_id).orElse(null);
+        if (cart.isEmpty()) {
             Cart addCart = new Cart(0, user);
+            addCart.setCount(addCart.getCount() + count);
             cartRepository.save(addCart);
-        }
 
-        Item item = itemRepository.findById(itemRequest.getId()).orElse(null);
-        CartItem cartItem = cartItemRepository.findByCartIdAndItemId(cart.getId(), item.getId());
-
-        if (cartItem == null) {
-            CartItem addCartItem = new CartItem(cart, item, count);
+            CartItem addCartItem = new CartItem(addCart, itemColor, count);
             cartItemRepository.save(addCartItem);
         }
+        if (cart.isPresent()) {
+            CartItem addCartItem = new CartItem(cart.get(), itemColor, count);
+            cartItemRepository.save(addCartItem);
+            cart.get().setCount(cart.get().getCount() + count);
+        }
 
-        CartItem updatedCartItem = cartItem;
-        updatedCartItem.setCart(cartItem.getCart());
-        updatedCartItem.setItem(cartItem.getItem());
-        updatedCartItem.setCount(++count);
-        cartItemRepository.save(updatedCartItem);
-
-        cart.setCount(cart.getCount() + (++count));
     }
-
 }

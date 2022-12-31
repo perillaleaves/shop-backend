@@ -6,6 +6,7 @@ import perillaleaves.shop.domain.item.Item;
 import perillaleaves.shop.domain.item.ItemColor;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ItemColorRepository extends JpaRepository<ItemColor, Long> {
@@ -13,4 +14,6 @@ public interface ItemColorRepository extends JpaRepository<ItemColor, Long> {
     List<ItemColor> findByItem(Item item);
 
     ItemColor findByIdAndItem(Long id, Item item);
+
+    Optional<ItemColor> findById(Long id);
 }

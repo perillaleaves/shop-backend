@@ -12,18 +12,12 @@ public class Item extends BaseEntity {
     @Column(name = "item_id")
     private Long id;
 
-    private String item_code;
-
     private String name;
 
     private int price;
 
     public Long getId() {
         return id;
-    }
-
-    public String getItem_code() {
-        return item_code;
     }
 
     public String getName() {

@@ -16,8 +16,8 @@ public class CartItem {
     private Cart cart;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "item_im")
-    private Item item;
+    @JoinColumn(name = "itemColor_id")
+    private ItemColor itemColor;
 
 
     private int count;
@@ -30,8 +30,8 @@ public class CartItem {
         return cart;
     }
 
-    public Item getItem() {
-        return item;
+    public ItemColor getItemColor() {
+        return itemColor;
     }
 
     public int getCount() {
@@ -46,8 +46,8 @@ public class CartItem {
         this.cart = cart;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void setItemColor(ItemColor itemColor) {
+        this.itemColor = itemColor;
     }
 
     public void setCount(int count) {
@@ -57,9 +57,9 @@ public class CartItem {
     public CartItem() {
     }
 
-    public CartItem(Cart cart, Item item, int count) {
+    public CartItem(Cart cart, ItemColor itemColor, int count) {
         this.cart = cart;
-        this.item = item;
+        this.itemColor = itemColor;
         this.count = count;
     }
 }
