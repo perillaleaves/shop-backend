@@ -40,6 +40,9 @@ public class Cart extends BaseEntity {
         return cartItems;
     }
 
+    public void setCount(int count) {
+        this.count = count;
+    }
 
     public Cart(int count, User user) {
         this.count = count;

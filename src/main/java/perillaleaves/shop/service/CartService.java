@@ -3,14 +3,12 @@ package perillaleaves.shop.service;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import perillaleaves.shop.domain.item.Cart;
+import perillaleaves.shop.domain.item.CartItem;
+import perillaleaves.shop.domain.item.Item;
 import perillaleaves.shop.domain.user.Token;
 import perillaleaves.shop.domain.user.User;
 import perillaleaves.shop.exception.APIError;
-import perillaleaves.shop.repository.CartRepository;
-import perillaleaves.shop.repository.ItemRepository;
-import perillaleaves.shop.repository.TokenRepository;
-import perillaleaves.shop.repository.UserRepository;
-import perillaleaves.shop.request.item.ItemDTO;
+import perillaleaves.shop.repository.*;
 
 import java.util.Optional;
 
@@ -22,15 +20,17 @@ public class CartService {
     private final TokenRepository tokenRepository;
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
+    private final CartItemRepository cartItemRepository;
 
-    public CartService(CartRepository cartRepository, TokenRepository tokenRepository, ItemRepository itemRepository, UserRepository userRepository) {
+    public CartService(CartRepository cartRepository, TokenRepository tokenRepository, ItemRepository itemRepository, UserRepository userRepository, CartItemRepository cartItemRepository) {
         this.cartRepository = cartRepository;
         this.tokenRepository = tokenRepository;
         this.itemRepository = itemRepository;
         this.userRepository = userRepository;
+        this.cartItemRepository = cartItemRepository;
     }
 
-    public void addCart(String accessToken, ItemDTO itemDTO) {
+    public void addCart(String accessToken, Item itemRequest, int count) {
         if (accessToken.isBlank()) {
             throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
         }
@@ -39,15 +39,28 @@ public class CartService {
             throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
         }
 
-        Cart findCart = cartRepository.findByUserId(token.get().getUser_id());
+        Cart cart = cartRepository.findByUserId(token.get().getUser_id());
         User user = userRepository.findById(token.get().getUser_id()).orElse(null);
-        if (findCart == null) {
-            Cart cart = new Cart(0, user);
-            cartRepository.save(cart);
+        if (cart == null) {
+            Cart addCart = new Cart(0, user);
+            cartRepository.save(addCart);
         }
 
-//        itemRepository
+        Item item = itemRepository.findById(itemRequest.getId()).orElse(null);
+        CartItem cartItem = cartItemRepository.findByCartIdAndItemId(cart.getId(), item.getId());
 
+        if (cartItem == null) {
+            CartItem addCartItem = new CartItem(cart, item, count);
+            cartItemRepository.save(addCartItem);
+        }
+
+        CartItem updatedCartItem = cartItem;
+        updatedCartItem.setCart(cartItem.getCart());
+        updatedCartItem.setItem(cartItem.getItem());
+        updatedCartItem.setCount(++count);
+        cartItemRepository.save(updatedCartItem);
+
+        cart.setCount(cart.getCount() + (++count));
     }
 
 }

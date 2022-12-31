@@ -12,12 +12,13 @@ public class CartItem {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_im")
     private Item item;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cart_id")
-    private Cart cart;
 
     private int count;
 
@@ -25,24 +26,40 @@ public class CartItem {
         return id;
     }
 
-    public Item getItem() {
-        return item;
-    }
-
     public Cart getCart() {
         return cart;
+    }
+
+    public Item getItem() {
+        return item;
     }
 
     public int getCount() {
         return count;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
     public CartItem() {
     }
 
-    public CartItem(Long id, Item item, Cart cart) {
-        this.id = id;
-        this.item = item;
+    public CartItem(Cart cart, Item item, int count) {
         this.cart = cart;
+        this.item = item;
+        this.count = count;
     }
 }
