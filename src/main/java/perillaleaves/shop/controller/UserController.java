@@ -134,10 +134,10 @@ public class UserController {
     }
 
     // 10. 내 정보 보기
-    @GetMapping("/user")
-    public Response<UserLoginResponse> myPage(@ModelAttribute UserUpdateRequest request) {
+    @GetMapping("/user/{accessToken}")
+    public Response<UserLoginResponse> myPage(@PathVariable("accessToken") String accessToken) {
         try {
-            User user = userService.userInformation(request.getAccessToken());
+            User user = userService.userInformation(accessToken);
             return new Response<>(new UserLoginResponse(user.getLoginId(),
                     user.getName(),
                     user.getPhoneNumber(),
