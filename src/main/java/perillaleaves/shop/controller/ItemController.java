@@ -21,7 +21,9 @@ import perillaleaves.shop.service.ItemColorService;
 import perillaleaves.shop.service.ItemService;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ItemController {
@@ -64,17 +66,28 @@ public class ItemController {
         Page<Item> items = itemService.findAll(pageable);
         List<ItemListResponse> itemResponse = new ArrayList<>();
 
+
         for (Item item : items) {
+            List<ItemColor> itemColors = itemColorService.findAllByItemId(item.getId());
+            List<ItemColorListResponse> itemColorResponse = new ArrayList<>();
+
+            for (ItemColor itemColor : itemColors) {
+                ItemColorListResponse itemColorListResponse = new ItemColorListResponse(itemColor.getId(), itemColor.getColor());
+                itemColorResponse.add(itemColorListResponse);
+            }
+
             ItemListResponse itemListResponse = new ItemListResponse(item.getId(),
                     item.getName(),
-                    item.getPrice());
+                    item.getPrice(),
+                    itemColorResponse);
             itemResponse.add(itemListResponse);
-        }
 
+        }
         return new Response<>(new PagingResponse(items.getNumber(),
                 items.getTotalPages(),
                 items.getNumberOfElements(),
                 itemResponse));
+
     }
 
     // 15. 상품 상세보기

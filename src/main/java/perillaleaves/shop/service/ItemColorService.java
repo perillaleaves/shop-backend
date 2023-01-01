@@ -1,5 +1,7 @@
 package perillaleaves.shop.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import perillaleaves.shop.domain.item.Item;
@@ -21,5 +23,10 @@ public class ItemColorService {
     public List<ItemColor> findAllByItem(Item item) {
         return itemColorRepository.findByItem(item);
     }
+
+    public List<ItemColor> findAllByItemId(Long item_id) {
+        return itemColorRepository.findByItemId(item_id);
+    }
+
 
 }

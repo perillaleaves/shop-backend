@@ -1,6 +1,9 @@
 package perillaleaves.shop.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import perillaleaves.shop.domain.item.Item;
 import perillaleaves.shop.domain.item.ItemColor;
@@ -16,4 +19,7 @@ public interface ItemColorRepository extends JpaRepository<ItemColor, Long> {
     ItemColor findByIdAndItem(Long id, Item item);
 
     Optional<ItemColor> findById(Long id);
+
+    List<ItemColor> findByItemId(Long item_id);
+
 }

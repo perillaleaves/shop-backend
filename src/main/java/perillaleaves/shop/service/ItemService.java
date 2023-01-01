@@ -37,6 +37,10 @@ public class ItemService {
             return itemColorRepository.save(itemColor);
         }
 
+        if (itemByName.get().getPrice() != itemDTO.getPrice()) {
+            throw new APIError("inconsistentPrice", "해당 상품의 금액과 일치하지 않습니다.");
+        }
+
         List<ItemColor> findItemColor = itemColorRepository.findByItem(itemByName.get());
         if (findItemColor.stream().filter(f -> f.getColor().equals(itemDTO.getColor())).findFirst().isPresent()) {
             throw new APIError("ExistItem", "이미 존재하는 아이템입니다.");
