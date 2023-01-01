@@ -19,8 +19,9 @@ public class CartItem {
     @JoinColumn(name = "itemColor_id")
     private ItemColor itemColor;
 
-
     private int count;
+
+    private int totalPrice;
 
     public Long getId() {
         return id;
@@ -38,6 +39,10 @@ public class CartItem {
         return count;
     }
 
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -52,6 +57,10 @@ public class CartItem {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public CartItem() {

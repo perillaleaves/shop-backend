@@ -11,6 +11,8 @@ import perillaleaves.shop.domain.user.User;
 import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.repository.*;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,13 +24,15 @@ public class CartService {
     private final UserRepository userRepository;
     private final CartItemRepository cartItemRepository;
     private final ItemColorRepository itemColorRepository;
+    private final ItemRepository itemRepository;
 
-    public CartService(CartRepository cartRepository, TokenRepository tokenRepository, UserRepository userRepository, CartItemRepository cartItemRepository, ItemColorRepository itemColorRepository) {
+    public CartService(CartRepository cartRepository, TokenRepository tokenRepository, UserRepository userRepository, CartItemRepository cartItemRepository, ItemColorRepository itemColorRepository, ItemRepository itemRepository) {
         this.cartRepository = cartRepository;
         this.tokenRepository = tokenRepository;
         this.userRepository = userRepository;
         this.cartItemRepository = cartItemRepository;
         this.itemColorRepository = itemColorRepository;
+        this.itemRepository = itemRepository;
     }
 
     public void addCart(String accessToken, Long color_id, int count) {
@@ -47,6 +51,8 @@ public class CartService {
         User user = userRepository.findById(token.get().getUser_id()).get();
         Optional<Cart> cart = cartRepository.findByUser(user);
         ItemColor itemColor = itemColorRepository.findById(color_id).orElse(null);
+        Item item = itemRepository.findById(itemColor.getItem().getId()).orElse(null);
+
         if (cart.isEmpty()) {
             Cart addCart = new Cart(0, user);
             addCart.setCount(addCart.getCount() + count);
@@ -54,12 +60,29 @@ public class CartService {
 
             CartItem addCartItem = new CartItem(addCart, itemColor, count);
             cartItemRepository.save(addCartItem);
+            addCartItem.setTotalPrice(count * item.getPrice());
         }
         if (cart.isPresent()) {
             CartItem addCartItem = new CartItem(cart.get(), itemColor, count);
             cartItemRepository.save(addCartItem);
             cart.get().setCount(cart.get().getCount() + count);
+            addCartItem.setTotalPrice(count * item.getPrice());
         }
 
     }
+
+    public Cart findCartList(String accessToken) {
+        if (accessToken.isBlank()) {
+            throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
+        }
+        Optional<Token> token = Optional.ofNullable(tokenRepository.findByToken(accessToken));
+        if (token.isEmpty()) {
+            throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
+        }
+        User user = userRepository.findById(token.get().getUser_id()).orElse(null);
+
+        return  cartRepository.findByUser(user).orElse(null);
+    }
+
+
 }
