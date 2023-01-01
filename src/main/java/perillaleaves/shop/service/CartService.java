@@ -40,6 +40,10 @@ public class CartService {
             throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
         }
 
+        if (count < 0) {
+            throw new APIError("CheckAgainCount", "수량을 다시 확인해주세요.");
+        }
+
         User user = userRepository.findById(token.get().getUser_id()).get();
         Optional<Cart> cart = cartRepository.findByUser(user);
         ItemColor itemColor = itemColorRepository.findById(color_id).orElse(null);

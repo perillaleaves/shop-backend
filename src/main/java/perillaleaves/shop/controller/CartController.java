@@ -28,13 +28,13 @@ public class CartController {
         this.tokenRepository = tokenRepository;
     }
 
+    // 16. 장바구니 등록
     @PostMapping("/cart/{color_id}")
     public Response<ValidateResponse> create(@PathVariable("color_id") Long color_id, @RequestBody CartCreateRequest request) {
 
         try {
             cartService.addCart(request.getAccessToken(), color_id, request.getCount());
-
-            return new Response<>(new ValidateResponse("gg", "gg"));
+            return new Response<>(new ValidateResponse("addCart", "장바구니 추가"));
         } catch (APIError e) {
             return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
         }
