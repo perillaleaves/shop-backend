@@ -6,15 +6,18 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import perillaleaves.shop.domain.item.Item;
+import perillaleaves.shop.domain.item.ItemColor;
 import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.request.item.ItemDTO;
 import perillaleaves.shop.request.item.ItemStockRequest;
 import perillaleaves.shop.response.ErrorResponse;
 import perillaleaves.shop.response.Response;
 import perillaleaves.shop.response.ValidateResponse;
+import perillaleaves.shop.response.item.ItemColorListResponse;
 import perillaleaves.shop.response.item.ItemListResponse;
 import perillaleaves.shop.response.item.ItemViewDetailsResponse;
 import perillaleaves.shop.response.item.PagingResponse;
+import perillaleaves.shop.service.ItemColorService;
 import perillaleaves.shop.service.ItemService;
 
 import java.util.ArrayList;
@@ -24,9 +27,10 @@ import java.util.List;
 public class ItemController {
 
     private final ItemService itemService;
-
-    public ItemController(ItemService itemService) {
+    private final ItemColorService itemColorService;
+    public ItemController(ItemService itemService, ItemColorService itemColorService) {
         this.itemService = itemService;
+        this.itemColorService = itemColorService;
     }
 
 
@@ -77,10 +81,18 @@ public class ItemController {
     @GetMapping("/item/{item_id}")
     public Response<ItemViewDetailsResponse> findItem(@PathVariable("item_id") Long item_id) {
         Item item = itemService.findById(item_id);
+        List<ItemColor> itemColorList = itemColorService.findAllByItem(item);
+        List<ItemColorListResponse> itemColorResponses = new ArrayList<>();
+        for (ItemColor itemColor : itemColorList) {
+            ItemColorListResponse itemColorListResponse = new ItemColorListResponse(itemColor.getId(), itemColor.getColor());
+
+            itemColorResponses.add(itemColorListResponse);
+        }
 
         return new Response<>(new ItemViewDetailsResponse(item.getId(),
                 item.getName(),
-                item.getPrice()));
+                item.getPrice(),
+                itemColorResponses));
     }
 
 
