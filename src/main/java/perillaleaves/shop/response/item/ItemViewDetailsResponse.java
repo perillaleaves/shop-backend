@@ -9,6 +9,7 @@ public class ItemViewDetailsResponse {
     private final String name;
     private final int price;
     private List<ItemColorListResponse> itemColorList = new ArrayList<>();
+
     public Long getItem_id() {
         return item_id;
     }

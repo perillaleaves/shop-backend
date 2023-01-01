@@ -11,8 +11,6 @@ import perillaleaves.shop.domain.user.User;
 import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.repository.*;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -81,7 +79,7 @@ public class CartService {
         }
         User user = userRepository.findById(token.get().getUser_id()).orElse(null);
 
-        return  cartRepository.findByUser(user).orElse(null);
+        return cartRepository.findByUser(user).orElse(null);
     }
 
 

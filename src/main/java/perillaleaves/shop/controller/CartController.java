@@ -3,8 +3,6 @@ package perillaleaves.shop.controller;
 import org.springframework.web.bind.annotation.*;
 import perillaleaves.shop.domain.item.Cart;
 import perillaleaves.shop.domain.item.CartItem;
-import perillaleaves.shop.domain.item.Item;
-import perillaleaves.shop.domain.item.ItemColor;
 import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.repository.CartItemRepository;
 import perillaleaves.shop.repository.TokenRepository;

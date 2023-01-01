@@ -4,8 +4,8 @@ import perillaleaves.shop.domain.enumList.Color;
 
 public class ItemColorListResponse {
 
-    private Long item_color_id;
-    private Color color;
+    private final Long item_color_id;
+    private final Color color;
 
     public Long getItem_color_id() {
         return item_color_id;
