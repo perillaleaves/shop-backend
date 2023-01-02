@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import perillaleaves.shop.domain.item.Cart;
 import perillaleaves.shop.domain.item.CartItem;
-import perillaleaves.shop.domain.item.Item;
 import perillaleaves.shop.domain.item.ItemColor;
 import perillaleaves.shop.domain.user.Token;
 import perillaleaves.shop.domain.user.User;
@@ -77,7 +76,7 @@ public class CartService {
         update.setCount(cartItem.getCount() + count);
         cart.setCount(cart.getCount() + count);
         update.setTotalPrice(update.getTotalPrice() + (count * update.getItemColor().getItem().getPrice()));
-        return  cartItemRepository.save(update);
+        return cartItemRepository.save(update);
     }
 
     public Cart findCartList(String accessToken) {
