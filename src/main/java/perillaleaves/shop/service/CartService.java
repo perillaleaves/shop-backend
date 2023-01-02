@@ -48,24 +48,37 @@ public class CartService {
 
         User user = userRepository.findById(token.get().getUser_id()).get();
         Optional<Cart> cart = cartRepository.findByUser(user);
-        ItemColor itemColor = itemColorRepository.findById(color_id).orElse(null);
-        Item item = itemRepository.findById(itemColor.getItem().getId()).orElse(null);
+        Optional<ItemColor> itemColor = itemColorRepository.findById(color_id);
+        Item item = itemRepository.findById(itemColor.get().getItem().getId()).orElse(null);
 
         if (cart.isEmpty()) {
             Cart addCart = new Cart(0, user);
             addCart.setCount(addCart.getCount() + count);
             cartRepository.save(addCart);
 
-            CartItem addCartItem = new CartItem(addCart, itemColor, count);
+            CartItem addCartItem = new CartItem(addCart, itemColor.get(), count);
             cartItemRepository.save(addCartItem);
             addCartItem.setTotalPrice(count * item.getPrice());
         }
+//
+//        Optional<CartItem> cartItem = cartItemRepository.findByCartIdAndItemColorId(cart.get().getId(), color_id);
+//        if (cartItem.isEmpty()) {
+//            CartItem addCartItem = new CartItem();
+//            cartItemRepository.save(addCartItem);
+//        }
+//
+//        if (cartItem.isPresent()) {
+//            cartItem.get().setCount(cartItem.get().getCount() + count);
+//            cartItem.get().setTotalPrice(cartItem.get().getItemColor().getItem().getPrice() * (cartItem.get().getCount() + count));
+//        }
+
         if (cart.isPresent()) {
-            CartItem addCartItem = new CartItem(cart.get(), itemColor, count);
+            CartItem addCartItem = new CartItem(cart.get(), itemColor.get(), count);
             cartItemRepository.save(addCartItem);
             cart.get().setCount(cart.get().getCount() + count);
             addCartItem.setTotalPrice(count * item.getPrice());
         }
+
 
     }
 

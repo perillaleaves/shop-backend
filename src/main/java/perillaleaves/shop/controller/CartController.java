@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin("http://localhost:3000")
 public class CartController {
 
     private final UserRepository userRepository;
@@ -59,6 +60,7 @@ public class CartController {
                         cartItem.getItemColor().getItem().getName(),
                         cartItem.getItemColor().getColor(),
                         cartItem.getCount(),
+                        cartItem.getItemColor().getItem().getPrice(),
                         cartItem.getTotalPrice());
 
                 cartResponse.add(cartItemResponse);
