@@ -60,13 +60,13 @@ public class CartService {
             cartItemRepository.save(addCartItem);
             addCartItem.setTotalPrice(count * item.getPrice());
         }
-//
+
 //        Optional<CartItem> cartItem = cartItemRepository.findByCartIdAndItemColorId(cart.get().getId(), color_id);
 //        if (cartItem.isEmpty()) {
 //            CartItem addCartItem = new CartItem();
 //            cartItemRepository.save(addCartItem);
 //        }
-//
+
 //        if (cartItem.isPresent()) {
 //            cartItem.get().setCount(cartItem.get().getCount() + count);
 //            cartItem.get().setTotalPrice(cartItem.get().getItemColor().getItem().getPrice() * (cartItem.get().getCount() + count));
