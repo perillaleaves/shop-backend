@@ -115,6 +115,7 @@ public class CartService {
         }
         if (cartItem.isPresent()) {
             cartItemRepository.deleteById(cart_item_id);
+            cart.get().setCount(cart.get().getCount() - cartItem.get().getCount());
         }
 
     }
