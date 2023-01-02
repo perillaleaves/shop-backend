@@ -2,6 +2,7 @@ package perillaleaves.shop.domain.item;
 
 
 import javax.persistence.*;
+import java.util.Optional;
 
 @Entity
 public class CartItem {

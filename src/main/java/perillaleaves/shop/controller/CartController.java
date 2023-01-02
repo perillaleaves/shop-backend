@@ -50,7 +50,6 @@ public class CartController {
     // 17. 장바구니 목록 조회
     @GetMapping("/cart/{accessToken}")
     public Response<CartListResponse> viewCart(@PathVariable("accessToken") String accessToken) {
-
         try {
             Cart cart = cartService.findCartList(accessToken);
             List<CartItem> cartList = cartItemRepository.findByCart(cart);
@@ -64,13 +63,23 @@ public class CartController {
 
                 cartResponse.add(cartItemResponse);
             }
-
             return new Response<>(new CartListResponse(cartResponse));
         } catch (APIError e) {
             return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
         }
-
     }
 
+    // 18. 장바구니 아이템 삭제
+    @DeleteMapping("/{accessToken}/{cart_id}/{cart_item_id}")
+    public Response<ValidateResponse> deleteCart(@PathVariable("accessToken") String accessToken,
+                                                 @PathVariable("cart_id") Long cart_id,
+                                                 @PathVariable("cart_item_id") Long cart_item_id) {
+        try {
+            cartService.deleteCart(accessToken, cart_id, cart_item_id);
+            return new Response<>(new ValidateResponse("delete", "삭제"));
+        } catch (APIError e) {
+            return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
+        }
+    }
 
 }
