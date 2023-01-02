@@ -33,7 +33,7 @@ public class CartService {
         this.itemRepository = itemRepository;
     }
 
-    public void addCart(String accessToken, Long color_id, int count) {
+    public CartItem addCart(String accessToken, Long color_id, int count) {
         if (accessToken.isBlank()) {
             throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
         }
@@ -46,40 +46,38 @@ public class CartService {
             throw new APIError("CheckAgainCount", "수량을 다시 확인해주세요.");
         }
 
-        User user = userRepository.findById(token.get().getUser_id()).get();
-        Optional<Cart> cart = cartRepository.findByUser(user);
-        Optional<ItemColor> itemColor = itemColorRepository.findById(color_id);
-        Item item = itemRepository.findById(itemColor.get().getItem().getId()).orElse(null);
+        User user = userRepository.findById(token.get().getUser_id()).orElse(null);
+        Cart cart = cartRepository.findByUser(user);
+        ItemColor itemColor = itemColorRepository.findById(color_id).orElse(null);
 
-        if (cart.isEmpty()) {
+        if (itemColor.getStock() == 0) {
+            throw new APIError("OutOfStock", "재고 없음");
+        }
+
+        if (cart == null) {
             Cart addCart = new Cart(0, user);
             addCart.setCount(addCart.getCount() + count);
             cartRepository.save(addCart);
 
-            CartItem addCartItem = new CartItem(addCart, itemColor.get(), count);
-            cartItemRepository.save(addCartItem);
-            addCartItem.setTotalPrice(count * item.getPrice());
+            CartItem addCartItem = new CartItem(addCart, itemColor, count);
+            addCartItem.setTotalPrice(count * itemColor.getItem().getPrice());
+            return cartItemRepository.save(addCartItem);
         }
 
-//        Optional<CartItem> cartItem = cartItemRepository.findByCartIdAndItemColorId(cart.get().getId(), color_id);
-//        if (cartItem.isEmpty()) {
-//            CartItem addCartItem = new CartItem();
-//            cartItemRepository.save(addCartItem);
-//        }
-
-//        if (cartItem.isPresent()) {
-//            cartItem.get().setCount(cartItem.get().getCount() + count);
-//            cartItem.get().setTotalPrice(cartItem.get().getItemColor().getItem().getPrice() * (cartItem.get().getCount() + count));
-//        }
-
-        if (cart.isPresent()) {
-            CartItem addCartItem = new CartItem(cart.get(), itemColor.get(), count);
-            cartItemRepository.save(addCartItem);
-            cart.get().setCount(cart.get().getCount() + count);
-            addCartItem.setTotalPrice(count * item.getPrice());
+        CartItem cartItem = cartItemRepository.findByCartAndItemColorId(cart, color_id);
+        if (cartItem == null) {
+            CartItem addCartItem = new CartItem(cart, itemColor, count);
+            cart.setCount(cart.getCount() + count);
+            addCartItem.setTotalPrice(count * itemColor.getItem().getPrice());
+            return cartItemRepository.save(addCartItem);
         }
-
-
+        CartItem update = cartItem;
+        update.setCart(cartItem.getCart());
+        update.setItemColor(cartItem.getItemColor());
+        update.setCount(cartItem.getCount() + count);
+        cart.setCount(cart.getCount() + count);
+        update.setTotalPrice(update.getTotalPrice() + (count * update.getItemColor().getItem().getPrice()));
+        return  cartItemRepository.save(update);
     }
 
     public Cart findCartList(String accessToken) {
@@ -92,7 +90,7 @@ public class CartService {
         }
         User user = userRepository.findById(token.get().getUser_id()).orElse(null);
 
-        return cartRepository.findByUser(user).orElse(null);
+        return cartRepository.findByUser(user);
     }
 
     public void deleteCart(String accessToken, Long cart_id, Long cart_item_id) {
