@@ -71,16 +71,11 @@ public class ItemController {
             List<ItemColorListResponse> itemColorResponse = new ArrayList<>();
 
             for (ItemColor itemColor : itemColors) {
-                ItemColorListResponse itemColorListResponse = new ItemColorListResponse(
-                        itemColor.getId(),
-                        itemColor.getColor());
+                ItemColorListResponse itemColorListResponse = new ItemColorListResponse(itemColor.getId(), itemColor.getColor());
                 itemColorResponse.add(itemColorListResponse);
             }
 
-            ItemListResponse itemListResponse = new ItemListResponse(item.getId(),
-                    item.getName(),
-                    item.getPrice(),
-                    itemColorResponse);
+            ItemListResponse itemListResponse = new ItemListResponse(item.getId(), item.getName(), item.getPrice(), itemColorResponse);
             itemResponse.add(itemListResponse);
 
         }
