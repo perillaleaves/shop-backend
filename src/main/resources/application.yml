@@ -1,11 +1,14 @@
 spring:
   profile:
-    active: dev
+    active: local
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://perillaleaves.cxvfbpskmkd3.ap-northeast-2.rds.amazonaws.com:3306/project
-    username: admin
-    password: 12341234
+    url: jdbc:mysql://localhost:3306/community
+    username: root
+    password: 419914
+#    url: jdbc:mysql://perillaleaves.cxvfbpskmkd3.ap-northeast-2.rds.amazonaws.com:3306/project
+#    username: admin
+#    password: 12341234
   jpa:
     open-in-view: true
     hibernate:
@@ -25,8 +28,6 @@ logging:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
 server:
-  address: 0.0.0.0
-  port: 80
   servlet:
     session:
       timeout: 1800
