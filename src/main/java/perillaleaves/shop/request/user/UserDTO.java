@@ -41,5 +41,12 @@ public class UserDTO {
         return role;
     }
 
-
+    public UserDTO(String login_id, String password, String name, String phone_number, String email, Role role) {
+        this.login_id = login_id;
+        this.password = password;
+        this.name = name;
+        this.phone_number = phone_number;
+        this.email = email;
+        this.role = role;
+    }
 }

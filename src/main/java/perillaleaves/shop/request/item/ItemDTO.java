@@ -5,7 +5,6 @@ import perillaleaves.shop.domain.enumList.Color;
 public class ItemDTO {
 
     private Long item_id;
-    private String item_code;
     private String name;
     private int price;
 
@@ -15,9 +14,6 @@ public class ItemDTO {
         return item_id;
     }
 
-    public String getItem_code() {
-        return item_code;
-    }
 
     public String getName() {
         return name;
@@ -38,5 +34,11 @@ public class ItemDTO {
     public ItemDTO(String name, int price) {
         this.name = name;
         this.price = price;
+    }
+
+    public ItemDTO(String name, int price, Color color) {
+        this.name = name;
+        this.price = price;
+        this.color = color;
     }
 }

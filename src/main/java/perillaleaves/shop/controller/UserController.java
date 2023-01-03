@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 
 @RestController
-@CrossOrigin("http://localhost:3000")
 public class UserController {
 
     private final UserService userService;

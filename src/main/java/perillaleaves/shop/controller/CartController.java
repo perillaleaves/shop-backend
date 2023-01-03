@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin("http://localhost:3000")
 public class CartController {
 
     private final UserRepository userRepository;
@@ -52,7 +51,7 @@ public class CartController {
 
     // 17. 장바구니 목록 조회
     @GetMapping("/cart/{accessToken}")
-    public Response<CartListResponse> viewCart(@PathVariable("accessToken") String accessToken) {
+    public Response<CartListResponse> getCartList(@PathVariable("accessToken") String accessToken) {
         try {
             Cart cart = cartService.findCartList(accessToken);
             List<CartItem> cartList = cartItemRepository.findByCart(cart);
