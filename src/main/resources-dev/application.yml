@@ -1,14 +1,11 @@
 spring:
   profile:
-    active: local
+    active: dev
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://perillaleaves.cxvfbpskmkd3.ap-northeast-2.rds.amazonaws.com:3306/project
-#    url: jdbc:mysql://localhost:3306/community
     username: admin
     password: 12341234
-#    username: root
-#    password: 419914
   jpa:
     open-in-view: true
     hibernate:
@@ -36,8 +33,3 @@ server:
       cookie:
         http-only: true
         same-site: none
-security:
-  jwt:
-    token:
-      secret-key: secretsecretsecretsecretsecret
-      expire-length: 3600000

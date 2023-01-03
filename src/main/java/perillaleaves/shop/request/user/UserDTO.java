@@ -41,6 +41,9 @@ public class UserDTO {
         return role;
     }
 
+    public UserDTO() {
+    }
+
     public UserDTO(String login_id, String password, String name, String phone_number, String email, Role role) {
         this.login_id = login_id;
         this.password = password;
