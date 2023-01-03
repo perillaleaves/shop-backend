@@ -7,10 +7,12 @@ import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.repository.CartItemRepository;
 import perillaleaves.shop.repository.TokenRepository;
 import perillaleaves.shop.repository.UserRepository;
+import perillaleaves.shop.request.cart.CartCountRequest;
 import perillaleaves.shop.request.cart.CartCreateRequest;
 import perillaleaves.shop.response.ErrorResponse;
 import perillaleaves.shop.response.Response;
 import perillaleaves.shop.response.ValidateResponse;
+import perillaleaves.shop.response.cart.CartCountResponse;
 import perillaleaves.shop.response.cart.CartItemResponse;
 import perillaleaves.shop.response.cart.CartListResponse;
 import perillaleaves.shop.service.CartService;
@@ -83,5 +85,17 @@ public class CartController {
             return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
         }
     }
+
+    // 19. 장바구니 수량 조회
+    @GetMapping("/cart/count")
+    public Response<CartCountResponse> countCart(@ModelAttribute CartCountRequest request) {
+        try {
+            Cart cart = cartService.countByCart(request.getAccessToken());
+            return new Response<>(new CartCountResponse(cart.getCount()));
+        } catch (APIError e) {
+            return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
+        }
+    }
+
 
 }

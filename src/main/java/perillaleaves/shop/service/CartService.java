@@ -96,7 +96,6 @@ public class CartService {
         if (accessToken.isBlank()) {
             throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
         }
-
         Optional<Token> token = Optional.ofNullable(tokenRepository.findByToken(accessToken));
         if (token.isEmpty()) {
             throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
@@ -117,7 +116,18 @@ public class CartService {
             cartItemRepository.deleteById(cart_item_id);
             cart.get().setCount(cart.get().getCount() - cartItem.get().getCount());
         }
+    }
 
+    public Cart countByCart(String accessToken) {
+        if (accessToken.isBlank()) {
+            throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
+        }
+        Optional<Token> token = Optional.ofNullable(tokenRepository.findByToken(accessToken));
+        if (token.isEmpty()) {
+            throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
+        }
+
+        return cartRepository.findByUserId(token.get().getUser_id());
     }
 
 
