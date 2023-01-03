@@ -25,7 +25,7 @@ public class GenerateTestService {
     public void generate() {
         try {
             userService.save(new UserDTO("12345678", "1234567A", "123", "01045321432", "gggg@gmail.com", Role.BASIC));
-            for (int i = 0; i < 10; i++) {
+            for (int i = 1; i < 10; i++) {
                 ItemColor red = itemService.create(new ItemDTO("AAAA" + i, 1000 * i, Color.RED));
                 itemService.update(red.getId(), red.getItem().getId(), 10);
 
