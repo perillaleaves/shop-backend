@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@CrossOrigin("http://localhost:3000")
 public class CartController {
 
     private final UserRepository userRepository;
@@ -70,7 +71,7 @@ public class CartController {
         }
     }
 
-    // 18. 장바구니 아이템 삭제
+    // 18. 장바구니 삭제
     @DeleteMapping("/{accessToken}/{cart_id}/{cart_item_id}")
     public Response<ValidateResponse> deleteCart(@PathVariable("accessToken") String accessToken,
                                                  @PathVariable("cart_id") Long cart_id,
