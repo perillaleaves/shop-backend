@@ -52,8 +52,8 @@ public class ItemService {
         return itemColorRepository.save(itemColor);
     }
 
-    public ItemColor update(Long color_id, Long item_id, int stock) {
-        ItemColor itemColor = stockUpdate(color_id, item_id, stock);
+    public ItemColor update(Long color_id, int stock) {
+        ItemColor itemColor = stockUpdate(color_id, stock);
 
         return itemColorRepository.save(itemColor);
     }
@@ -65,7 +65,6 @@ public class ItemService {
     public Item findById(Long item_id) {
         return itemRepository.findById(item_id).orElse(null);
     }
-
 
     private void validate(ItemDTO itemDTO) {
         if (itemDTO.getName().isBlank()) {
@@ -80,13 +79,12 @@ public class ItemService {
         return new Item(itemDTO.getName(), itemDTO.getPrice());
     }
 
-    private ItemColor stockUpdate(Long color_id, Long item_id, int stock) {
+    private ItemColor stockUpdate(Long color_id, int stock) {
         if (stock < 0) {
             throw new APIError("CheckAgainStock", "수량을 다시 확인해주세요.");
         }
 
-        Item item = itemRepository.findById(item_id).orElse(null);
-        ItemColor itemColor = itemColorRepository.findByIdAndItem(color_id, item);
+        ItemColor itemColor = itemColorRepository.findById(color_id).orElse(null);
         itemColor.setStock(stock);
 
         return itemColor;

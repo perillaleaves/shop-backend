@@ -47,12 +47,11 @@ public class ItemController {
     }
 
     // 13. 재고 파악
-    @PutMapping("/{item_id}/{color_id}")
+    @PutMapping("/{color_id}")
     public Response<ValidateResponse> updatedStock(@PathVariable("color_id") Long color_id,
-                                                   @PathVariable("item_id") Long item_id,
                                                    @RequestBody ItemStockRequest request) {
         try {
-            itemService.update(color_id, item_id, request.getStock());
+            itemService.update(color_id, request.getStock());
             return new Response<>(new ValidateResponse("updateStock", "재고 수정 완료"));
         } catch (APIError e) {
             return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));

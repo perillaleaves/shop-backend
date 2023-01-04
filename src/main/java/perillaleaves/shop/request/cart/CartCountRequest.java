@@ -2,13 +2,16 @@ package perillaleaves.shop.request.cart;
 
 public class CartCountRequest {
 
-    private String accessToken;
+    private int count;
 
-    public String getAccessToken() {
-        return accessToken;
+    public int getCount() {
+        return count;
     }
 
-    public CartCountRequest(String accessToken) {
-        this.accessToken = accessToken;
+    public CartCountRequest() {
+    }
+
+    public CartCountRequest(int count) {
+        this.count = count;
     }
 }
