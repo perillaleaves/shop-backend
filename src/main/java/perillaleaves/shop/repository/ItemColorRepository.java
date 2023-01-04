@@ -17,4 +17,5 @@ public interface ItemColorRepository extends JpaRepository<ItemColor, Long> {
 
     List<ItemColor> findByItemId(Long item_id);
 
+
 }

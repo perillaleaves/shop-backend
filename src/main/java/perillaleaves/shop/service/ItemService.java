@@ -4,13 +4,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import perillaleaves.shop.domain.item.CartItem;
 import perillaleaves.shop.domain.item.Item;
 import perillaleaves.shop.domain.item.ItemColor;
 import perillaleaves.shop.exception.APIError;
+import perillaleaves.shop.repository.CartItemRepository;
 import perillaleaves.shop.repository.ItemColorRepository;
 import perillaleaves.shop.repository.ItemRepository;
 import perillaleaves.shop.request.item.ItemDTO;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,10 +23,12 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
     private final ItemColorRepository itemColorRepository;
+    private final CartItemRepository cartItemRepository;
 
-    public ItemService(ItemRepository itemRepository, ItemColorRepository itemColorRepository) {
+    public ItemService(ItemRepository itemRepository, ItemColorRepository itemColorRepository, CartItemRepository cartItemRepository) {
         this.itemRepository = itemRepository;
         this.itemColorRepository = itemColorRepository;
+        this.cartItemRepository = cartItemRepository;
     }
 
     public ItemColor create(ItemDTO itemDTO) {
@@ -68,6 +73,19 @@ public class ItemService {
 
     public List<Item> findAll() {
         return itemRepository.findAll();
+    }
+
+    public void deleteItem(Long item_id, Long color_id) {
+        List<CartItem> cartItems = cartItemRepository.findByItemColorId(color_id);
+        for (CartItem cartItem : cartItems) {
+            cartItemRepository.deleteById(cartItem.getId());
+        }
+
+        itemColorRepository.deleteById(color_id);
+        List<ItemColor> itemColors = itemColorRepository.findByItemId(item_id);
+        if (itemColors.isEmpty()) {
+            itemRepository.deleteById(item_id);
+        }
     }
 
     private void validate(ItemDTO itemDTO) {

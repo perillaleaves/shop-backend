@@ -101,7 +101,7 @@ public class ItemController {
                 itemColorResponses));
     }
 
-    // 20. 재고 수정 리스트 조회
+    // 21. 재고 수정 리스트 조회
     @GetMapping("/items/stock")
     public Response<ItemStockListResponse> findItemStockList() {
         List<Item> items = itemService.findAll();
@@ -119,6 +119,18 @@ public class ItemController {
             itemListResponseList.add(itemListResponse);
         }
         return new Response<>(new ItemStockListResponse(itemListResponseList));
+    }
+
+    // 22. 상품 삭제
+    @DeleteMapping("/item/{item_id}/{color_id}")
+    public Response<ValidateResponse> deleteItem(@PathVariable("item_id") Long item_id,
+            @PathVariable("color_id") Long color_id) {
+        try {
+            itemService.deleteItem(item_id, color_id);
+            return new Response<>(new ValidateResponse("", ""));
+        } catch (APIError e) {
+            return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
+        }
     }
 
 }
