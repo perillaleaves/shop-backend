@@ -7,6 +7,7 @@ import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.repository.CartItemRepository;
 import perillaleaves.shop.repository.TokenRepository;
 import perillaleaves.shop.repository.UserRepository;
+import perillaleaves.shop.request.cart.CartAccessTokenRequest;
 import perillaleaves.shop.request.cart.CartCountRequest;
 import perillaleaves.shop.request.cart.CartCreateRequest;
 import perillaleaves.shop.response.ErrorResponse;
@@ -87,7 +88,7 @@ public class CartController {
 
     // 19. 장바구니 수량 조회
     @GetMapping("/cart/count")
-    public Response<CartCountResponse> countCart(@ModelAttribute CartCountRequest request) {
+    public Response<CartCountResponse> countCart(@ModelAttribute CartAccessTokenRequest request) {
         try {
             Cart cart = cartService.countByCart(request.getAccessToken());
             return new Response<>(new CartCountResponse(cart.getCount()));
@@ -96,5 +97,17 @@ public class CartController {
         }
     }
 
+    // 20. 장바구니 아이템 수량 변경
+    @PutMapping("/cartitem/{cart_item_id}")
+    public Response<ValidateResponse> ChangeItemByCartQuantity(@PathVariable("cart_item_id") Long cart_item_id,
+                                                               @RequestBody CartCountRequest request) {
+        try {
+            cartService.updateByCartItemCount(cart_item_id, request.getCount());
+            return new Response<>(new ValidateResponse("update", "수량 변경"));
+        } catch (APIError e) {
+            return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
+        }
+
+    }
 
 }

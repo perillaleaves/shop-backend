@@ -10,6 +10,8 @@ import perillaleaves.shop.domain.user.User;
 import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.repository.*;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -128,6 +130,30 @@ public class CartService {
         }
 
         return cartRepository.findByUserId(token.get().getUser_id());
+    }
+
+    public void updateByCartItemCount(Long cart_item_id, int count) {
+
+        CartItem findCartItem = cartItemRepository.findById(cart_item_id).orElse(null);
+
+        if (count < 0) {
+            throw new APIError("CheckAgainCount", "수량을 다시 확인해주세요.");
+        }
+
+        if (count < findCartItem.getCount()) {
+            findCartItem.getCart().setCount(findCartItem.getCart().getCount() - (findCartItem.getCount() - count));
+            findCartItem.setCount(count);
+        }
+        findCartItem.getCart().setCount(findCartItem.getCart().getCount() + (count - findCartItem.getCount()));
+        findCartItem.setCount(count);
+
+        if (findCartItem.getCount() <= 0) {
+            cartItemRepository.deleteById(cart_item_id);
+        }
+        if (findCartItem.getCart().getCount() <= 0) {
+            cartRepository.deleteById(findCartItem.getCart().getId());
+        }
+
     }
 
 
