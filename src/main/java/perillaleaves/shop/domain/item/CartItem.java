@@ -1,6 +1,5 @@
 package perillaleaves.shop.domain.item;
 
-
 import javax.persistence.*;
 
 @Entity
