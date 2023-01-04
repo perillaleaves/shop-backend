@@ -74,7 +74,7 @@ public class CartController {
     }
 
     // 18. 장바구니 삭제
-    @DeleteMapping("/{accessToken}/{cart_item_id}")
+    @DeleteMapping("/{accessToken}/cartitem/{cart_item_id}")
     public Response<ValidateResponse> deleteCart(@PathVariable("accessToken") String accessToken,
                                                  @PathVariable("cart_item_id") Long cart_item_id) {
         try {
