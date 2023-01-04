@@ -13,14 +13,12 @@ import perillaleaves.shop.request.item.ItemStockRequest;
 import perillaleaves.shop.response.ErrorResponse;
 import perillaleaves.shop.response.Response;
 import perillaleaves.shop.response.ValidateResponse;
-import perillaleaves.shop.response.item.ItemColorListResponse;
-import perillaleaves.shop.response.item.ItemListResponse;
-import perillaleaves.shop.response.item.ItemViewDetailsResponse;
-import perillaleaves.shop.response.item.PagingResponse;
+import perillaleaves.shop.response.item.*;
 import perillaleaves.shop.service.ItemColorService;
 import perillaleaves.shop.service.ItemService;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -103,8 +101,24 @@ public class ItemController {
                 itemColorResponses));
     }
 
-    // 20. 상품 수정
+    // 20. 재고 수정 리스트 조회
+    @GetMapping("/items/stock")
+    public Response<ItemStockListResponse> findItemStockList() {
+        List<Item> items = itemService.findAll();
+        List<ItemListResponse> itemListResponseList = new ArrayList<>();
+        for (Item item : items) {
+            List<ItemColor> itemColors = itemColorService.findAllByItemId(item.getId());
+            List<ItemColorListResponse> itemColorResponse = new ArrayList<>();
 
+            for (ItemColor itemColor : itemColors) {
+                ItemColorListResponse itemColorListResponse = new ItemColorListResponse(itemColor.getId(), itemColor.getColor(), itemColor.getStock());
+                itemColorResponse.add(itemColorListResponse);
+            }
 
+            ItemListResponse itemListResponse = new ItemListResponse(item.getId(), item.getName(), item.getPrice(), itemColorResponse);
+            itemListResponseList.add(itemListResponse);
+        }
+        return new Response<>(new ItemStockListResponse(itemListResponseList));
+    }
 
 }

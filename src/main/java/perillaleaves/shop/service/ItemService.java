@@ -66,6 +66,10 @@ public class ItemService {
         return itemRepository.findById(item_id).orElse(null);
     }
 
+    public List<Item> findAll() {
+        return itemRepository.findAll();
+    }
+
     private void validate(ItemDTO itemDTO) {
         if (itemDTO.getName().isBlank()) {
             throw new APIError("EmptyName", "상품 이름을 입력해주세요.");
