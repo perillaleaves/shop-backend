@@ -65,12 +65,8 @@ public class UserService {
         return userRepository.findByLoginIdAndNameAndPhoneNumber(login_id, name, phone_number).orElse(null);
     }
 
-    public User updateByPassword(String login_id, String name, String phone_number, String password) {
-        updateByPasswordValidate(password);
-
-        User user = userRepository.findByLoginIdAndNameAndPhoneNumber(login_id, name, phone_number).orElse(null);
-        user.updatePassword(password);
-        return user;
+    public void updateByPassword(String login_id, String name, String phone_number, String password) {
+        updateByPasswordValidate(login_id, name, phone_number, password);
     }
 
     public String login(String login_id, String password) throws UnsupportedEncodingException {
@@ -102,52 +98,7 @@ public class UserService {
     }
 
     public void userUpdate(String accessToken, String password, String phone_number, String email) {
-        if (accessToken.isBlank()) {
-            throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
-        }
-        Optional<Token> token = Optional.ofNullable(tokenRepository.findByToken(accessToken));
-        if (token.isEmpty()) {
-            throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
-        }
-
-        boolean password_validate = Pattern.matches("^(?=.*?[A-Z]+).{8,}", password);
-        boolean email_validate = Pattern.matches("\\w+@\\w+\\.\\w+(\\.\\w+)?", email);
-
-        if (password.isBlank()) {
-            throw new APIError("EmptyPassword", "비밀번호를 입력해주세요.");
-        }
-        if (password.length() < 8) {
-            throw new APIError("LengthPassword", "비밀번호를 8글자 이상 입력해주세요.");
-        }
-        if (!password_validate) {
-            throw new APIError("FormPassword", "비밀번호를 양식에 맞게 입력해주세요.");
-        }
-        if (phone_number.isBlank()) {
-            throw new APIError("EmptyPhoneNumber", "연락처를 입력해주세요.");
-        }
-        if (email.isBlank()) {
-            throw new APIError("EmptyEmail", "이메일을 입력해주세요.");
-        }
-        if (!email_validate) {
-            throw new APIError("FormEmail", "이메일을 양식에 맞게 입력해주세요.");
-        }
-
-        User user = userRepository.findById(token.get().getUser_id()).orElse(null);
-        User userByPhoneNumber = userRepository.findByPhoneNumber(phone_number).orElse(null);
-        if (userRepository.findByPhoneNumber(phone_number).isPresent() && !user.getPhoneNumber().equals(userByPhoneNumber.getPhoneNumber())) {
-            throw new APIError("ExistPhoneNumber", "이미 존재하는 연락처입니다.");
-        }
-
-        User userByEmail = userRepository.findByEmail(email).orElse(null);
-        if (userRepository.findByEmail(email).isPresent() && !user.getEmail().equals(userByEmail.getEmail())) {
-            throw new APIError("ExistsEmail", "이미 존재하는 이메일 입니다.");
-        }
-
-        user.setPassword(EncryptUtils.sha256(password));
-        user.setPhoneNumber(phone_number);
-        user.setEmail(email);
-
-        userRepository.save(user);
+        userUpdateValidate(accessToken, password, phone_number, email);
     }
 
     private void validate(UserDTO userDTO) {
@@ -266,10 +217,63 @@ public class UserService {
         }
     }
 
-    private void updateByPasswordValidate(String password) {
+    private void updateByPasswordValidate(String login_id, String name, String phone_number, String password) {
         if (password.isBlank()) {
             throw new APIError("EmptyPassword", "비밀번호를 입력해주세요.");
         }
+        User user = userRepository.findByLoginIdAndNameAndPhoneNumber(login_id, name, phone_number).orElse(null);
+        user.updatePassword(password);
+    }
+
+    private void userUpdateValidate(String accessToken, String password, String phone_number, String email) {
+        if (accessToken.isBlank()) {
+            throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
+        }
+        Optional<Token> token = Optional.ofNullable(tokenRepository.findByToken(accessToken));
+        if (token.isEmpty()) {
+            throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
+        }
+
+        boolean password_validate = Pattern.matches("^(?=.*?[A-Z]+).{8,}", password);
+        boolean email_validate = Pattern.matches("\\w+@\\w+\\.\\w+(\\.\\w+)?", email);
+
+        if (password.isBlank()) {
+            throw new APIError("EmptyPassword", "비밀번호를 입력해주세요.");
+        }
+        if (password.length() < 8) {
+            throw new APIError("LengthPassword", "비밀번호를 8글자 이상 입력해주세요.");
+        }
+        if (!password_validate) {
+            throw new APIError("FormPassword", "비밀번호를 양식에 맞게 입력해주세요.");
+        }
+        if (phone_number.isBlank()) {
+            throw new APIError("EmptyPhoneNumber", "연락처를 입력해주세요.");
+        }
+        if (email.isBlank()) {
+            throw new APIError("EmptyEmail", "이메일을 입력해주세요.");
+        }
+        if (!email_validate) {
+            throw new APIError("FormEmail", "이메일을 양식에 맞게 입력해주세요.");
+        }
+
+        User user = userRepository.findById(token.get().getUser_id()).orElse(null);
+        User userByPhoneNumber = userRepository.findByPhoneNumber(phone_number).orElse(null);
+        if (userRepository.findByPhoneNumber(phone_number).isPresent() &&
+                !user.getPhoneNumber().equals(userByPhoneNumber.getPhoneNumber())) {
+            throw new APIError("ExistPhoneNumber", "이미 존재하는 연락처입니다.");
+        }
+
+        User userByEmail = userRepository.findByEmail(email).orElse(null);
+        if (userRepository.findByEmail(email).isPresent() &&
+                !user.getEmail().equals(userByEmail.getEmail())) {
+            throw new APIError("ExistsEmail", "이미 존재하는 이메일 입니다.");
+        }
+
+        user.setPassword(EncryptUtils.sha256(password));
+        user.setPhoneNumber(phone_number);
+        user.setEmail(email);
+
+        userRepository.save(user);
     }
 
     private static String generateToken(String login_id) throws UnsupportedEncodingException {
