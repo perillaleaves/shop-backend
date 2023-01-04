@@ -129,15 +129,12 @@ public class UserService {
             throw new APIError("InconsistencyPassword", "비밀번호가 일치하지 않습니다.");
         }
 
-        String val = String.valueOf((int) (Math.random() * 100000));
-        String str = login_id + val;
-        HexConverter hexConverter = new HexConverter();
-        String stringToHex = hexConverter.getStringToHex(str);
-        Token token = new Token(user.getId(), stringToHex);
+        Token token = new Token(user.getId(), generateToken(login_id));
 
         tokenRepository.save(token);
-        return stringToHex;
+        return token.getToken();
     }
+
 
     public User userInformation(String accessToken) {
         if (accessToken.isBlank()) {
@@ -252,6 +249,14 @@ public class UserService {
                 userDTO.getPhone_number(),
                 userDTO.getEmail(),
                 Role.BASIC);
+    }
+
+    private static String generateToken(String login_id) throws UnsupportedEncodingException {
+        String val = String.valueOf((int) (Math.random() * 100000));
+        String str = login_id + val;
+        HexConverter hexConverter = new HexConverter();
+        String stringToHex = hexConverter.getStringToHex(str);
+        return stringToHex;
     }
 
 }
