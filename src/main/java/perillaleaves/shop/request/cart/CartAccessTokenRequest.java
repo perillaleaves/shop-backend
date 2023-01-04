@@ -2,7 +2,7 @@ package perillaleaves.shop.request.cart;
 
 public class CartAccessTokenRequest {
 
-    private String accessToken;
+    private final String accessToken;
 
     public String getAccessToken() {
         return accessToken;

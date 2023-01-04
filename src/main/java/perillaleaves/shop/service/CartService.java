@@ -10,8 +10,6 @@ import perillaleaves.shop.domain.user.User;
 import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.repository.*;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 @Service

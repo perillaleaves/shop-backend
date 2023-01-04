@@ -18,7 +18,6 @@ import perillaleaves.shop.service.ItemColorService;
 import perillaleaves.shop.service.ItemService;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -124,13 +123,9 @@ public class ItemController {
     // 22. 상품 삭제
     @DeleteMapping("/item/{item_id}/{color_id}")
     public Response<ValidateResponse> deleteItem(@PathVariable("item_id") Long item_id,
-            @PathVariable("color_id") Long color_id) {
-        try {
-            itemService.deleteItem(item_id, color_id);
-            return new Response<>(new ValidateResponse("", ""));
-        } catch (APIError e) {
-            return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
-        }
+                                                 @PathVariable("color_id") Long color_id) {
+        itemService.deleteItem(item_id, color_id);
+        return new Response<>(new ValidateResponse("delete", "상품 삭제"));
     }
 
 }

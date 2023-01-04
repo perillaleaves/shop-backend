@@ -99,7 +99,7 @@ public class UserController {
     @PutMapping("/password")
     public Response<ValidateResponse> updateByPassword(@RequestBody UserFindAndUpdatePasswordRequest request) {
         try {
-            userService.updateByPassword(request.getLogin_id(), request.getName(), request.getPhone_number(), request.getPassword(), request.getRe_password());
+            userService.updateByPassword(request.getLogin_id(), request.getName(), request.getPhone_number(), request.getPassword());
             return new Response<>(new ValidateResponse("success", "비밀번호 변경 "));
         } catch (APIError e) {
             return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));

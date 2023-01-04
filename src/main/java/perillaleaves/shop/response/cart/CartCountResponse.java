@@ -2,7 +2,7 @@ package perillaleaves.shop.response.cart;
 
 public class CartCountResponse {
 
-    private int count;
+    private final int count;
 
     public int getCount() {
         return count;

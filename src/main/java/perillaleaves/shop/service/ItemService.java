@@ -13,7 +13,6 @@ import perillaleaves.shop.repository.ItemColorRepository;
 import perillaleaves.shop.repository.ItemRepository;
 import perillaleaves.shop.request.item.ItemDTO;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
