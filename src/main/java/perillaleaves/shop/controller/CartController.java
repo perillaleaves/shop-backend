@@ -74,12 +74,11 @@ public class CartController {
     }
 
     // 18. 장바구니 삭제
-    @DeleteMapping("/{accessToken}/{cart_id}/{cart_item_id}")
+    @DeleteMapping("/{accessToken}/{cart_item_id}")
     public Response<ValidateResponse> deleteCart(@PathVariable("accessToken") String accessToken,
-                                                 @PathVariable("cart_id") Long cart_id,
                                                  @PathVariable("cart_item_id") Long cart_item_id) {
         try {
-            cartService.deleteCart(accessToken, cart_id, cart_item_id);
+            cartService.deleteCart(accessToken, cart_item_id);
             return new Response<>(new ValidateResponse("delete", "삭제"));
         } catch (APIError e) {
             return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
@@ -107,7 +106,8 @@ public class CartController {
         } catch (APIError e) {
             return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
         }
-
     }
+
+
 
 }

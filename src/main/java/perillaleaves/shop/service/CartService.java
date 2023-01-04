@@ -94,7 +94,7 @@ public class CartService {
         return cartRepository.findByUser(user);
     }
 
-    public void deleteCart(String accessToken, Long cart_id, Long cart_item_id) {
+    public void deleteCart(String accessToken, Long cart_item_id) {
         if (accessToken.isBlank()) {
             throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
         }
@@ -103,20 +103,20 @@ public class CartService {
             throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
         }
 
-        Optional<Cart> cart = cartRepository.findById(cart_id);
-        if (cart.isEmpty()) {
+        Optional<CartItem> cartItem = cartItemRepository.findById(cart_item_id);
+        if (cartItem.get().getCart() == null) {
             throw new APIError("EmptyCart", "장바구니가 비어있습니다.");
         }
-        if (!cart.get().getUser().getId().equals(token.get().getUser_id())) {
+        if (!cartItem.get().getCart().getUser().getId().equals(token.get().getUser_id())) {
             throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
         }
-        Optional<CartItem> cartItem = cartItemRepository.findById(cart_item_id);
+
         if (cartItem.isEmpty()) {
             cartRepository.delete(cartItem.get().getCart());
         }
         if (cartItem.isPresent()) {
             cartItemRepository.deleteById(cart_item_id);
-            cart.get().setCount(cart.get().getCount() - cartItem.get().getCount());
+            cartItem.get().getCart().setCount(cartItem.get().getCart().getCount() - cartItem.get().getCount());
         }
     }
 

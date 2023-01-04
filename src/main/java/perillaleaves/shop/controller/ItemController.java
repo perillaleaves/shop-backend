@@ -64,7 +64,6 @@ public class ItemController {
         Page<Item> items = itemService.findAll(pageable);
         List<ItemListResponse> itemResponse = new ArrayList<>();
 
-
         for (Item item : items) {
             List<ItemColor> itemColors = itemColorService.findAllByItemId(item.getId());
             List<ItemColorListResponse> itemColorResponse = new ArrayList<>();
