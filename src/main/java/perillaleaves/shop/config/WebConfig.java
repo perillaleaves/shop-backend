@@ -36,17 +36,17 @@ public class WebConfig implements WebMvcConfigurer {
                 .maxAge(3000);
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(interceptor)
-                .addPathPatterns("/**", "/create/item")
-                .excludePathPatterns("/signup", "/overlap/loginid", "/overlap/phonenumber", "/overlap/email",
-                        "/loginid", "/find/loginid", "/find/password", "/update/password", "/login",
-                        "/user/{accessToken}", "/user", "/{color_id}", "/items", "/item/{item_id}",
-                        "/items/stock", "/item/{item_id}/{color_id}", "/cart/{color_id}", "/cart/{accessToken}",
-                        "/{accessToken}/cartitem/{cart_item_id}", "/cart/count");
-
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(interceptor)
+//                .addPathPatterns("/**", "/create/item")
+//                .excludePathPatterns("/signup", "/overlap/loginid", "/overlap/phonenumber", "/overlap/email",
+//                        "/loginid", "/find/loginid", "/find/password", "/update/password", "/login",
+//                        "/user/{accessToken}", "/user", "/{color_id}", "/items", "/item/{item_id}",
+//                        "/items/stock", "/item/{item_id}/{color_id}", "/cart/{color_id}", "/cart/{accessToken}",
+//                        "/{accessToken}/cartitem/{cart_item_id}", "/cart/count");
+//
+//    }
 
 
 

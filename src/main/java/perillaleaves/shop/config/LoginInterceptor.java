@@ -23,16 +23,16 @@ public class LoginInterceptor implements HandlerInterceptor {
         this.tokenRepository = tokenRepository;
     }
 
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
-        Token token = tokenRepository.findByToken(request.getHeader("X-Token"));
-        PrintWriter writer = response.getWriter();
-        if (token == null) {
-            writer.println("NotLogin");
-            return false;
-        }
-        writer.println(token);
-        return true;
-    }
+//    @Override
+//    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
+//        Token token = tokenRepository.findByToken(request.getHeader("X-Token"));
+//        PrintWriter writer = response.getWriter();
+//        if (token == null) {
+//            writer.println("NotLogin");
+//            return false;
+//        }
+//        writer.println(token);
+//        return true;
+//    }
 
 }
