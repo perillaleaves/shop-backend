@@ -33,7 +33,7 @@ public class ItemController {
 
 
     // 12. 상품 등록
-    @PostMapping("/item")
+    @PostMapping("/create/item")
     public Response<ValidateResponse> save(@RequestBody ItemDTO itemDTO) {
         try {
             itemService.create(itemDTO);

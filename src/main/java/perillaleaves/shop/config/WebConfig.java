@@ -39,7 +39,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(interceptor)
-                .addPathPatterns("/**")
+                .addPathPatterns("/**", "/create/item")
                 .excludePathPatterns("/signup", "/overlap/loginid", "/overlap/phonenumber", "/overlap/email",
                         "/loginid", "/find/loginid", "/find/password", "/update/password", "/login",
                         "/user/{accessToken}", "/user", "/{color_id}", "/items", "/item/{item_id}",
