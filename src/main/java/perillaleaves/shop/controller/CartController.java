@@ -10,6 +10,7 @@ import perillaleaves.shop.repository.UserRepository;
 import perillaleaves.shop.request.cart.CartAccessTokenRequest;
 import perillaleaves.shop.request.cart.CartCountRequest;
 import perillaleaves.shop.request.cart.CartCreateRequest;
+import perillaleaves.shop.request.cart.CartItemOrderRequest;
 import perillaleaves.shop.response.ErrorResponse;
 import perillaleaves.shop.response.Response;
 import perillaleaves.shop.response.ValidateResponse;
@@ -108,5 +109,15 @@ public class CartController {
         }
     }
 
+    // 23. 장바구니 상품 선택 주문
+    @PostMapping("/orders")
+    public Response<ValidateResponse> orderByCart(@RequestBody CartItemOrderRequest request) {
+        try {
+            cartService.selectionOrder(request.getAccessToken(), request.getCart_item_id().stream().toList());
+            return new Response<>(new ValidateResponse("Order", "주문"));
+        } catch (APIError e) {
+            return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
+        }
+    }
 
 }
