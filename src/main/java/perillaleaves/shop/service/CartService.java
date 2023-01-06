@@ -48,10 +48,13 @@ public class CartService {
         if (count < 0) {
             throw new APIError("CheckAgainCount", "수량을 다시 확인해주세요.");
         }
+        ItemColor itemColor = itemColorRepository.findById(color_id).orElse(null);
+        if (itemColor.getStock() < count) {
+            throw new APIError("OverStock", "재고가 부족합니다.");
+        }
 
         User user = userRepository.findById(token.get().getUser_id()).orElse(null);
         Cart cart = cartRepository.findByUser(user);
-        ItemColor itemColor = itemColorRepository.findById(color_id).orElse(null);
 
         if (itemColor.getStock() == 0) {
             throw new APIError("OutOfStock", "재고 없음");
@@ -78,6 +81,9 @@ public class CartService {
         update.setCart(cartItem.getCart());
         update.setItemColor(cartItem.getItemColor());
         update.setCount(cartItem.getCount() + count);
+        if (update.getCount() > itemColor.getStock()) {
+            throw new APIError("OverStock", "재고가 부족합니다.");
+        }
         cart.setCount(cart.getCount() + count);
         update.setTotalPrice(update.getTotalPrice() + (count * update.getItemColor().getItem().getPrice()));
         return cartItemRepository.save(update);
@@ -158,30 +164,6 @@ public class CartService {
         }
     }
 
-    public void selectionOrder(String accessToken, List<Long> cart_item_id) {
-        if (accessToken.isBlank()) {
-            throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
-        }
-        Optional<Token> token = Optional.ofNullable(tokenRepository.findByToken(accessToken));
-        if (token.isEmpty()) {
-            throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
-        }
-        int order_count = 0;
-        int order_price = 0;
-        for (Long id : cart_item_id) {
-            CartItem cartItem = cartItemRepository.findById(id).orElse(null);
-            Orders orders = new Orders(cartItem.getCart().getUser());
-            orders.setOrder_count(order_count + cartItem.getCount());
-            orders.setOrder_price(order_price + cartItem.getTotalPrice());
-            ordersRepository.save(orders);
-            cartItemRepository.deleteById(id);
-            cartItem.getCart().setCount(cartItem.getCart().getCount() - cartItem.getCount());
-            if (cartItem.getCart().getCount() <= 0) {
-                cartRepository.delete(cartItem.getCart());
-            }
-        }
-
-    }
 
 
 }
