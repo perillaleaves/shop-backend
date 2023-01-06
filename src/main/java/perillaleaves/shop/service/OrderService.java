@@ -10,6 +10,7 @@ import perillaleaves.shop.domain.user.User;
 import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.repository.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,6 +71,19 @@ public class OrderService {
         if (cart.getCount() <= 0) {
             cartRepository.delete(cart);
         }
-
     }
+
+    public List<Orders> getOrderList(String accessToken) {
+        if (accessToken.isBlank()) {
+            throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
+        }
+        Optional<Token> token = Optional.ofNullable(tokenRepository.findByToken(accessToken));
+        if (token.isEmpty()) {
+            throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
+        }
+
+        return ordersRepository.findByUserId(token.get().getUser_id());
+    }
+
+
 }

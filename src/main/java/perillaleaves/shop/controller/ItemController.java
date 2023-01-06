@@ -105,6 +105,7 @@ public class ItemController {
     public Response<ItemStockListResponse> findItemStockList() {
         List<Item> items = itemService.findAll();
         List<ItemListResponse> itemListResponseList = new ArrayList<>();
+
         for (Item item : items) {
             List<ItemColor> itemColors = itemColorService.findAllByItemId(item.getId());
             List<ItemColorListResponse> itemColorResponse = new ArrayList<>();

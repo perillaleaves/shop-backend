@@ -18,7 +18,6 @@ import perillaleaves.shop.response.cart.CartItemResponse;
 import perillaleaves.shop.response.cart.CartListResponse;
 import perillaleaves.shop.service.CartService;
 import perillaleaves.shop.service.ItemService;
-import perillaleaves.shop.service.OrderService;
 
 import java.util.ArrayList;
 import java.util.List;
