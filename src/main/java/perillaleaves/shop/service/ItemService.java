@@ -57,7 +57,7 @@ public class ItemService {
     }
 
     public ItemColor update(Long color_id, int stock) {
-        ItemColor itemColor = stockUpdate(color_id, stock);
+        ItemColor itemColor = updateStock(color_id, stock);
 
         return itemColorRepository.save(itemColor);
     }
@@ -100,7 +100,7 @@ public class ItemService {
         return new Item(itemDTO.getName(), itemDTO.getPrice());
     }
 
-    private ItemColor stockUpdate(Long color_id, int stock) {
+    private ItemColor updateStock(Long color_id, int stock) {
         if (stock < 0) {
             throw new APIError("CheckAgainStock", "수량을 다시 확인해주세요.");
         }

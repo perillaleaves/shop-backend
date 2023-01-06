@@ -59,7 +59,7 @@ public class CartService {
         }
 
         if (cart == null) {
-            Cart addCart = new Cart(0, user);
+            Cart addCart = new Cart(user);
             addCart.setCount(addCart.getCount() + count);
             cartRepository.save(addCart);
 

@@ -19,17 +19,17 @@ public class TokenService {
     }
 
 
-    public void deleteToken(String accessToken) {
-        if (accessToken.isBlank()) {
+    public void deleteToken(String token) {
+        if (token.isBlank()) {
             throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
         }
 
-        Optional<Token> token = Optional.ofNullable(tokenRepository.findByToken(accessToken));
-        if (token.isEmpty()) {
+        Optional<Token> findToken = Optional.ofNullable(tokenRepository.findByToken(token));
+        if (findToken.isEmpty()) {
             throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
         }
 
-        tokenRepository.deleteByToken(accessToken);
+        tokenRepository.deleteByToken(token);
     }
 
 }
