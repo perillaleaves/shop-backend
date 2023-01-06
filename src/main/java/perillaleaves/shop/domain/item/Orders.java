@@ -71,14 +71,8 @@ public class Orders extends BaseEntity {
         this.user = user;
     }
 
-    public Orders(User user, List<OrderItem> orderItems) {
+    public Orders(User user, int order_price, int order_count) {
         this.user = user;
-        this.orderItems = orderItems;
-    }
-
-    public Orders(User user, List<OrderItem> orderItems, int order_price, int order_count) {
-        this.user = user;
-        this.orderItems = orderItems;
         this.order_price = order_price;
         this.order_count = order_count;
     }

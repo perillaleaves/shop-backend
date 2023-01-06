@@ -81,9 +81,11 @@ public class CartService {
         update.setCart(cartItem.getCart());
         update.setItemColor(cartItem.getItemColor());
         update.setCount(cartItem.getCount() + count);
+
         if (update.getCount() > itemColor.getStock()) {
             throw new APIError("OverStock", "재고가 부족합니다.");
         }
+
         cart.setCount(cart.getCount() + count);
         update.setTotalPrice(update.getTotalPrice() + (count * update.getItemColor().getItem().getPrice()));
         return cartItemRepository.save(update);
