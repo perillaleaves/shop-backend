@@ -5,13 +5,11 @@ import org.springframework.transaction.annotation.Transactional;
 import perillaleaves.shop.domain.item.Cart;
 import perillaleaves.shop.domain.item.CartItem;
 import perillaleaves.shop.domain.item.ItemColor;
-import perillaleaves.shop.domain.item.Orders;
 import perillaleaves.shop.domain.user.Token;
 import perillaleaves.shop.domain.user.User;
 import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.repository.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -165,7 +163,6 @@ public class CartService {
             cartRepository.deleteById(cart.getId());
         }
     }
-
 
 
 }

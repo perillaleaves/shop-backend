@@ -1,14 +1,8 @@
 package perillaleaves.shop.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -47,7 +41,6 @@ public class WebConfig implements WebMvcConfigurer {
 //                        "/{accessToken}/cartitem/{cart_item_id}", "/cart/count");
 //
 //    }
-
 
 
 }

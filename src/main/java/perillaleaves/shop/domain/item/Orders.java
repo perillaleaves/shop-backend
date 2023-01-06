@@ -10,7 +10,8 @@ import java.util.List;
 @Entity
 public class Orders extends BaseEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "orders_id")
     private Long id;
 

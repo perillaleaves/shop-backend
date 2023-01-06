@@ -6,7 +6,7 @@ import java.util.List;
 public class CartItemOrderRequest {
 
     private String accessToken;
-    private List<Long> cart_item_id = new ArrayList<>();
+    private final List<Long> cart_item_id = new ArrayList<>();
 
     public String getAccessToken() {
         return accessToken;

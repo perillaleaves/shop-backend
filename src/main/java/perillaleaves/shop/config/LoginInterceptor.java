@@ -2,17 +2,7 @@ package perillaleaves.shop.config;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
-import perillaleaves.shop.domain.user.Token;
-import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.repository.TokenRepository;
-import perillaleaves.shop.response.ErrorResponse;
-import perillaleaves.shop.response.Response;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
