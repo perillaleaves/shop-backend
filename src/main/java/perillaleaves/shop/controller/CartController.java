@@ -10,7 +10,6 @@ import perillaleaves.shop.repository.UserRepository;
 import perillaleaves.shop.request.cart.CartAccessTokenRequest;
 import perillaleaves.shop.request.cart.CartCountRequest;
 import perillaleaves.shop.request.cart.CartCreateRequest;
-import perillaleaves.shop.request.cart.CartItemOrderRequest;
 import perillaleaves.shop.response.ErrorResponse;
 import perillaleaves.shop.response.Response;
 import perillaleaves.shop.response.ValidateResponse;
@@ -32,15 +31,13 @@ public class CartController {
     private final ItemService itemService;
     private final TokenRepository tokenRepository;
     private final CartItemRepository cartItemRepository;
-    private final OrderService orderService;
 
-    public CartController(UserRepository userRepository, CartService cartService, ItemService itemService, TokenRepository tokenRepository, CartItemRepository cartItemRepository, OrderService orderService) {
+    public CartController(UserRepository userRepository, CartService cartService, ItemService itemService, TokenRepository tokenRepository, CartItemRepository cartItemRepository) {
         this.userRepository = userRepository;
         this.cartService = cartService;
         this.itemService = itemService;
         this.tokenRepository = tokenRepository;
         this.cartItemRepository = cartItemRepository;
-        this.orderService = orderService;
     }
 
     // 16. 장바구니 등록
@@ -112,15 +109,5 @@ public class CartController {
         }
     }
 
-    // 23. 장바구니 상품 선택 주문
-    @PostMapping("/orders")
-    public Response<ValidateResponse> orderByCart(@RequestBody CartItemOrderRequest request) {
-        try {
-            orderService.selectionOrder(request.getAccessToken(), request.getCart_item_id().stream().toList());
-            return new Response<>(new ValidateResponse("Order", "주문"));
-        } catch (APIError e) {
-            return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
-        }
-    }
 
 }

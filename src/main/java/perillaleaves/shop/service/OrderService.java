@@ -56,6 +56,12 @@ public class OrderService {
             orderItem.setTotalPrice(cartItem.getTotalPrice());
             orderItemRepository.save(orderItem);
 
+            if (cartItem.getItemColor().getStock() < cartItem.getCount()) {
+                throw new APIError("OverStock", "재고가 부족합니다.");
+            }
+
+            cartItem.getItemColor().setStock(cartItem.getItemColor().getStock() - cartItem.getCount());
+
             cartItemRepository.deleteById(id);
         }
         ordersRepository.save(orders);
