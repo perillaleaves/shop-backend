@@ -20,7 +20,6 @@ import perillaleaves.shop.service.OrderService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class OrderController {
@@ -29,6 +28,7 @@ public class OrderController {
     private final OrderItemService orderItemService;
     private final ItemColorRepository itemColorRepository;
     private final ItemRepository itemRepository;
+
     public OrderController(OrderService orderService, OrderItemService orderItemService, ItemColorRepository itemColorRepository, ItemRepository itemRepository) {
         this.orderService = orderService;
         this.orderItemService = orderItemService;
@@ -62,7 +62,7 @@ public class OrderController {
                 for (OrderItem orderItem : orderItemList) {
                     ItemColor itemColor = itemColorRepository.findById(orderItem.getItemColor().getId()).orElse(null);
                     Item item = itemRepository.findById(itemColor.getItem().getId()).orElse(null);
-                    OrderItemResponse orderItemResponse = new OrderItemResponse(itemColor.getId(), item.getName(), item.getPrice(), itemColor.getColor(),orderItem.getCount(), orderItem.getTotalPrice());
+                    OrderItemResponse orderItemResponse = new OrderItemResponse(itemColor.getId(), item.getName(), item.getPrice(), itemColor.getColor(), orderItem.getCount(), orderItem.getTotalPrice());
 
                     orderItemResponses.add(orderItemResponse);
                 }

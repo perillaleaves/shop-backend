@@ -5,9 +5,9 @@ import java.util.List;
 
 public class OrdersResponse {
 
-    private Long orders_id;
-    private int order_count;
-    private int order_price;
+    private final Long orders_id;
+    private final int order_count;
+    private final int order_price;
     private List<OrderItemResponse> orderItem_content = new ArrayList<>();
 
     public Long getOrders_id() {

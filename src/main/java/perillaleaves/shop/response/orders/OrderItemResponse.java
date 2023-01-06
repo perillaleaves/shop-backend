@@ -4,12 +4,12 @@ import perillaleaves.shop.domain.enumList.Color;
 
 public class OrderItemResponse {
 
-    private Long item_color_id;
-    private String name;
-    private int price;
-    private Color color;
-    private int count;
-    private int totalPrice;
+    private final Long item_color_id;
+    private final String name;
+    private final int price;
+    private final Color color;
+    private final int count;
+    private final int totalPrice;
 
     public Long getItem_color_id() {
         return item_color_id;
