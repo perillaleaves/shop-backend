@@ -20,6 +20,7 @@ import perillaleaves.shop.service.CartService;
 import perillaleaves.shop.service.ItemService;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @RestController
@@ -89,10 +90,12 @@ public class CartController {
     @GetMapping("/cart/count")
     public Response<CartCountResponse> countCart(@ModelAttribute CartAccessTokenRequest request) {
         try {
-            Cart cart = cartService.countByCart(request.getAccessToken());
-            return new Response<>(new CartCountResponse(cart.getCount()));
+            List<CartItem> cartItems = cartService.countByCart(request.getAccessToken());
+            return new Response<>(new CartCountResponse(cartItems.size()));
         } catch (APIError e) {
             return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
+        } catch (NullPointerException ne) {
+            return new Response<>(new CartCountResponse(0));
         }
     }
 

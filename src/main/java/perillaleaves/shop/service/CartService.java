@@ -10,6 +10,8 @@ import perillaleaves.shop.domain.user.User;
 import perillaleaves.shop.exception.APIError;
 import perillaleaves.shop.repository.*;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -128,7 +130,7 @@ public class CartService {
         }
     }
 
-    public Cart countByCart(String accessToken) {
+    public List<CartItem> countByCart(String accessToken) {
         if (accessToken.isBlank()) {
             throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
         }
@@ -136,8 +138,9 @@ public class CartService {
         if (token.isEmpty()) {
             throw new APIError("NotLogin", "로그인 유저가 아닙니다.");
         }
+        Cart cart = cartRepository.findByUserId(token.get().getUser_id());
+        return cartItemRepository.findByCart(cart);
 
-        return cartRepository.findByUserId(token.get().getUser_id());
     }
 
     public void updateByCartItemCount(Long cart_item_id, int count) {
