@@ -27,8 +27,8 @@ ext.profile = (!project.hasProperty('profile') || !profile) ? 'dev' : profile
 
 sourceSets {
 	main {
-		resources{
-			srcDirs "src/main/resources", "src/main/resources-${profile}"
+		resources {
+			srcDirs "src/main/resources", "src/main/resources-dev/${profile}"
 		}
 	}
 }
