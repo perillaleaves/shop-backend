@@ -4,7 +4,7 @@ https://github.com/perillaleaves/shop-backend , ZOMBO
 ### 프로젝트 정보
 + 위 프로젝트는 백엔드 1명, 프론트엔드 1명 총 2명의 인원으로 진행했다.
 + 간단한 쇼핑몰 프로젝트를 기획 및 설계해서 진행했다.
-+ 개발기간 : 2022.12.18 ~ 2023.01.07 (3주)
++ 개발기간 : 2022.12.18 ~ 2023.01.07 (약 3주)
 ### 배포 주소
 http://mullae.com
 http://api.mullae.com
@@ -13,20 +13,10 @@ http://api.mullae.com
 `JAVA` `SPRING` `JPA`
 `SLACK` `NOTION`
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+### 다음 프로젝트 챌린지
+Spring mvc error handling 코드 퀄리티 향상  
+map 반복문 활용  
+Data Base study
 
 ## server
 ### Daemon

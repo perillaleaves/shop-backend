@@ -20,7 +20,6 @@ import perillaleaves.shop.service.CartService;
 import perillaleaves.shop.service.ItemService;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @RestController
