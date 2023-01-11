@@ -14,9 +14,10 @@ http://api.mullae.com
 `SLACK` `NOTION`
 
 ### 다음 프로젝트 챌린지
-Spring mvc error handling 코드 퀄리티 향상  
-map 반복문 활용  
-Data Base study
+Spring mvc error handling  
+map  
+DB study  
+Spring profiles env
 
 ## server
 ### Daemon
