@@ -9,8 +9,8 @@ https://github.com/perillaleaves/shop-backend , ZOMBO
 http://mullae.com
 http://api.mullae.com
 ### 기술 스택
-`IntelliJ` `GIT` `GITHUB`
-`JAVA` `SPRING` `JPA`
+`IntelliJ` `GIT` `GITHUB`  
+`JAVA` `SPRING` `spring mvc` `JPA`  
 `SLACK` `NOTION`
 
 ### 다음 프로젝트 챌린지
