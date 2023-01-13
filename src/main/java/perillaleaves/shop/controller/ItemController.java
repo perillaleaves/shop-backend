@@ -13,10 +13,7 @@ import perillaleaves.shop.request.item.ItemStockRequest;
 import perillaleaves.shop.response.ErrorResponse;
 import perillaleaves.shop.response.Response;
 import perillaleaves.shop.response.ValidateResponse;
-import perillaleaves.shop.response.item.ItemColorListResponse;
-import perillaleaves.shop.response.item.ItemListResponse;
-import perillaleaves.shop.response.item.ItemViewDetailsResponse;
-import perillaleaves.shop.response.item.PagingResponse;
+import perillaleaves.shop.response.item.*;
 import perillaleaves.shop.service.ItemColorService;
 import perillaleaves.shop.service.ItemService;
 
@@ -36,7 +33,7 @@ public class ItemController {
 
 
     // 12. 상품 등록
-    @PostMapping("/item")
+    @PostMapping("/create/item")
     public Response<ValidateResponse> save(@RequestBody ItemDTO itemDTO) {
         try {
             itemService.create(itemDTO);
@@ -47,12 +44,11 @@ public class ItemController {
     }
 
     // 13. 재고 파악
-    @PutMapping("/{item_id}/{color_id}")
+    @PutMapping("/{color_id}")
     public Response<ValidateResponse> updatedStock(@PathVariable("color_id") Long color_id,
-                                                   @PathVariable("item_id") Long item_id,
                                                    @RequestBody ItemStockRequest request) {
         try {
-            itemService.update(color_id, item_id, request.getStock());
+            itemService.update(color_id, request.getStock());
             return new Response<>(new ValidateResponse("updateStock", "재고 수정 완료"));
         } catch (APIError e) {
             return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
@@ -64,7 +60,6 @@ public class ItemController {
     public Response<PagingResponse> findItems(@PageableDefault(page = 0, size = 4, direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Item> items = itemService.findAll(pageable);
         List<ItemListResponse> itemResponse = new ArrayList<>();
-
 
         for (Item item : items) {
             List<ItemColor> itemColors = itemColorService.findAllByItemId(item.getId());
@@ -105,8 +100,33 @@ public class ItemController {
                 itemColorResponses));
     }
 
-    // 20. 상품 수정
+    // 21. 재고 수정 리스트 조회
+    @GetMapping("/items/stock")
+    public Response<ItemStockListResponse> findItemStockList() {
+        List<Item> items = itemService.findAll();
+        List<ItemListResponse> itemListResponseList = new ArrayList<>();
 
+        for (Item item : items) {
+            List<ItemColor> itemColors = itemColorService.findAllByItemId(item.getId());
+            List<ItemColorListResponse> itemColorResponse = new ArrayList<>();
 
+            for (ItemColor itemColor : itemColors) {
+                ItemColorListResponse itemColorListResponse = new ItemColorListResponse(itemColor.getId(), itemColor.getColor(), itemColor.getStock());
+                itemColorResponse.add(itemColorListResponse);
+            }
+
+            ItemListResponse itemListResponse = new ItemListResponse(item.getId(), item.getName(), item.getPrice(), itemColorResponse);
+            itemListResponseList.add(itemListResponse);
+        }
+        return new Response<>(new ItemStockListResponse(itemListResponseList));
+    }
+
+    // 22. 상품 삭제
+    @DeleteMapping("/item/{item_id}/{color_id}")
+    public Response<ValidateResponse> deleteItem(@PathVariable("item_id") Long item_id,
+                                                 @PathVariable("color_id") Long color_id) {
+        itemService.deleteItem(item_id, color_id);
+        return new Response<>(new ValidateResponse("delete", "상품 삭제"));
+    }
 
 }

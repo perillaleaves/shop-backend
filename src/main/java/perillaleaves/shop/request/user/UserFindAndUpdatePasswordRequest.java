@@ -7,7 +7,6 @@ public class UserFindAndUpdatePasswordRequest {
     private String phone_number;
 
     private String password;
-    private String re_password;
 
     public String getLogin_id() {
         return login_id;
@@ -25,18 +24,14 @@ public class UserFindAndUpdatePasswordRequest {
         return password;
     }
 
-    public String getRe_password() {
-        return re_password;
-    }
 
     public UserFindAndUpdatePasswordRequest() {
     }
 
-    public UserFindAndUpdatePasswordRequest(String login_id, String name, String phone_number, String password, String re_password) {
+    public UserFindAndUpdatePasswordRequest(String login_id, String name, String phone_number, String password) {
         this.login_id = login_id;
         this.name = name;
         this.phone_number = phone_number;
         this.password = password;
-        this.re_password = re_password;
     }
 }

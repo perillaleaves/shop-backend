@@ -71,7 +71,7 @@ public class UserController {
     }
 
     // 5. 아이디 찾기
-    @GetMapping("/loginid")
+    @GetMapping("/find/loginid")
     public Response<UserFindLoginIdResponse> findLoginId(@ModelAttribute UserFindLoginIdRequest request) {
         try {
             User user = userService.findByNameAndPhoneNumber(request.getName(), request.getPhone_number());
@@ -82,7 +82,7 @@ public class UserController {
     }
 
     // 6. 비밀번호 찾기(검증 및 조회)
-    @GetMapping("/password")
+    @GetMapping("/find/password")
     public Response<ValidateResponse> findByLoginIdAndNameAndPhoneNumber(@ModelAttribute UserFindAndUpdatePasswordRequest request) {
         try {
             User user = userService.findByLoginIdAndNameAndPhoneNumber(request.getLogin_id(), request.getName(), request.getPhone_number());
@@ -96,10 +96,10 @@ public class UserController {
     }
 
     // 7. 비밀번호 변경(검증 및 조회 성공 시)
-    @PutMapping("/password")
+    @PutMapping("/update/password")
     public Response<ValidateResponse> updateByPassword(@RequestBody UserFindAndUpdatePasswordRequest request) {
         try {
-            userService.updateByPassword(request.getLogin_id(), request.getName(), request.getPhone_number(), request.getPassword(), request.getRe_password());
+            userService.updateByPassword(request.getLogin_id(), request.getName(), request.getPhone_number(), request.getPassword());
             return new Response<>(new ValidateResponse("success", "비밀번호 변경 "));
         } catch (APIError e) {
             return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));
@@ -125,7 +125,6 @@ public class UserController {
     public Response<ValidateResponse> logout(@RequestBody LoginValidateRequest request) {
         try {
             tokenService.deleteToken(request.getAccessToken());
-
             return new Response<>(new ValidateResponse("logout", "로그아웃"));
         } catch (APIError e) {
             return new Response<>(new ErrorResponse(e.getCode(), e.getMessage()));

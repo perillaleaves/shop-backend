@@ -13,10 +13,9 @@ public interface ItemColorRepository extends JpaRepository<ItemColor, Long> {
 
     List<ItemColor> findByItem(Item item);
 
-    ItemColor findByIdAndItem(Long id, Item item);
-
     Optional<ItemColor> findById(Long id);
 
     List<ItemColor> findByItemId(Long item_id);
+
 
 }

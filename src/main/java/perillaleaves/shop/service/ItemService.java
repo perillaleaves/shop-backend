@@ -4,9 +4,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import perillaleaves.shop.domain.item.CartItem;
 import perillaleaves.shop.domain.item.Item;
 import perillaleaves.shop.domain.item.ItemColor;
 import perillaleaves.shop.exception.APIError;
+import perillaleaves.shop.repository.CartItemRepository;
 import perillaleaves.shop.repository.ItemColorRepository;
 import perillaleaves.shop.repository.ItemRepository;
 import perillaleaves.shop.request.item.ItemDTO;
@@ -20,10 +22,12 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
     private final ItemColorRepository itemColorRepository;
+    private final CartItemRepository cartItemRepository;
 
-    public ItemService(ItemRepository itemRepository, ItemColorRepository itemColorRepository) {
+    public ItemService(ItemRepository itemRepository, ItemColorRepository itemColorRepository, CartItemRepository cartItemRepository) {
         this.itemRepository = itemRepository;
         this.itemColorRepository = itemColorRepository;
+        this.cartItemRepository = cartItemRepository;
     }
 
     public ItemColor create(ItemDTO itemDTO) {
@@ -52,8 +56,8 @@ public class ItemService {
         return itemColorRepository.save(itemColor);
     }
 
-    public ItemColor update(Long color_id, Long item_id, int stock) {
-        ItemColor itemColor = stockUpdate(color_id, item_id, stock);
+    public ItemColor update(Long color_id, int stock) {
+        ItemColor itemColor = updateStock(color_id, stock);
 
         return itemColorRepository.save(itemColor);
     }
@@ -66,6 +70,22 @@ public class ItemService {
         return itemRepository.findById(item_id).orElse(null);
     }
 
+    public List<Item> findAll() {
+        return itemRepository.findAll();
+    }
+
+    public void deleteItem(Long item_id, Long color_id) {
+        List<CartItem> cartItems = cartItemRepository.findByItemColorId(color_id);
+        for (CartItem cartItem : cartItems) {
+            cartItemRepository.deleteById(cartItem.getId());
+        }
+
+        itemColorRepository.deleteById(color_id);
+        List<ItemColor> itemColors = itemColorRepository.findByItemId(item_id);
+        if (itemColors.isEmpty()) {
+            itemRepository.deleteById(item_id);
+        }
+    }
 
     private void validate(ItemDTO itemDTO) {
         if (itemDTO.getName().isBlank()) {
@@ -80,13 +100,12 @@ public class ItemService {
         return new Item(itemDTO.getName(), itemDTO.getPrice());
     }
 
-    private ItemColor stockUpdate(Long color_id, Long item_id, int stock) {
+    private ItemColor updateStock(Long color_id, int stock) {
         if (stock < 0) {
             throw new APIError("CheckAgainStock", "수량을 다시 확인해주세요.");
         }
 
-        Item item = itemRepository.findById(item_id).orElse(null);
-        ItemColor itemColor = itemColorRepository.findByIdAndItem(color_id, item);
+        ItemColor itemColor = itemColorRepository.findById(color_id).orElse(null);
         itemColor.setStock(stock);
 
         return itemColor;
